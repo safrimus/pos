@@ -1,0 +1,65 @@
+ul.ui-autocomplete {
+    list-style: none;
+}
+
+/*----------------------------------------------------*/
+/* CSS formatting the LEFT side of the invoice display*/
+/*----------------------------------------------------*/
+.left-formatting {
+    border-right: 1px solid #FECB00;
+}
+
+.left-banner-formatting, .left-content-formatting {
+    background-clip: content-box;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.left-banner-formatting {
+    background-color: red;
+    height: 4vh;
+    padding-top: 1%;
+}
+
+.left-banner-label-formatting {
+    font-size: 18px;
+    width: 100%;
+    text-align: center;
+}
+
+.left-content-formatting {
+    background-color: lightgrey;
+    height: 96vh;
+    padding-bottom: 1%;
+}
+
+.main-table, .footer-table {
+    table-layout: fixed;
+    margin-bottom: 0 !important;
+}
+
+.main-table {
+    height: 96%;
+}
+
+.main-table th {
+    text-align:center;
+    border-bottom: 1px solid black !important;
+}
+
+.footer-table th {
+    border-top: 1px solid black !important;
+}
+
+/*-----------------------------------------------------*/
+/* CSS formatting the RIGHT side of the invoice display*/
+/*-----------------------------------------------------*/
+.right-row-formatting {
+    padding-top: 1%;
+    padding-right: 1%;
+}
+
+.product-fields-formatting {
+    width: 100%;
+    text-align: center;
+}

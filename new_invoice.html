@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/new_invoice.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="js/new_invoice.js"></script>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row border-between">
+        <div class="col-md-4 left-formatting">
+            <div class="row left-banner-formatting">
+                <label class="left-banner-label-formatting">Invoice #786</label>
+            </div>
+            <div class="row left-content-formatting">
+                <table class="table main-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <!-- Will be populated using js -->
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table footer-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice Total</th>
+                            <th>0 KD</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row right-row-formatting">
+                <div class="col-md-4 col-md-offset-4">
+                    <form>
+                        <label class="product-fields-formatting" for="product-automplete">Select Product</label>
+                        <input class="product-fields-formatting" id="product-automplete">
+                    </form>
+                </div>
+            </div>
+            <div class="row right-row-formatting">
+                <div class="col-md-3">
+                    <form>
+                        <label class="product-fields-formatting" for="product-id">ID</label>
+                        <input class="product-fields-formatting" id="product-id">
+                    </form>
+                </div>
+                <div class="col-md-4 col-md-offset-1">
+                    <form>
+                        <label class="product-fields-formatting" for="product-description">Description</label>
+                        <input class="product-fields-formatting" id="product-description">
+                    </form>
+                </div>
+                <div class="col-md-3 col-md-offset-1">
+                    <form>
+                        <label class="product-fields-formatting" for="product-size">Size</label>
+                        <input class="product-fields-formatting" id="product-size">
+                    </form>
+                </div>
+            </div>
+            <div class="row right-row-formatting">
+                <div class="col-md-4 col-md-offset-1">
+                    <form>
+                        <label class="product-fields-formatting" for="product-cost-price">Cost Price</label>
+                        <input class="product-fields-formatting" id="product-cost-price">
+                    </form>
+                </div>
+                <div class="col-md-3 col-md-offset-1">
+                    <form>
+                        <label class="product-fields-formatting" for="product-sell-price">Sell Price</label>
+                        <input class="product-fields-formatting" id="product-sell-price">
+                    </form>
+                </div>
+            </div>
+            <div class="row right-row-formatting">
+                <div class="col-md-3">
+                    <form>
+                        <label class="product-fields-formatting" for="product-supplier">Suppplier</label>
+                        <input class="product-fields-formatting" id="product-supplier">
+                    </form>
+                </div>
+                <div class="col-md-4 col-md-offset-1">
+                    <form>
+                        <label class="product-fields-formatting" for="product-store-stock">Stock in Store</label>
+                        <input class="product-fields-formatting" id="product-store-stock">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
