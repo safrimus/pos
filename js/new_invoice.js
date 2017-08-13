@@ -58,12 +58,19 @@ function updateInvoiceTotal() {
     $("#invoice-total").text(total.toFixed(3) + " KD");
 }
 
-$(document).ready(function() {
-    // Setup validation
-    $('form').validate({
-        
+function findSelectedProdct(id) {
+    var match;
+    $("#product-list-table tbody tr").each(function() {
+        if (id == $(this).data("product-id")) {
+            match = $(this);
+            return false;
+        }
     });
 
+    return match;
+}
+
+$(document).ready(function() {
     // Populate the products drop-down field
     $.get(PRODUCTS_URL)
         .done(function(products) {
@@ -164,104 +171,131 @@ $(document).ready(function() {
     // Select product button
     $("#select-product-button").click(function() {
         if (selectedProduct != -1) {
-            var closeIcon = "<td class=\"delete-button\"><span class=\"glyphicon glyphicon-remove\"></span></td>";
-            var name = "<td> " + selectedProduct.name + "</td>";
-            var quantity = "<td class=\"editable quantity\"></td>";
-            var price = "<td class=\"editable price\"></td>";
-            var productTotal = "<td class=\"editable product-total\"></td>";
+            var existingProduct = findSelectedProdct(selectedProduct.id);
 
-            var newProduct = $("<tr class=\"highlight\">" + closeIcon + name + quantity + price + productTotal + "</tr>").appendTo("#product-list-table > tbody:last-child");
+            if (existingProduct) {
+                existingProduct.find(".quantity").focus();
+            }
+            else {
+                var closeIcon = "<td class=\"delete-button\"><span class=\"glyphicon glyphicon-remove\"></span></td>";
+                var name = "<td> " + selectedProduct.name + "</td>";
+                var quantity = "<td class=\"editable quantity\">0</td>";
+                var price = "<td class=\"editable price\">0.000</td>";
+                var productTotal = "<td class=\"editable product-total\"></td>";
 
-            // Attach product id to newProduct
-            newProduct.data("product-id", selectedProduct.id);
+                var newProduct = $("<tr class=\"highlight\">" + closeIcon + name + quantity + price + productTotal + "</tr>").appendTo("#product-list-table > tbody:last-child");
 
-            // Update the invoice total
-            var total = newProduct.find(".price").text() * newProduct.find(".quantity").text()
-            newProduct.find(".product-total").text(total);
+                // Attach product id to newProduct
+                newProduct.data("product-id", selectedProduct.id);
 
+                // Update the invoice total
+                var total = newProduct.find(".price").text() * newProduct.find(".quantity").text()
+                newProduct.find(".product-total").text(total);
+
+                // Editable fields
+                $("#product-list-table .editable").editable({
+                    mode: 'inline',
+                    tpl: "<input type='text' style='width: 100px'>",
+                    unsavedclass: null,
+                    emptytext: 'required',
+                    validate: function(value) {
+                        if($.trim(value) == '') {
+                            return 'This field is required';
+                        }
+
+                        if (!$.isNumeric(value)) {
+                            return 'Only numbers accepted';
+                        }
+                    },
+                    display: function(value) {
+                        if ($.isNumeric(value)) {
+                            $(this).html(parseFloat(value).toFixed(3));
+                        }
+                    }
+                });
+
+                $(".delete-button").click(function() {
+                    $(this).closest('tr').remove();
+                    updateInvoiceTotal();
+                    if ($("#product-list-table tbody tr").length == 0) {
+                        $("#finalize-invoice-button").prop("disabled", true);
+                    }
+                });
+
+                // Register save event triggers
+                $(".quantity").on('save', function(event, params) {
+                    if (!updateInvoiceProductTotal($(this), 'price', params.newValue)) {
+                        updateInvoiceProductPrice($(this), '', params.newValue);
+                    }
+                });
+
+                $(".price").on('save', function(event, params) {
+                    updateInvoiceProductTotal($(this), 'quantity', params.newValue);
+                });
+
+                $(".product-total").on('save', function(e, params) {
+                    updateInvoiceProductPrice($(this), params.newValue);
+                });
+
+                $(".product-total").on('hidden', function(e, params) {
+                    updateInvoiceTotal();
+                });
+
+                $("#finalize-invoice-button").prop("disabled", false);
+            }
             clearProduct();
-
-            // Editable fields
-            $("#product-list-table .editable").editable({
-                mode: 'inline',
-                tpl: "<input type='text' style='width: 100px'>",
-                unsavedclass: null,
-                emptytext: 'required',
-                validate: function(value) {
-                    if($.trim(value) == '') {
-                        return 'This field is required';
-                    }
-
-                    if (!$.isNumeric(value)) {
-                        return 'Only numbers accepted';
-                    }
-                },
-                display: function(value) {
-                    if ($.isNumeric(value)) {
-                        $(this).html(parseFloat(value).toFixed(3));
-                    }
-                }
-            });
-
-            $(".delete-button").click(function() {
-                $(this).closest('tr').remove();
-                updateInvoiceTotal();
-            });
-
-            // Register save event triggers
-            $(".quantity").on('save', function(event, params) {
-                if (!updateInvoiceProductTotal($(this), 'price', params.newValue)) {
-                    updateInvoiceProductPrice($(this), '', params.newValue);
-                }
-            });
-
-            $(".price").on('save', function(event, params) {
-                updateInvoiceProductTotal($(this), 'quantity', params.newValue);
-            });
-
-            $(".product-total").on('save', function(e, params) {
-                updateInvoiceProductPrice($(this), params.newValue);
-            });
-
-            $(".product-total").on('hidden', function(e, params) {
-                updateInvoiceTotal();
-            });
         }
+    });
+
+    // Setup validation
+    var formValidator = $("#form").validate({
+        rules :{
+            customerAutocomplete: "required",
+        },
+        messages: {
+            customerAutocomplete: "Please select a customer",
+        },
+        onsubmit: false
     });
 
     // Finalize invoice button
     $("#finalize-invoice-button").click(function() {
-        var data = {};
-        var products = [];
+        if ($("form").valid()) {
+            var data = {};
+            var products = [];
 
-        $("#product-list-table tbody tr").each(function() {
-            var product_info = {};
+            $("#product-list-table tbody tr").each(function() {
+                var product_info = {};
 
-            product_info["product"] = $(this).data("product-id");
-            product_info["quantity"] = $(this).find(".quantity").text();
-            product_info["sell_price"] = $(this).find(".price").text();
+                product_info["product"] = $(this).data("product-id");
+                product_info["quantity"] = $(this).find(".quantity").text();
+                product_info["sell_price"] = $(this).find(".price").text();
 
-            products.push(product_info);
-        });
+                products.push(product_info);
+            });
 
-        data["credit"] = creditInvoice;
-        data["products"] = products;
-        data["customer"] = selectedCustomer.id;
+            data["credit"] = creditInvoice;
+            data["products"] = products;
+            data["customer"] = selectedCustomer.id;
 
-        $.ajax({
-            url: INVOICE_URL,
-            type: "POST",
-            data: JSON.stringify(data),
-            dataType: "json",
-            contentType: "application/json",
-            success: function(response) {
-                alert("Successfully saved invoice");
-                // location.reload(true);
-            },
-            error: function(response) {
-                alert("Failed to save invoice");
-            }
-        });
+            $.ajax({
+                url: INVOICE_URL,
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    alert("Successfully saved invoice");
+                    // location.reload(true);
+                },
+                error: function(response) {
+                    alert("Failed to save invoice");
+                }
+            });
+        }
+        else {
+            formValidator.focusInvalid();
+        }
     });
 
     // Checkboxes

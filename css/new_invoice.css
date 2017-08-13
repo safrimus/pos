@@ -127,6 +127,9 @@ ul.ui-autocomplete {
     text-align: right;
 }
 
+.editable-submit, .editable-cancel{
+    width: 40px !important;
+}
 
 /*-----------------------------------------------------*/
 /* CSS formatting the RIGHT side of the invoice display*/
@@ -148,4 +151,8 @@ ul.ui-autocomplete {
 
 .radio-inline {
     font-size: 15px;
+}
+
+.error {
+    color: red;
 }
