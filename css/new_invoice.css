@@ -3,6 +3,41 @@ ul.ui-autocomplete {
 }
 
 /*----------------------------------------------------*/
+/* Misc CSS formatting*/
+/*----------------------------------------------------*/
+.highlight:hover {
+    background-color: grey;
+}
+
+.delete-button {
+    background-color: lightgrey;
+}
+
+.glyphicon-remove {
+    color: darkred;
+}
+
+.top-buffer-vs {
+    margin-top: 2%;
+}
+
+.top-buffer-sm {
+    margin-top: 5%;
+}
+
+.top-border-dashed {
+    padding-top: 3% !important;
+    border-top: 1px dashed black;
+}
+
+/*----------------------------------------------------*/
+/* CSS formatting the rows in the main product table*/
+/*----------------------------------------------------*/
+.product-total {
+    color: yellow;
+}
+
+/*----------------------------------------------------*/
 /* CSS formatting the LEFT side of the invoice display*/
 /*----------------------------------------------------*/
 .left-formatting {
@@ -11,6 +46,7 @@ ul.ui-autocomplete {
 
 .left-banner-formatting, .left-content-formatting {
     background-clip: content-box;
+    padding-bottom: 0 !important;
     padding-left: 1%;
     padding-right: 1%;
 }
@@ -38,17 +74,61 @@ ul.ui-autocomplete {
     margin-bottom: 0 !important;
 }
 
-.main-table {
-    height: 96%;
+.main-table-wrapper {
+    max-height: 96%;
 }
 
-.main-table th {
-    text-align:center;
-    border-bottom: 1px solid black !important;
+.main-table tr {
+    height: 10px;
+}
+
+.main-table .header, .delete-header, td {
+    text-align: center;
+    border: none !important;
+}
+
+.main-table .delete-header {
+    width: 5%;
+}
+
+.main-table .header {
+    width: 23.75%;
+}
+
+.main-table td {
+    white-space: nowrap;
+    max-width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.main-table thead {
+    border-bottom: 1px solid black;
+}
+
+.footer-table-wrapper {
+    position: absolute;
+    width: 98%;
+    bottom: 0;
+}
+
+.footer-table tr {
+    border-top: 1px solid black;
 }
 
 .footer-table th {
-    border-top: 1px solid black !important;
+    font-size: 16px;
+    text-align: left;
+}
+
+.footer-table #invoice-total {
+    font-size: 16px;
+    color: darkred;
+    text-align: right;
+}
+
+.editable-submit, .editable-cancel{
+    width: 40px !important;
 }
 
 /*-----------------------------------------------------*/
@@ -56,10 +136,23 @@ ul.ui-autocomplete {
 /*-----------------------------------------------------*/
 .right-row-formatting {
     padding-top: 1%;
+    padding-left: 1%;
     padding-right: 1%;
 }
 
 .product-fields-formatting {
     width: 100%;
     text-align: center;
+}
+
+.btn {
+    width: 100%;
+}
+
+.radio-inline {
+    font-size: 15px;
+}
+
+.error {
+    color: red;
 }
