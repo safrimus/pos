@@ -6,7 +6,7 @@ ul.ui-autocomplete {
     height: 100vh;
 }
 
-
+*/
 /*----------------------------------------------------*/
 /* Misc CSS formatting*/
 /*----------------------------------------------------*/
@@ -33,28 +33,37 @@ ul.ui-autocomplete {
     color: yellow;
 }
 
-.edit-input {
-    display: none;
-    width: 100px;
+/*----------------------------------------------------*/
+/* CSS formatting the LEFT side of the invoice display*/
+/*----------------------------------------------------*/
+.left-formatting {
+    border-right: 1px solid #FECB00;
+    /*height: 100vh;*/
+}
+
+.left-banner-formatting, .left-content-formatting {
+    background-clip: content-box;
+    padding-bottom: 0 !important;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.left-banner-formatting {
+    background-color: red;
+    height: 4vh;
+    padding-top: 1%;
+}
+
+.left-banner-label-formatting {
+    font-size: 18px;
+    width: 100%;
     text-align: center;
 }
 
-.edit-input-error {
-    border-color: red;
-}
-
-.quantity, .price, .product-total {
-    margin-bottom: 0;
-    vertical-align: middle;
-}
-
-/*----------------------------------------------------*/
-/* CSS formatting the BOTTOM of the invoice display*/
-/*----------------------------------------------------*/
-.bottom-formatting {
-    height: 70vh;
-    border-top: 1px solid #FECB00;
+.left-content-formatting {
     background-color: lightgrey;
+    height: 96vh;
+    padding-bottom: 1%;
 }
 
 .main-table, .footer-table {
@@ -63,15 +72,15 @@ ul.ui-autocomplete {
 }
 
 .main-table-wrapper {
-    height: 91%;
+    max-height: 96%;
 }
 
 .main-table tr {
-    text-align: center;
+    height: 10px;
 }
 
 .main-table .header, .delete-header, td {
-    text-align: center !important;
+    text-align: center;
     border: none !important;
 }
 
@@ -83,21 +92,29 @@ ul.ui-autocomplete {
     width: 23.75%;
 }
 
+.header {
+    padding-top: 1%;
+}
+
 .main-table td {
     white-space: nowrap;
     max-width: 25%;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .main-table thead {
-    font-size: 15px;
     border-bottom: 1px solid black;
 }
 
 .footer-table-wrapper {
-    border-top: 1px solid black;
     position: absolute;
+    width: 98%;
     bottom: 0;
+}
+
+.footer-table tr {
+    border-top: 1px solid black;
 }
 
 .footer-table th {
@@ -111,34 +128,15 @@ ul.ui-autocomplete {
     text-align: right;
 }
 
-input[id^='product-autocomplete'] {
-    text-align: center;
-    height: 30px;
-}
-
-/* Override x-editable css properties */
-.editable-error-block {
-    color: red;
-    font-size: 14px;
-}
-
-/* Override easyautocomplete class css properties */
-.easy-autocomplete {
-    width: 100% !important;
-}
-
-.easy-autocomplete-container {
-    max-height: 300px;
-    overflow: auto;
-    overflow-y: scroll;
-    overflow-x: hidden;
+.editable-submit, .editable-cancel{
+    width: 40px !important;
 }
 
 /*-----------------------------------------------------*/
-/* CSS formatting the TOP of the invoice display*/
+/* CSS formatting the RIGHT side of the invoice display*/
 /*-----------------------------------------------------*/
-.top-formatting {
-    height: 30vh
+.right-formatting {
+    /*height: 100vh;*/
 }
 
 .btn {
@@ -153,10 +151,13 @@ input[id^='product-autocomplete'] {
     color: red;
 }
 
-.form-control {
-    text-align: center;
+.easy-autocomplete-container {
+    max-height: 300px;
+    overflow: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
-.row {
-    font-size: 15px;
+.form-control {
+    text-align: center;
 }

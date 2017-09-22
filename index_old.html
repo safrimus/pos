@@ -28,78 +28,40 @@
 <body>
 <form id="form">
     <div class="container-fluid">
-        <div class="row top-formatting">
-            <div class="col-sm-3">
-                <div class="form-row justify-content-center">
-                    <label>Credit Invoice?</label>
+        <div class="row page-height">
+            <div class="col-sm-8 left-formatting">
+                <div class="row left-banner-formatting">
+                    <label class="left-banner-label-formatting">Invoice #786</label>
                 </div>
-                <div class="form-row justify-content-center pb-2">
-                    <div class="col-sm-auto">
-                        <label for="checkbox-true">True</label>
-                        <input class="checkbox" id="checkbox-true" type="radio" name="iCheck">
+                <div class="row left-content-formatting">
+                    <div class="main-table-wrapper">
+                        <table id="product-list-table" class="table main-table">
+                            <thead>
+                                <tr>
+                                    <th class="delete-header"></th>
+                                    <th class="header">Product</th>
+                                    <th class="header">Quantity</th>
+                                    <th class="header">Price</th>
+                                    <th class="header">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by js -->
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="col-sm-auto">
-                        <input class="checkbox" id="checkbox-false" type="radio" name="iCheck" checked>
-                        <label for="checkbox-false">False</label>
+                    <div class="footer-table-wrapper">
+                        <table class="table footer-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice Total</th>
+                                    <th id="invoice-total">0 KD</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
-                <div class="form-row justify-content-center pt-2 pb-2 top-border-dashed">
-                    <label for="customer-automplete">Select Customer</label>
-                    <input class="form-control" id="customer-automplete" name="customerAutocomplete" tabindex="1">
-                </div>
             </div>
-            <div class="col-sm-7"></div>
-            <div class="col-sm-2"></div>
-        </div>
-        <div class="row bottom-formatting">
-            <div class="main-table-wrapper">
-                <table id="product-list-table" class="table main-table table-sm">
-                    <thead>
-                        <tr>
-                            <th class="delete-header"></th>
-                            <th class="header">Product</th>
-                            <th class="header">Quantity</th>
-                            <th class="header">Price</th>
-                            <th class="header">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="highlight">
-                            <td></td>
-                            <td><input id="product-autocomplete" tabindex="2"></td>
-                            <td>
-                                <label class="quantity" tabindex="3">0</label>
-                                <input class="edit-input"/>
-                            </td>
-                            <td>
-                                <label class="price" tabindex="4">0.000</label>
-                                <input class="edit-input"/>
-                            </td>
-                            <td>
-                                <label class="product-total" tabindex="5">0.000</label>
-                                <input class="edit-input"/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="footer-table-wrapper">
-                <table class="table footer-table">
-                    <thead>
-                        <tr>
-                            <th>Invoice Total</th>
-                            <th id="invoice-total">0 KD</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-    </div>
-
-
-
-
-        <!--
             <div class="col-sm-4 right-formatting">
                 <div class="form-row justify-content-center pt-3">
                     <div class="col-sm-auto">
@@ -186,7 +148,7 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 </form>
 </body>
 </html>
