@@ -14,10 +14,6 @@ ul.ui-autocomplete {
     background-color: grey;
 }
 
-.delete-button {
-    background-color: lightgrey;
-}
-
 .glyphicon-remove {
     color: darkred;
 }
@@ -87,6 +83,7 @@ ul.ui-autocomplete {
     white-space: nowrap;
     max-width: 25%;
     text-overflow: ellipsis;
+    vertical-align: middle !important;
 }
 
 .main-table thead {
@@ -132,6 +129,11 @@ input[id^='product-autocomplete'] {
     overflow: auto;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+/* Override close button css properties */
+.close {
+    color: red !important;
 }
 
 /*-----------------------------------------------------*/

@@ -1,6 +1,7 @@
 var INVOICE_URL = "http://127.0.0.1:80/api/v1/invoices/"
 var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/"
 var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/"
+var activeAutocomplete = -1;
 var knownProducts = -1;
 var selectedCustomer = -1;
 var creditInvoice = false;
@@ -43,8 +44,12 @@ function updateInvoiceProductPrice(currElem, productTotal = '', quantity = '') {
         quantity = currElem.closest('tr').find('.quantity').text();
     }
 
-    if ($.isNumeric(productTotal) && $.isNumeric(quantity)) {
-        var price = productTotal / quantity;
+    var price = 0;
+
+    if (quantity > 0) {
+        price = productTotal / quantity;
+        currElem.closest('tr').find('.price').text(price.toFixed(3));
+    } else {
         currElem.closest('tr').find('.price').text(price.toFixed(3));
     }
 }
@@ -81,9 +86,55 @@ function validInput(input, value) {
     }
 }
 
-function setupEditableFields() {
-    // Editable fields
-    $(".delete-button").click(function() {
+function setupNewTableRow(options) {
+    // Check if the next row has been created already
+    $("#product-list-table tbody").on('blur', '.autocomplete', function(event, params) {
+        if ($("#product-list-table tr:last td input").val() != "") {
+            var id = "product-autocomplete-" + $("#product-list-table tr").length
+
+            var closeIcon = "<td class=\"delete-button\"><button type=\"button\" class=\"close\"><span>&times;</span></button></td>";
+            var name = "<td><input id=\"" + id + "\" class=\"autocomplete\"></td>";
+            var quantity = "<td><label class=\"quantity\" tabindex=\"99\" style>0</label><input class=\"edit-input\"/></td>";
+            var price = "<td><label class=\"price\" tabindex=\"99\">0.000</label><input class=\"edit-input\"/></td>";
+            var productTotal = "<td><label class=\"product-total\" tabindex=\"99\">0.000</label><input class=\"edit-input\"/></td>";
+
+            var newProduct = $("<tr class=\"highlight\">" + closeIcon + name + quantity + price + productTotal + "</tr>").appendTo("#product-list-table > tbody:last-child");
+
+            $("#" + id).easyAutocomplete(options);
+        }
+    });
+}
+
+function setupEventTriggers() {
+    // Autocomplete event trigger
+    $("#product-list-table tbody").on('focus', '.autocomplete', function(event, params) {
+        activeAutocomplete = $(this);
+    });
+
+    $("#product-list-table tbody").on('keydown', '.autocomplete', function(event, params) {
+        if (event.shiftKey && event.keyCode == 9) {
+            event.preventDefault();
+
+            var prevRow = $(this).closest('tr').prev()
+
+            if (prevRow.length) {
+                prevRow.children('td:last').find('label').focus();
+            }
+        } else if (event.keyCode == 9) {
+            event.preventDefault();
+            // If tab press, simulate a enter event aswell so that easyautocomplete
+            // triggers it's onChooseEvent.
+            var e = jQuery.Event("keydown");
+            e.keyCode = 13;
+            $(this).trigger(e);
+        } else if (event.keyCode == 13) {
+            event.preventDefault();
+            $(this).closest('td').next().children('label').focus();
+        }
+    });
+
+    // Editable field event triggers
+    $("#product-list-table tbody").on('click', '.delete-button', function(event, params) {
         $(this).closest('tr').remove();
         updateInvoiceTotal();
         if ($("#product-list-table tbody tr").length == 0) {
@@ -91,7 +142,7 @@ function setupEditableFields() {
         }
     });
     
-    $(".quantity, .price, .product-total").on('focus', function(event, params) {
+    $("#product-list-table tbody").on('focus', '.quantity, .price, .product-total', function(event, params) {
         $(this).hide();
         $(this).parent().children(".edit-input")
             .val($(this).text())
@@ -99,7 +150,7 @@ function setupEditableFields() {
             .focus();
     });
 
-    $(".edit-input").on('blur', function(event, params) {
+    $("#product-list-table tbody").on('blur', '.edit-input', function(event, params) {
         var self = this;
         var newValue = $(this).val();
         var className = $(this).parent().children('label').attr('class');
@@ -131,8 +182,8 @@ function setupEditableFields() {
             .text(newValue);
     });
 
-    $(".edit-input").on('keydown', function(event) {
-        if (event.shiftKey && event.which == 9) {
+    $("#product-list-table tbody").on('keydown', '.edit-input', function(event) {
+        if (event.shiftKey && event.keyCode == 9) {
             event.preventDefault();
 
             var prevCell = $(this).parent().prev().children('label');
@@ -144,7 +195,7 @@ function setupEditableFields() {
                     $(this).parent().prev().find('input').focus();
                 }
             }
-        } else if (event.which == 9 || event.which == 13) {
+        } else if (event.keyCode == 9 || event.keyCode == 13) {
             event.preventDefault();
 
             var nextCell = $(this).parent().next();
@@ -153,7 +204,7 @@ function setupEditableFields() {
                 if (nextCell.length) {
                     nextCell.children('label').focus();
                 } else {
-                    $(this).parent().parent().next().children('td:first').next().find('input').focus();
+                    $(this).closest('tr').next().children('td:first').next().find('input').focus();
                 }
             }
         }
@@ -161,8 +212,6 @@ function setupEditableFields() {
 }
 
 $(document).ready(function() {
-    setupEditableFields();
-
     // Populate the products drop-down field
     $.get(PRODUCTS_URL)
         .done(function(products) {
@@ -201,22 +250,10 @@ $(document).ready(function() {
                     },
 
                     onChooseEvent: function() {
-                        var product = $("#product-autocomplete").getSelectedItemData()
-
-                        // Check if the next row has been created already
-                        if ($("#product-list-table tr:last td input").val() != "") {
-                            var id = "product-autocomplete-" + $("#product-list-table tr").length
-
-                            var closeIcon = "<td class=\"delete-button\"><button type=\"button\" class=\"close\"></button></td>";
-                            var name = "<td><input id=\"" + id + "\"></td>";
-                            var quantity = "<td class=\"editable quantity\">0</td>";
-                            var price = "<td class=\"editable price\">0.000</td>";
-                            var productTotal = "<td class=\"editable product-total\"></td>";
-
-                            var newProduct = $("<tr class=\"highlight\">" + closeIcon + name + quantity + price + productTotal + "</tr>").appendTo("#product-list-table > tbody:last-child");
-                            $("#" + id).easyAutocomplete(options);
-                        }
-
+                        selectedProduct = activeAutocomplete.getSelectedItemData();
+        
+                        // Attach product id to newProduct
+                        activeAutocomplete.closest('tr').data("product-id", selectedProduct.id);
                     },
 
                     onHideListEvent: function() {
@@ -226,8 +263,10 @@ $(document).ready(function() {
                     },
                 }
             };
-            $("#product-autocomplete").easyAutocomplete(options);
             console.log("Loaded Products");
+            $("#product-autocomplete").easyAutocomplete(options);
+            setupEventTriggers();
+            setupNewTableRow(options);
         })
         .fail(function() {
             console.log("Failed to get products.");

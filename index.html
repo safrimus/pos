@@ -66,17 +66,18 @@
                     <tbody>
                         <tr class="highlight">
                             <td></td>
-                            <td><input id="product-autocomplete" tabindex="2"></td>
+                            <td><input id="product-autocomplete" class="autocomplete" tabindex="2"></td>
                             <td>
-                                <label class="quantity" tabindex="3">0</label>
+                                <!-- Need tabindex to make label focusable -->
+                                <label class="quantity" tabindex="99">0</label>
                                 <input class="edit-input"/>
                             </td>
                             <td>
-                                <label class="price" tabindex="4">0.000</label>
+                                <label class="price" tabindex="99">0.000</label>
                                 <input class="edit-input"/>
                             </td>
                             <td>
-                                <label class="product-total" tabindex="5">0.000</label>
+                                <label class="product-total" tabindex="99">0.000</label>
                                 <input class="edit-input"/>
                             </td>
                         </tr>
