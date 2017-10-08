@@ -1,24 +1,17 @@
-var INVOICE_URL = "http://127.0.0.1:80/api/v1/invoices/"
-var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/"
-var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/"
-var activeAutocomplete = -1;
-var knownProducts = -1;
+var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/";
+var INVOICE_URL = "http://127.0.0.1:80/api/v1/invoices/";
+var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/";
+var SUPPLIERS_URL = "http://127.0.0.1:80/api/v1/suppliers/";
+var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/";
+var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/";
+
+var sourceList = {};
+var supplierList = {};
+var categoryList = {};
 var selectedCustomer = -1;
+var activeAutocomplete = -1;
 var creditInvoice = false;
 
-
-function clearProduct() {
-    $("#product-autocomplete").val("").trigger("change");
-    $("#product-id").val("").trigger("change");
-    $("#product-description").val("").trigger("change");
-    $("#product-size").val("").trigger("change");
-    $("#product-cost-price").val("").trigger("change");
-    $("#product-sell-price").val("").trigger("change");
-    $("#product-supplier").val("").trigger("change");
-    $("#product-stock").val("").trigger("change");
-
-    selectedProduct = -1;
-}
 
 function updateInvoiceProductTotal(currElem, otherClass, newValue) {
     var otherValue = currElem.closest('tr').find('.' + otherClass).text();
@@ -215,8 +208,6 @@ $(document).ready(function() {
     // Populate the products drop-down field
     $.get(PRODUCTS_URL)
         .done(function(products) {
-            knownProducts = products
-
             var options = {
                 data: products,
 
@@ -224,7 +215,7 @@ $(document).ready(function() {
                     return product.name;
                 },
 
-                theme: "dark",
+                // theme: "dark",
 
                 template: {
                     type: "custom",
@@ -250,16 +241,23 @@ $(document).ready(function() {
                     },
 
                     onChooseEvent: function() {
-                        selectedProduct = activeAutocomplete.getSelectedItemData();
+                        product = activeAutocomplete.getSelectedItemData();
         
                         // Attach product id to newProduct
-                        activeAutocomplete.closest('tr').data("product-id", selectedProduct.id);
+                        activeAutocomplete.closest('tr').data("product-id", product.id);
                     },
 
-                    onHideListEvent: function() {
-                        // if ($("#product-autocomplete").val() == "") {
-                        //     clearProduct();
-                        // }
+                    onSelectItemEvent: function() {
+                        product = activeAutocomplete.getSelectedItemData();
+
+                        $("#product-description").val(product.description).trigger("change");
+                        $("#product-size").val(product.size).trigger("change");
+                        $("#product-cost-price").val(product.cost_price).trigger("change");
+                        $("#product-sell-price").val(product.sell_price).trigger("change");
+                        $("#product-stock").val(product.stock).trigger("change");
+                        $("#product-supplier").val(supplierList[product.supplier]).trigger("change");
+                        $("#product-category").val(categoryList[product.category]).trigger("change");
+                        $("#product-source").val(sourceList[product.source]).trigger("change");
                     },
                 }
             };
@@ -282,7 +280,7 @@ $(document).ready(function() {
                     return customer.name;
                 },
 
-                theme: "dark",
+                // theme: "dark",
 
                 template: {
                     type: "custom",
@@ -300,7 +298,7 @@ $(document).ready(function() {
                         enabled: true
                     },
 
-                    onSelectItemEvent: function() {
+                    onChooseEvent: function() {
                         var customer = $("#customer-autocomplete").getSelectedItemData();
                         selectedCustomer = customer;
                     },
@@ -313,84 +311,38 @@ $(document).ready(function() {
             console.log("Failed to get customers.");
         });
 
-    // Select product button
-    $("#select-product-button").click(function() {
-        if (selectedProduct != -1) {
-            var existingProduct = findSelectedProduct(selectedProduct.id);
-
-            if (existingProduct) {
-                existingProduct.find(".quantity").focus();
+    // Get supplier, category and source info
+    $.get(SUPPLIERS_URL)
+        .done (function(suppliers) {
+            for (i in suppliers) {
+                supplierList[suppliers[i].id] = suppliers[i].company;
             }
-            else {
-                var closeIcon = "<td class=\"delete-button\"><button type=\"button\" class=\"close\"></button></td>";
-                var name = "<td> " + selectedProduct.name + "</td>";
-                var quantity = "<td class=\"editable quantity\">0</td>";
-                var price = "<td class=\"editable price\">0.000</td>";
-                var productTotal = "<td class=\"editable product-total\"></td>";
+            console.log(supplierList);
+        })
+        .fail(function() {
+            console.log("Failed to get suppliers.");
+        });
 
-                var newProduct = $("<tr class=\"highlight\">" + closeIcon + name + quantity + price + productTotal + "</tr>").appendTo("#product-list-table > tbody:last-child");
-
-                // Attach product id to newProduct
-                newProduct.data("product-id", selectedProduct.id);
-
-                // Update the invoice total
-                var total = newProduct.find(".price").text() * newProduct.find(".quantity").text()
-                newProduct.find(".product-total").text(total);
-
-                // Editable fields
-                $("#product-list-table .editable").editable({
-                    mode: 'inline',
-                    tpl: "<input type='text' style='width: 100px'>",
-                    unsavedclass: null,
-                    emptytext: 'required',
-                    validate: function(value) {
-                        if($.trim(value) == '') {
-                            return 'This field is required';
-                        }
-
-                        if (!$.isNumeric(value)) {
-                            return 'Only numbers accepted';
-                        }
-                    },
-                    display: function(value) {
-                        if ($.isNumeric(value)) {
-                            $(this).html(parseFloat(value).toFixed(3));
-                        }
-                    }
-                });
-
-                $(".delete-button").click(function() {
-                    $(this).closest('tr').remove();
-                    updateInvoiceTotal();
-                    if ($("#product-list-table tbody tr").length == 0) {
-                        $("#finalize-invoice-button").prop("disabled", true);
-                    }
-                });
-
-                // Register save event triggers
-                $(".quantity").on('save', function(event, params) {
-                    if (!updateInvoiceProductTotal($(this), 'price', params.newValue)) {
-                        updateInvoiceProductPrice($(this), '', params.newValue);
-                    }
-                });
-
-                $(".price").on('save', function(event, params) {
-                    updateInvoiceProductTotal($(this), 'quantity', params.newValue);
-                });
-
-                $(".product-total").on('save', function(e, params) {
-                    updateInvoiceProductPrice($(this), params.newValue);
-                });
-
-                $(".product-total").on('hidden', function(e, params) {
-                    updateInvoiceTotal();
-                });
-
-                $("#finalize-invoice-button").prop("disabled", false);
+    $.get(CATEGORIES_URL)
+        .done (function(categories) {
+            for (i in categories) {
+                categoryList[categories[i].id] = categories[i].name;
             }
-            clearProduct();
-        }
-    });
+        })
+        .fail(function() {
+            console.log("Failed to get categories.");
+        });
+
+    $.get(SOURCES_URL)
+        .done (function(sources) {
+            for (i in sources) {
+                sourceList[sources[i].id] = sources[i].name;
+            }
+        })
+        .fail(function() {
+            console.log("Failed to get sources.");
+        });
+
 
     // Setup validation
     // var formValidator = $("#form").validate({
@@ -403,8 +355,19 @@ $(document).ready(function() {
     //     onsubmit: false
     // });
 
+    
+    // Cost Price card visibility
+    $("#product-sell-price").on('click', function(event, params) {
+        if ($("#hidden-card").css('visibility') == 'hidden') {
+            $("#hidden-card").css('visibility', 'visible');
+        }
+        else {
+            $("#hidden-card").css('visibility', 'hidden');
+        }
+    });
+
     // Finalize invoice button
-    $("#finalize-invoice-button").click(function() {
+    $("#finalize-invoice-button").on('click', function(event, params) {
         if ($("form").valid()) {
             var data = {};
             var products = [];

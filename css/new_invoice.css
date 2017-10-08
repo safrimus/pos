@@ -18,9 +18,14 @@ ul.ui-autocomplete {
     color: darkred;
 }
 
-.top-border-dashed {
-    border-top: 1px dashed black;
+.right-border-dashed {
+    border-right: 1px dashed black;
 }
+
+.dont-display {
+    visibility: hidden;
+}
+
 
 /*----------------------------------------------------*/
 /* CSS formatting the rows in the main product table*/
