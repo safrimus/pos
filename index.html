@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="css/new_invoice.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
-    <link rel="stylesheet" href="bootstrap3-editable/css/bootstrap-editable.css">
     <link rel="stylesheet" href="easyautocomplete/easy-autocomplete.min.css">
     <link rel="stylesheet" href="icheck/skins/square/red.css">
 
@@ -17,8 +16,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-    <script src="bootstrap3-editable/js/bootstrap-editable.min.js"></script>
     <script src="easyautocomplete/jquery.easy-autocomplete.min.js"></script>
     <script src="icheck/icheck.min.js"></script>
 
@@ -30,7 +27,7 @@
     <div class="container-fluid">
         <div class="row top-formatting align-items-center">
             <div class="col-sm-3 right-border-dashed">
-                <div class="card card-body">
+                <div class="card card-body py-3">
                     <div class="form-row justify-content-center">
                         <label>Credit Invoice?</label>
                     </div>
@@ -49,7 +46,7 @@
                     <div class="card card-body">
                         <div class="col-sm-10 mx-auto text-center">
                             <label for="customer-autocomplete">Select Customer</label>
-                            <input class="form-control form-control-sm" id="customer-autocomplete" name="customerAutocomplete" tabindex="1">
+                            <input class="form-control form-control-sm" id="customer-autocomplete" tabindex="1">
                         </div>
                     </div>
                 </div>
@@ -93,12 +90,18 @@
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="form-row justify-content-center">
-                    <div class="card card-body">
+                <div class="form-row justify-content-center card">
+                    <div class="card-body">
                         <div class="col-sm-10 mx-auto text-center">
-                            <button id="finalize-invoice-button" type="button" class="btn btn-lg btn-warning"
-                                    disabled="disabled">Finalize Invoice
-                            </button>
+                            <label for="invoice-date">Invoice Date</label>
+                            <input class="form-control form-control-sm" id="invoice-date">                        
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row justify-content-center pt-3">
+                    <div class="card card-body py-4">
+                        <div class="col-sm-10 mx-auto text-center ">
+                            <button id="finalize-invoice-button" type="button" class="btn btn-lg btn-warning">Finalize Invoice</button>
                         </div>
                     </div>
                 </div>
@@ -110,7 +113,7 @@
                     <thead>
                         <tr>
                             <th class="delete-header"></th>
-                            <th class="header">Product</th>
+                            <th class="autocomplete-header">Product</th>
                             <th class="header">Quantity</th>
                             <th class="header">Price</th>
                             <th class="header">Total</th>
@@ -142,7 +145,7 @@
                     <thead>
                         <tr>
                             <th>Invoice Total</th>
-                            <th id="invoice-total">0 KD</th>
+                            <th id="invoice-total">0.000 KD</th>
                         </tr>
                     </thead>
                 </table>

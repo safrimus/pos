@@ -2,20 +2,12 @@ ul.ui-autocomplete {
     list-style: none;
 }
 
-.page-height {
-    height: 100vh;
-}
-
 
 /*----------------------------------------------------*/
 /* Misc CSS formatting*/
 /*----------------------------------------------------*/
 .highlight:hover {
     background-color: grey;
-}
-
-.glyphicon-remove {
-    color: darkred;
 }
 
 .right-border-dashed {
@@ -49,6 +41,18 @@ ul.ui-autocomplete {
     vertical-align: middle;
 }
 
+.main-table .delete-header {
+    width: 5%;
+}
+
+.main-table .autocomplete-header {
+    width: 35%;
+}
+
+.main-table .header {
+    width: 20%;
+}
+
 /*----------------------------------------------------*/
 /* CSS formatting the BOTTOM of the invoice display*/
 /*----------------------------------------------------*/
@@ -65,28 +69,21 @@ ul.ui-autocomplete {
 
 .main-table-wrapper {
     height: 91%;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .main-table tr {
     text-align: center;
 }
 
-.main-table .header, .delete-header, td {
+.main-table .header, .autocomplete-header, .delete-header, td {
     text-align: center !important;
     border: none !important;
 }
 
-.main-table .delete-header {
-    width: 5%;
-}
-
-.main-table .header {
-    width: 23.75%;
-}
-
 .main-table td {
     white-space: nowrap;
-    max-width: 25%;
     text-overflow: ellipsis;
     vertical-align: middle !important;
 }
@@ -116,6 +113,7 @@ ul.ui-autocomplete {
 input[id^='product-autocomplete'] {
     text-align: center;
     height: 30px;
+    width: 80%;
 }
 
 /* Override x-editable css properties */
@@ -131,8 +129,7 @@ input[id^='product-autocomplete'] {
 
 .easy-autocomplete-container {
     max-height: 300px;
-    overflow: auto;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -145,7 +142,8 @@ input[id^='product-autocomplete'] {
 /* CSS formatting the TOP of the invoice display*/
 /*-----------------------------------------------------*/
 .top-formatting {
-    height: 30vh
+    height: 30vh;
+    overflow-y: auto;
 }
 
 .btn {
@@ -154,10 +152,6 @@ input[id^='product-autocomplete'] {
 
 .radio-inline {
     font-size: 15px;
-}
-
-.error {
-    color: red;
 }
 
 .form-control {

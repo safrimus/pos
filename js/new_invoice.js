@@ -8,9 +8,10 @@ var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/";
 var sourceList = {};
 var supplierList = {};
 var categoryList = {};
+var creditInvoice = false;
 var selectedCustomer = -1;
 var activeAutocomplete = -1;
-var creditInvoice = false;
+var productAutocompletOptions = -1;
 
 
 function updateInvoiceProductTotal(currElem, otherClass, newValue) {
@@ -57,18 +58,6 @@ function updateInvoiceTotal() {
     $("#invoice-total").text(total.toFixed(3) + " KD");
 }
 
-function findSelectedProduct(id) {
-    var match;
-    $("#product-list-table tbody tr").each(function() {
-        if (id == $(this).data("product-id")) {
-            match = $(this);
-            return false;
-        }
-    });
-
-    return match;
-}
-
 function validInput(input, value) {
     if ($.isNumeric(value)) {
         input.removeClass('edit-input-error');
@@ -79,9 +68,38 @@ function validInput(input, value) {
     }
 }
 
-function setupNewTableRow(options) {
-    // Check if the next row has been created already
+function setupEventTriggers() {
+    // Product autocomplete event triggers
+    $("#product-list-table tbody").on('focus', '.autocomplete', function(event, params) {
+        activeAutocomplete = $(this);
+
+        var e = jQuery.Event("keyup");
+        // Simulate a backspace event so that easyautocomplete
+        // reloads it's suggestion list.
+        e.keyCode = 8;  // backspace
+        $(this).trigger(e);
+
+        // Simulate a down arrow event so that easyautocomplete
+        // triggers it's onSelectItemEvent.
+        e.keyCode = 40;  // backspace
+        $(this).trigger(e);
+    });
+
     $("#product-list-table tbody").on('blur', '.autocomplete', function(event, params) {
+        if ($(this).val() == "") {
+            $(this).closest('tr').removeData("product-id");
+
+            $(this).closest('tr').find(".quantity").text("0");
+            $(this).closest('tr').find(".price").text("0.000");
+            $(this).closest('tr').find(".product-total").text("0.000");
+
+            var nextRow = $(this).closest('tr').next()
+            if (nextRow.find("input").val() == "") {
+                nextRow.remove();
+            }
+        };
+
+        // Check if the next row has been created already
         if ($("#product-list-table tr:last td input").val() != "") {
             var id = "product-autocomplete-" + $("#product-list-table tr").length
 
@@ -93,15 +111,8 @@ function setupNewTableRow(options) {
 
             var newProduct = $("<tr class=\"highlight\">" + closeIcon + name + quantity + price + productTotal + "</tr>").appendTo("#product-list-table > tbody:last-child");
 
-            $("#" + id).easyAutocomplete(options);
+            $("#" + id).easyAutocomplete(productAutocompletOptions);
         }
-    });
-}
-
-function setupEventTriggers() {
-    // Autocomplete event trigger
-    $("#product-list-table tbody").on('focus', '.autocomplete', function(event, params) {
-        activeAutocomplete = $(this);
     });
 
     $("#product-list-table tbody").on('keydown', '.autocomplete', function(event, params) {
@@ -112,17 +123,32 @@ function setupEventTriggers() {
 
             if (prevRow.length) {
                 prevRow.children('td:last').find('label').focus();
+            } else {
+                $("#customer-autocomplete").focus();
             }
         } else if (event.keyCode == 9) {
             event.preventDefault();
             // If tab press, simulate a enter event aswell so that easyautocomplete
             // triggers it's onChooseEvent.
             var e = jQuery.Event("keydown");
-            e.keyCode = 13;
+            e.keyCode = 13; // enter key code
             $(this).trigger(e);
         } else if (event.keyCode == 13) {
-            event.preventDefault();
             $(this).closest('td').next().children('label').focus();
+        }
+    });
+
+    // Customer autocomplete event triggers
+    $("#customer-autocomplete").on('keydown', function(event, params) {
+        if (event.keyCode == 9) {
+            event.preventDefault();
+            // If tab press, simulate a enter event aswell so that easyautocomplete
+            // triggers it's onChooseEvent.
+            var e = jQuery.Event("keydown");
+            e.keyCode = 13; // enter key code
+            $(this).trigger(e);
+        } else if (event.keyCode == 13) {
+            $("#product-autocomplete").focus();
         }
     });
 
@@ -130,9 +156,6 @@ function setupEventTriggers() {
     $("#product-list-table tbody").on('click', '.delete-button', function(event, params) {
         $(this).closest('tr').remove();
         updateInvoiceTotal();
-        if ($("#product-list-table tbody tr").length == 0) {
-            $("#finalize-invoice-button").prop("disabled", true);
-        }
     });
     
     $("#product-list-table tbody").on('focus', '.quantity, .price, .product-total', function(event, params) {
@@ -202,17 +225,40 @@ function setupEventTriggers() {
             }
         }
     });
+
+    // Cost price card visibility
+    $("#product-sell-price").on('click', function(event, params) {
+        if ($("#hidden-card").css('visibility') == 'hidden') {
+            $("#hidden-card").css('visibility', 'visible');
+        }
+        else {
+            $("#hidden-card").css('visibility', 'hidden');
+        }
+    });
 }
 
 $(document).ready(function() {
+    // Setup event triggers for all fields
+    setupEventTriggers();
+
     // Populate the products drop-down field
     $.get(PRODUCTS_URL)
         .done(function(products) {
-            var options = {
+            productAutocompletOptions = {
                 data: products,
 
                 getValue: function(product) {
-                    return product.name;
+                    var display = product.name;
+
+                    if (product.description) {
+                        display = display + ", " + product.description;
+                    }
+
+                    if (product.size) {
+                        display = display + ", " + product.size;
+                    }
+
+                    return display;
                 },
 
                 // theme: "dark",
@@ -228,11 +274,7 @@ $(document).ready(function() {
                     match: {
                         enabled: true,
                         method: function(element, phrase) {
-                            if (element.indexOf(phrase) === 0) {
-                                return true;
-                            } else {
-                                return false;
-                            }
+                            return element.indexOf(phrase) === 0;
                         }
                     },
                     maxNumberOfElements: 100,
@@ -262,9 +304,7 @@ $(document).ready(function() {
                 }
             };
             console.log("Loaded Products");
-            $("#product-autocomplete").easyAutocomplete(options);
-            setupEventTriggers();
-            setupNewTableRow(options);
+            $("#product-autocomplete").easyAutocomplete(productAutocompletOptions);
         })
         .fail(function() {
             console.log("Failed to get products.");
@@ -291,7 +331,10 @@ $(document).ready(function() {
 
                 list: {
                     match: {
-                        enabled: true
+                        enabled: true,
+                        method: function(element, phrase) {
+                            return element.indexOf(phrase) === 0;
+                        }
                     },
                     maxNumberOfElements: 100,
                     sort: {
@@ -299,8 +342,7 @@ $(document).ready(function() {
                     },
 
                     onChooseEvent: function() {
-                        var customer = $("#customer-autocomplete").getSelectedItemData();
-                        selectedCustomer = customer;
+                        selectedCustomer = $("#customer-autocomplete").getSelectedItemData();
                     },
                 }
             };
@@ -317,7 +359,6 @@ $(document).ready(function() {
             for (i in suppliers) {
                 supplierList[suppliers[i].id] = suppliers[i].company;
             }
-            console.log(supplierList);
         })
         .fail(function() {
             console.log("Failed to get suppliers.");
@@ -343,67 +384,58 @@ $(document).ready(function() {
             console.log("Failed to get sources.");
         });
 
-
-    // Setup validation
-    // var formValidator = $("#form").validate({
-    //     rules :{
-    //         customerAutocomplete: "required",
-    //     },
-    //     messages: {
-    //         customerAutocomplete: "Please select a customer",
-    //     },
-    //     onsubmit: false
-    // });
-
-    
-    // Cost Price card visibility
-    $("#product-sell-price").on('click', function(event, params) {
-        if ($("#hidden-card").css('visibility') == 'hidden') {
-            $("#hidden-card").css('visibility', 'visible');
-        }
-        else {
-            $("#hidden-card").css('visibility', 'hidden');
-        }
-    });
-
     // Finalize invoice button
     $("#finalize-invoice-button").on('click', function(event, params) {
-        if ($("form").valid()) {
-            var data = {};
-            var products = [];
+        var data = {};
+        var products = [];
 
-            $("#product-list-table tbody tr").each(function() {
-                var product_info = {};
+        // Validate if invoice is not empty and customer has been selected
+        if (parseFloat($(".product-total").text()) == 0.0) {
+            $("#product-autocomplete").focus();
+            return;
+        }
 
+        if (selectedCustomer == -1) {
+            $("#customer-autocomplete").focus();
+            return;
+        }
+
+        if (!$("#invoice-date").datepicker("getDate")) {
+            $("#invoice-date").focus();
+            return;
+        }
+
+        $("#product-list-table tbody tr").each(function() {
+            var product_info = {};
+
+            if ($(this).find(".quantity").text() != 0 && parseFloat($(this).find(".price").text()) != 0.0) {
                 product_info["product"] = $(this).data("product-id");
                 product_info["quantity"] = $(this).find(".quantity").text();
                 product_info["sell_price"] = $(this).find(".price").text();
 
                 products.push(product_info);
-            });
+            }
+        });
 
-            data["credit"] = creditInvoice;
-            data["products"] = products;
-            data["customer"] = selectedCustomer.id;
+        data["credit"] = creditInvoice;
+        data["products"] = products;
+        data["customer"] = selectedCustomer.id;
+        data["date_of_sale"] = $("#invoice-date").datepicker("getDate");
 
-            $.ajax({
-                url: INVOICE_URL,
-                type: "POST",
-                data: JSON.stringify(data),
-                dataType: "json",
-                contentType: "application/json",
-                success: function(response) {
-                    alert("Successfully saved invoice");
-                    // location.reload(true);
-                },
-                error: function(response) {
-                    alert("Failed to save invoice");
-                }
-            });
-        }
-        else {
-            formValidator.focusInvalid();
-        }
+        $.ajax({
+            url: INVOICE_URL,
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(response) {
+                alert("Successfully saved invoice");
+                location.reload(true);
+            },
+            error: function(response) {
+                alert("Failed to save invoice");
+            }
+        });
     });
 
     // Checkboxes
@@ -419,4 +451,16 @@ $(document).ready(function() {
     $("#checkbox-false").on("ifChecked", function() {
         creditInvoice = false;
     });
+
+    // Datetime picker
+    $.datepicker.setDefaults({
+        changeMonth: true,
+        constrainInput: true,
+        dateFormat: "D, d M yy",
+        duration: "fast",
+    });
+
+    // First line to init the datepicker
+    $("#invoice-date").datepicker();
+    $("#invoice-date").datepicker('setDate', 'today');
 });
