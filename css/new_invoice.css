@@ -2,6 +2,7 @@ ul.ui-autocomplete {
     list-style: none;
 }
 
+
 /*----------------------------------------------------*/
 /* Misc CSS formatting*/
 /*----------------------------------------------------*/
@@ -9,26 +10,14 @@ ul.ui-autocomplete {
     background-color: grey;
 }
 
-.delete-button {
-    background-color: lightgrey;
+.right-border-dashed {
+    border-right: 1px dashed black;
 }
 
-.glyphicon-remove {
-    color: darkred;
+.dont-display {
+    visibility: hidden;
 }
 
-.top-buffer-vs {
-    margin-top: 2%;
-}
-
-.top-buffer-sm {
-    margin-top: 5%;
-}
-
-.top-border-dashed {
-    padding-top: 3% !important;
-    border-top: 1px dashed black;
-}
 
 /*----------------------------------------------------*/
 /* CSS formatting the rows in the main product table*/
@@ -37,36 +26,40 @@ ul.ui-autocomplete {
     color: yellow;
 }
 
-/*----------------------------------------------------*/
-/* CSS formatting the LEFT side of the invoice display*/
-/*----------------------------------------------------*/
-.left-formatting {
-    border-right: 1px solid #FECB00;
-}
-
-.left-banner-formatting, .left-content-formatting {
-    background-clip: content-box;
-    padding-bottom: 0 !important;
-    padding-left: 1%;
-    padding-right: 1%;
-}
-
-.left-banner-formatting {
-    background-color: red;
-    height: 4vh;
-    padding-top: 1%;
-}
-
-.left-banner-label-formatting {
-    font-size: 18px;
-    width: 100%;
+.edit-input {
+    display: none;
+    width: 100px;
     text-align: center;
 }
 
-.left-content-formatting {
+.edit-input-error {
+    border-color: red;
+}
+
+.quantity, .price, .product-total {
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+.main-table .delete-header {
+    width: 5%;
+}
+
+.main-table .autocomplete-header {
+    width: 35%;
+}
+
+.main-table .header {
+    width: 20%;
+}
+
+/*----------------------------------------------------*/
+/* CSS formatting the BOTTOM of the invoice display*/
+/*----------------------------------------------------*/
+.bottom-formatting {
+    height: 70vh;
+    border-top: 1px solid #FECB00;
     background-color: lightgrey;
-    height: 96vh;
-    padding-bottom: 1%;
 }
 
 .main-table, .footer-table {
@@ -75,45 +68,35 @@ ul.ui-autocomplete {
 }
 
 .main-table-wrapper {
-    max-height: 96%;
+    height: 91%;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .main-table tr {
-    height: 10px;
-}
-
-.main-table .header, .delete-header, td {
     text-align: center;
+}
+
+.main-table .header, .autocomplete-header, .delete-header, td {
+    text-align: center !important;
     border: none !important;
-}
-
-.main-table .delete-header {
-    width: 5%;
-}
-
-.main-table .header {
-    width: 23.75%;
 }
 
 .main-table td {
     white-space: nowrap;
-    max-width: 25%;
-    overflow: hidden;
     text-overflow: ellipsis;
+    vertical-align: middle !important;
 }
 
 .main-table thead {
+    font-size: 15px;
     border-bottom: 1px solid black;
 }
 
 .footer-table-wrapper {
-    position: absolute;
-    width: 98%;
-    bottom: 0;
-}
-
-.footer-table tr {
     border-top: 1px solid black;
+    position: absolute;
+    bottom: 0;
 }
 
 .footer-table th {
@@ -127,22 +110,40 @@ ul.ui-autocomplete {
     text-align: right;
 }
 
-.editable-submit, .editable-cancel{
-    width: 40px !important;
-}
-
-/*-----------------------------------------------------*/
-/* CSS formatting the RIGHT side of the invoice display*/
-/*-----------------------------------------------------*/
-.right-row-formatting {
-    padding-top: 1%;
-    padding-left: 1%;
-    padding-right: 1%;
-}
-
-.product-fields-formatting {
-    width: 100%;
+input[id^='product-autocomplete'] {
     text-align: center;
+    height: 30px;
+    width: 80%;
+}
+
+/* Override x-editable css properties */
+.editable-error-block {
+    color: red;
+    font-size: 14px;
+}
+
+/* Override easyautocomplete class css properties */
+.easy-autocomplete {
+    width: 100% !important;
+}
+
+.easy-autocomplete-container {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Override close button css properties */
+.close {
+    color: red !important;
+}
+
+/*-----------------------------------------------------*/
+/* CSS formatting the TOP of the invoice display*/
+/*-----------------------------------------------------*/
+.top-formatting {
+    height: 30vh;
+    overflow-y: auto;
 }
 
 .btn {
@@ -153,6 +154,10 @@ ul.ui-autocomplete {
     font-size: 15px;
 }
 
-.error {
-    color: red;
+.form-control {
+    text-align: center;
+}
+
+.row {
+    font-size: 15px;
 }

@@ -2,20 +2,20 @@
 <html lang="en">
 
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" href="css/new_invoice.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
-    <link rel="stylesheet" href="bootstrap3-editable/css/bootstrap-editable.css">
     <link rel="stylesheet" href="easyautocomplete/easy-autocomplete.min.css">
     <link rel="stylesheet" href="icheck/skins/square/red.css">
 
-    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-    <script src="bootstrap3-editable/js/bootstrap-editable.min.js"></script>
     <script src="easyautocomplete/jquery.easy-autocomplete.min.js"></script>
     <script src="icheck/icheck.min.js"></script>
 
@@ -25,117 +25,130 @@
 <body>
 <form id="form">
     <div class="container-fluid">
-        <div class="row border-between">
-            <div class="col-md-8 left-formatting">
-                <div class="row left-banner-formatting">
-                    <label class="left-banner-label-formatting">Invoice #786</label>
-                </div>
-                <div class="row left-content-formatting">
-                    <div class="main-table-wrapper">
-                        <table id="product-list-table" class="table main-table">
-                            <thead>
-                                <tr>
-                                    <th class="delete-header"></th>
-                                    <th class="header">Product</th>
-                                    <th class="header">Quantity</th>
-                                    <th class="header">Price</th>
-                                    <th class="header">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Will be populated using js -->
-                            </tbody>
-                        </table>
+        <div class="row top-formatting align-items-center">
+            <div class="col-sm-3 right-border-dashed">
+                <div class="card card-body py-3">
+                    <div class="form-row justify-content-center">
+                        <label>Credit Invoice?</label>
                     </div>
-                    <div class="footer-table-wrapper">
-                        <table class="table footer-table">
-                            <thead>
-                                <tr>
-                                    <th>Invoice Total</td>
-                                    <th id="invoice-total">0 KD</td>
-                                </tr>
-                            </thead>
-                        </table>
+                    <div class="form-row justify-content-center pt-2">
+                        <div class="col-sm-auto">
+                            <label for="checkbox-true">True</label>
+                            <input class="checkbox" id="checkbox-true" type="radio" name="iCheck">
+                        </div>
+                        <div class="col-sm-auto">
+                            <input class="checkbox" id="checkbox-false" type="radio" name="iCheck" checked>
+                            <label for="checkbox-false">False</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row justify-content-center pt-3">
+                    <div class="card card-body">
+                        <div class="col-sm-10 mx-auto text-center">
+                            <label for="customer-autocomplete">Select Customer</label>
+                            <input class="form-control form-control-sm" id="customer-autocomplete" tabindex="1">
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="row right-row-formatting top-buffer-vs">
-                    <div class="col-md-4 col-md-offset-4">
-                        <label class="product-fields-formatting">Credit Invoice?</label>
+            <div class="col-sm-6 right-border-dashed">
+                <div class="form-row justify-content-center">
+                    <div class="col-sm-auto mx-auto text-center card card-body">
+                        <label for="product-description">Description</label>
+                        <input class="form-control form-control-sm" id="product-description" readonly="readonly">
+                    </div>
+                    <div class="col-sm-auto mx-auto text-center card card-body">
+                        <label for="product-size">Size</label>
+                        <input class="form-control form-control-sm" id="product-size" readonly="readonly">
+                    </div>
+                    <div class="col-sm-auto mx-auto text-center card card-body">
+                        <label for="product-category">Category</label>
+                        <input class="form-control form-control-sm" id="product-category" readonly="readonly">
+                    </div>
+                    <div class="col-sm-auto mx-auto text-center card card-body">
+                        <label for="product-source">Source</label>
+                        <input class="form-control form-control-sm" id="product-source" readonly="readonly">
                     </div>
                 </div>
-                <div class="row right-row-formatting top-buffer-vs">
-                    <div class="col-md-2 col-md-offset-4">
-                        <input class="checkbox" id="checkbox-true" type="radio" name="iCheck">
-                        <label for="checkbox-true">True</label>
+                <div class="form-row justify-content-center pt-3">
+                    <div class="col-sm-auto mx-auto text-center card card-body">
+                        <label for="product-sell-price">Sell Price</label>
+                        <input class="form-control form-control-sm" id="product-sell-price" readonly="readonly">
                     </div>
-                    <div class="col-md-2">
-                        <label for="checkbox-false">False</label>
-                        <input class="checkbox" id="checkbox-false" type="radio" name="iCheck" checked>
+                    <div id="hidden-card" class="col-sm-auto mx-auto text-center card card-body dont-display">
+                        <label for="product-cost-price">Cost Price</label>
+                        <input class="form-control form-control-sm" id="product-cost-price" readonly="readonly">
                     </div>
-                </div>
-                <div class="row right-row-formatting top-buffer-sm top-border-dashed">
-                    <div class="col-md-8 col-md-offset-2">
-                        <label class="product-fields-formatting" for="customer-automplete">Select Customer</label>
-                        <input class="product-fields-formatting" id="customer-automplete" name="customerAutocomplete" tabindex="1">
+                    <div class="col-sm-auto mx-auto text-center card card-body">
+                        <label for="product-supplier">Supplier</label>
+                        <input class="form-control form-control-sm" id="product-supplier" readonly="readonly">
                     </div>
-                </div>
-                <div class="row right-row-formatting top-buffer-sm top-border-dashed">
-                    <div class="col-md-8 col-md-offset-2">
-                        <label class="product-fields-formatting" for="product-automplete">Select Product</label>
-                        <input class="product-fields-formatting" id="product-automplete" tabindex="2">
+                    <div class="col-sm-auto mx-auto text-center card card-body">
+                        <label for="product-stock">Stock in Store</label>
+                        <input class="form-control form-control-sm" id="product-stock" readonly="readonly">
                     </div>
                 </div>
-                <div class="row right-row-formatting top-buffer-vs">
-                    <div class="col-md-4 col-md-offset-4">
-                        <label class="product-fields-formatting" for="product-description">Description</label>
-                        <input class="product-fields-formatting" id="product-description" readonly="readonly">
-                    </div>
-
-                </div>
-                <div class="row right-row-formatting top-buffer-vs">
-                    <div class="col-md-4 col-md-offset-4">
-                        <label class="product-fields-formatting" for="product-size">Size</label>
-                        <input class="product-fields-formatting" id="product-size" readonly="readonly">
+            </div>
+            <div class="col-sm-3">
+                <div class="form-row justify-content-center card">
+                    <div class="card-body">
+                        <div class="col-sm-10 mx-auto text-center">
+                            <label for="invoice-date">Invoice Date</label>
+                            <input class="form-control form-control-sm" id="invoice-date">                        
+                        </div>
                     </div>
                 </div>
-                <div class="row right-row-formatting top-buffer-vs">
-                    <div class="col-md-4 col-md-offset-4">
-                        <label class="product-fields-formatting" for="product-cost-price">Cost Price</label>
-                        <input class="product-fields-formatting" id="product-cost-price" readonly="readonly">
-                    </div>
-
-                </div>
-                <div class="row right-row-formatting top-buffer-vs">
-                    <div class="col-md-4 col-md-offset-4">
-                        <label class="product-fields-formatting" for="product-sell-price">Sell Price</label>
-                        <input class="product-fields-formatting" id="product-sell-price" readonly="readonly">
+                <div class="form-row justify-content-center pt-3">
+                    <div class="card card-body py-4">
+                        <div class="col-sm-10 mx-auto text-center ">
+                            <button id="finalize-invoice-button" type="button" class="btn btn-lg btn-warning">Finalize Invoice</button>
+                        </div>
                     </div>
                 </div>
-                <div class="row right-row-formatting top-buffer-vs">
-                    <div class="col-md-4 col-md-offset-4">
-                        <label class="product-fields-formatting" for="product-supplier">Suppplier</label>
-                        <input class="product-fields-formatting" id="product-supplier" readonly="readonly">
-                    </div>
-
-                </div>
-                <div class="row right-row-formatting top-buffer-vs">
-                    <div class="col-md-4 col-md-offset-4">
-                        <label class="product-fields-formatting" for="product-stock">Stock in Store</label>
-                        <input class="product-fields-formatting" id="product-stock" readonly="readonly">
-                    </div>
-                </div>
-                <div class="row right-row-formatting top-buffer-sm">
-                    <div class="col-md-4 col-md-offset-4">
-                        <button id="select-product-button" type="button" class="btn btn-warning" tabindex="3">Select product</button>
-                    </div>
-                </div>
-                <div class="row right-row-formatting top-buffer-sm top-border-dashed">
-                    <div class="col-md-4 col-md-offset-4">
-                        <button id="finalize-invoice-button" type="button" class="btn btn-lg btn-warning" disabled="disabled">Finalize Invoice</button>
-                    </div>
-                </div>
+            </div>
+        </div>
+        <div class="row bottom-formatting">
+            <div class="main-table-wrapper">
+                <table id="product-list-table" class="table main-table table-sm">
+                    <thead>
+                        <tr>
+                            <th class="delete-header"></th>
+                            <th class="autocomplete-header">Product</th>
+                            <th class="header">Quantity</th>
+                            <th class="header">Price</th>
+                            <th class="header">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="highlight">
+                            <td></td>
+                            <td><input id="product-autocomplete" class="autocomplete" tabindex="2"></td>
+                            <td>
+                                <!-- Need tabindex to make label focusable -->
+                                <label class="quantity" tabindex="99">0</label>
+                                <input class="edit-input"/>
+                            </td>
+                            <td>
+                                <label class="price" tabindex="99">0.000</label>
+                                <input class="edit-input"/>
+                            </td>
+                            <td>
+                                <label class="product-total" tabindex="99">0.000</label>
+                                <input class="edit-input"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="footer-table-wrapper">
+                <table class="table footer-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice Total</th>
+                            <th id="invoice-total">0.000 KD</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
