@@ -18,6 +18,17 @@ ul.ui-autocomplete {
     visibility: hidden;
 }
 
+/* Override easyautocomplete class css properties */
+.easy-autocomplete {
+    width: 100% !important;
+}
+
+.easy-autocomplete-container {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 
 /*----------------------------------------------------*/
 /* CSS formatting the rows in the main product table*/
@@ -116,23 +127,6 @@ input[id^='product-autocomplete'] {
     width: 80%;
 }
 
-/* Override x-editable css properties */
-.editable-error-block {
-    color: red;
-    font-size: 14px;
-}
-
-/* Override easyautocomplete class css properties */
-.easy-autocomplete {
-    width: 100% !important;
-}
-
-.easy-autocomplete-container {
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
 /* Override close button css properties */
 .close {
     color: red !important;
@@ -143,7 +137,7 @@ input[id^='product-autocomplete'] {
 /*-----------------------------------------------------*/
 .top-formatting {
     height: 30vh;
-    overflow-y: auto;
+    /*overflow-y: auto;*/
 }
 
 .btn {
