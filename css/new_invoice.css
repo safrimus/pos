@@ -2,7 +2,6 @@ ul.ui-autocomplete {
     list-style: none;
 }
 
-
 /*----------------------------------------------------*/
 /* Misc CSS formatting*/
 /*----------------------------------------------------*/
@@ -68,7 +67,7 @@ ul.ui-autocomplete {
 /* CSS formatting the BOTTOM of the invoice display*/
 /*----------------------------------------------------*/
 .bottom-formatting {
-    height: 70vh;
+    height: 67vh;
     border-top: 1px solid #FECB00;
     background-color: lightgrey;
 }
@@ -136,22 +135,26 @@ input[id^='product-autocomplete'] {
 /* CSS formatting the TOP of the invoice display*/
 /*-----------------------------------------------------*/
 .top-formatting {
-    height: 30vh;
-    /*overflow-y: auto;*/
+    height: 26vh;
 }
 
 .btn {
     width: 100%;
 }
 
-.radio-inline {
-    font-size: 15px;
-}
-
 .form-control {
     text-align: center;
 }
 
+.btn, .form-control {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .row {
+    font-size: 15px;
+}
+
+.radio-inline {
     font-size: 15px;
 }

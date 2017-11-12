@@ -81,7 +81,7 @@ function setupEventTriggers() {
 
         // Simulate a down arrow event so that easyautocomplete
         // triggers it's onSelectItemEvent.
-        e.keyCode = 40;  // backspace
+        e.keyCode = 40;  // down arrow
         $(this).trigger(e);
     });
 
@@ -251,22 +251,30 @@ $(document).ready(function() {
                     var display = product.name;
 
                     if (product.description) {
-                        display = display + ", " + product.description;
+                        display = display + " -- " + product.description;
                     }
 
                     if (product.size) {
-                        display = display + ", " + product.size;
+                        display = display + " -- " + product.size;
                     }
 
                     return display;
                 },
 
-                // theme: "dark",
-
                 template: {
                     type: "custom",
                     method: function(value, item) {
-                        return item.name + " | " + item.description + " | " + item.size;
+                        var display = item.name;
+
+                        if (item.description) {
+                            display = display + " -- " + item.description;
+                        }
+
+                        if (item.size) {
+                            display = display + " -- " + item.size;
+                        }
+
+                        return display;
                     }
                 },
 
@@ -319,8 +327,6 @@ $(document).ready(function() {
                 getValue: function(customer) {
                     return customer.name;
                 },
-
-                // theme: "dark",
 
                 template: {
                     type: "custom",
