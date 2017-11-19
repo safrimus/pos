@@ -1,0 +1,51 @@
+.input-row-formatting {
+    height: 78vh;
+}
+
+.button-row-formatting {
+    height: 15vh;
+    border-top: 2px solid #FECB00;
+}
+
+.height-100 {
+    height: 100%;
+}
+
+/*Override bootstrap btn class*/
+.btn {
+    width: 190px;
+    height: 65px;
+}
+
+/*Override bootstrap form-control class*/
+.form-control {
+    text-align: center;
+    font-size: 15px;
+}
+
+.form-control, .btn {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*Override icheck class*/
+.icheckbox_square-red {
+    display: table;
+    margin: 0 auto;
+}
+
+/* Override easyautocomplete class css properties */
+.easy-autocomplete-container {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Hide arrows for number input fields*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}

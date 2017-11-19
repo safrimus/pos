@@ -1,26 +1,42 @@
 $(document).ready(function(){
-    $("#home").click(function() {
+    $(".submenu").hide();
+
+    $("#home").on('click', function(event, params) {
         $(".submenu").hide("fast");
-        $("#mainmenu").delay(100).show("fast");
+        $("#main-menu").delay(50).show("fast");
     });
+
     // Invoice menu
-    $("#invoice").click(function() {
-        $("#mainmenu").hide("fast");
-        $("#invoicemenu").delay(100).show("fast");
+    $("#invoice").on('click', function(event, params) {
+        $("#main-menu").hide("fast");
+        $("#invoice-menu").delay(50).show("fast");
     });
+
     // Credit menu
-    $("#credit").click(function() {
-        $("#mainmenu").hide("fast");
-        $("#creditmenu").delay(100).show("fast");
+    $("#credit").on('click', function(event, params) {
+        $("#main-menu").hide("fast");
+        $("#credit-menu").delay(50).show("fast");
     });
+
     // Stock menu
-    $("#stock").click(function() {
-        $("#mainmenu").hide("fast");
-        $("#stockmenu").delay(100).show("fast");
+    $("#stock").on('click', function(event, params) {
+        $("#main-menu").hide("fast");
+        $("#stock-menu").delay(50).show("fast");
     });
+
     // Sales Reports menu
-    $("#salesreports").click(function() {
-        $("#mainmenu").hide("fast");
-        $("#salesreportsmenu").delay(100).show("fast");
+    $("#sales-reports").on('click', function(event, params) {
+        $("#main-menu").hide("fast");
+        $("#sales-reports-menu").delay(50).show("fast");
+    });
+
+    // Load new_invoices
+    $("#new-invoice").on('click', function(event, params) {
+        $("#active-form").load("new_invoice.html");
+    });
+
+    // Load new_invoices
+    $("#products").on('click', function(event, params) {
+        $("#active-form").load("products.html");
     });
 });

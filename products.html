@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/products.css">
+    <script type="text/javascript" src="js/products.js"></script>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center input-row-formatting">
+        <div class="col-sm-3 text-center">
+            <label for="product-autocomplete">Select Product</label>
+            <input class="form-control autocomplete" id="product-autocomplete">
+        </div>
+
+        <!-- Force next columns to break into a new line -->
+        <div class="w-100"></div>
+
+        <div class="col-sm-2 text-center card card-body">
+            <label for="product-id">ID</label>
+            <input class="form-control form-control-sm" id="product-id" readonly>
+        </div>
+        <div class="col-sm-2 offset-sm-1 text-center card card-body">
+            <label for="product-name">Name</label>
+            <input class="form-control form-control-sm editable" id="product-name">
+        </div>
+        <div class="col-sm-2 offset-sm-1 text-center card card-body">
+            <label for="product-description">Description</label>
+            <input class="form-control form-control-sm editable" id="product-description">
+        </div>
+
+        <!-- Force next columns to break into a new line -->
+        <div class="w-100"></div>
+
+        <div class="col-sm-2 text-center card card-body">
+            <label for="product-size">Size</label>
+            <input class="form-control form-control-sm editable" id="product-size">
+        </div>
+        <div class="col-sm-2 offset-sm-1 text-center card card-body">
+            <label for="product-cost">Cost Price</label>
+            <input class="form-control form-control-sm editable" type="number" id="product-cost">
+        </div>
+        <div class="col-sm-2 offset-sm-1 text-center card card-body">
+            <label for="product-sell">Sell Price</label>
+            <input class="form-control form-control-sm editable" type="number" id="product-sell">
+        </div>
+
+        <!-- Force next columns to break into a new line -->
+        <div class="w-100"></div>
+
+        <div class="col-sm-2 text-center card card-body">
+            <label for="supplier-autocomplete">Supplier</label>
+            <input class="form-control form-control-sm autocomplete" id="supplier-autocomplete">
+        </div>
+        <div class="col-sm-2 offset-sm-1 text-center card card-body">
+            <label for="source-autocomplete">Source</label>
+            <input class="form-control form-control-sm autocomplete" id="source-autocomplete">
+        </div>
+        <div class="col-sm-2 offset-sm-1 text-center card card-body">
+            <label for="category-autocomplete">Category</label>
+            <input class="form-control form-control-sm autocomplete" id="category-autocomplete">
+        </div>
+
+        <!-- Force next columns to break into a new line -->
+        <div class="w-100"></div>
+
+        <div class="col-sm-2 text-center card card-body">
+            <label for="product-stock">Stock</label>
+            <input class="form-control form-control-sm editable" type="number" id="product-stock">
+        </div>
+        <div class="col-sm-2 offset-sm-1 text-center card card-body">
+            <label for="checkbox-hide-product">Hide Product</label>
+            <input class="align-self-center" id="checkbox-hide-product" type="checkbox">
+        </div>
+        <div class="col-sm-2 offset-sm-1 text-center card card-body">
+            <label for="product-created">Date Product Created</label>
+            <input class="form-control form-control-sm" id="product-created" readonly>
+        </div>
+    </div>
+    <div class="row align-items-center justify-content-center button-row-formatting">
+        <div class="col-sm-2 text-center">
+            <button id="save-product-button" type="button" class="btn btn-lg btn-warning" disabled>Save Product</button>
+        </div>
+        <div class="col-sm-2 text-center">
+            <button id="new-product-button" type="button" class="btn btn-lg btn-warning">New Product</button>
+        </div>
+        <div class="col-sm-2 text-center">
+            <button id="cancel-save-button" type="button" class="btn btn-lg btn-warning" disabled>Cancel Changes</button>
+        </div>
+    </div>
+</div>
+</body>

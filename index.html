@@ -2,156 +2,77 @@
 <html lang="en">
 
 <head>
+    <title>Malik Burhani Sales System</title>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="css/new_invoice.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="easyautocomplete/easy-autocomplete.min.css">
     <link rel="stylesheet" href="icheck/skins/square/red.css">
 
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="easyautocomplete/jquery.easy-autocomplete.min.js"></script>
     <script src="icheck/icheck.min.js"></script>
 
-    <script type="text/javascript" src="js/new_invoice.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
 </head>
 
 <body>
-<form id="form">
     <div class="container-fluid">
-        <div class="row top-formatting align-items-center">
-            <div class="col-sm-3 right-border-dashed">
-                <div class="card card-body py-3">
-                    <div class="form-row justify-content-center">
-                        <label>Credit Invoice?</label>
+        <div class="row navbar-formatting">
+            <div class="col-sm-12">
+                <nav class="navbar navbar-expand-sm fixed-top navbar-light bg-light">
+                    <a class="navbar-brand" id="home" href="#0">Home</a>
+
+                    <!-- Main menu -->
+                    <div class="navbar-nav" id="main-menu">
+                        <a id="invoice" class="nav-item nav-link" href="#1">Invoice</a>
+                        <a id="credit" class="nav-item nav-link" href="#2">Credit</a>
+                        <a id="stock" class="nav-item nav-link" href="#3">Stock</a>
+                        <a id="products" class="nav-item nav-link" href="#4">Products</a>
+                        <a id="suppliers" class="nav-item nav-link" href="#5">Suppliers</a>
+                        <a id="sales-reports" class="nav-item nav-link" href="#6">Sales Reports</a>
                     </div>
-                    <div class="form-row justify-content-center pt-2">
-                        <div class="col-sm-auto">
-                            <label for="checkbox-true">True</label>
-                            <input class="checkbox" id="checkbox-true" type="radio" name="iCheck">
-                        </div>
-                        <div class="col-sm-auto">
-                            <input class="checkbox" id="checkbox-false" type="radio" name="iCheck" checked>
-                            <label for="checkbox-false">False</label>
-                        </div>
+                    <!-- Invoice submenu -->
+                    <div class="navbar-nav submenu" id="invoice-menu">
+                        <a id="new-invoice" class="nav-item nav-link" href="#7">New Invoice</a>
+                        <a class="nav-item nav-link" href="#8">Return Invoice</a>
+                        <a class="nav-item nav-link" href="#9">Search Invoice</a>
                     </div>
-                </div>
-                <div class="form-row justify-content-center pt-3">
-                    <div class="card card-body">
-                        <div class="col-sm-10 mx-auto text-center">
-                            <label for="customer-autocomplete">Select Customer</label>
-                            <input class="form-control form-control-sm" id="customer-autocomplete" tabindex="1">
-                        </div>
+                    <!-- Credit submenu -->
+                    <div class="navbar-nav submenu" id="credit-menu">
+                        <a class="nav-item nav-link" href="#10">Credit Payments</a>
+                        <a class="nav-item nav-link" href="#11">Credit Owed</a>
+                        <a class="nav-item nav-link" href="#12">Customer Details</a>
                     </div>
-                </div>
+                    <!-- Stock submenu -->
+                    <div class="navbar-nav submenu" id="stock-menu">
+                        <a class="nav-item nav-link" href="#13">Stock Totals</a>
+                        <a class="nav-item nav-link" href="#14">Stock Levels</a>
+                        <a class="nav-item nav-link" href="#15">Stock Transfer</a>
+                    </div>
+                    <!-- Sales reports submenu -->
+                    <div class="navbar-nav submenu" id="sales-reports-menu">
+                        <a class="nav-item nav-link" href="#16">Reports</a>
+                        <a class="nav-item nav-link" href="#17">Graphs</a>
+                    </div>
+                </nav>
             </div>
-            <div class="col-sm-6 right-border-dashed">
-                <div class="form-row justify-content-center">
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-description">Description</label>
-                        <input class="form-control form-control-sm" id="product-description" readonly="readonly">
-                    </div>
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-size">Size</label>
-                        <input class="form-control form-control-sm" id="product-size" readonly="readonly">
-                    </div>
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-category">Category</label>
-                        <input class="form-control form-control-sm" id="product-category" readonly="readonly">
-                    </div>
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-source">Source</label>
-                        <input class="form-control form-control-sm" id="product-source" readonly="readonly">
-                    </div>
-                </div>
-                <div class="form-row justify-content-center pt-3">
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-sell-price">Sell Price</label>
-                        <input class="form-control form-control-sm" id="product-sell-price" readonly="readonly">
-                    </div>
-                    <div id="hidden-card" class="col-sm-3 text-center card card-body dont-display">
-                        <label for="product-cost-price">Cost Price</label>
-                        <input class="form-control form-control-sm" id="product-cost-price" readonly="readonly">
-                    </div>
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-supplier">Supplier</label>
-                        <input class="form-control form-control-sm" id="product-supplier" readonly="readonly">
-                    </div>
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-stock">Stock in Store</label>
-                        <input class="form-control form-control-sm" id="product-stock" readonly="readonly">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-row justify-content-center card">
-                    <div class="card-body">
-                        <div class="col-sm-10 mx-auto text-center">
-                            <label for="invoice-date">Invoice Date</label>
-                            <input class="form-control form-control-sm" id="invoice-date">                        
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row justify-content-center pt-3">
-                    <div class="card card-body py-4">
-                        <div class="col-sm-10 mx-auto text-center ">
-                            <button id="finalize-invoice-button" type="button" class="btn btn-lg btn-warning">Finalize Invoice</button>
-                        </div>
-                    </div>
+        </div>
+        <div class="row form-space-formatting">
+            <div class="col-sm-12 px-0">
+                <div id="active-form">
+                    <!-- Page to be loaded by javascript -->
                 </div>
             </div>
         </div>
-        <div class="row bottom-formatting">
-            <div class="main-table-wrapper">
-                <table id="product-list-table" class="table main-table table-sm">
-                    <thead>
-                        <tr>
-                            <th class="delete-header"></th>
-                            <th class="autocomplete-header">Product</th>
-                            <th class="header">Quantity</th>
-                            <th class="header">Price</th>
-                            <th class="header">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="highlight">
-                            <td></td>
-                            <td><input id="product-autocomplete" class="autocomplete" tabindex="2"></td>
-                            <td>
-                                <!-- Need tabindex to make label focusable -->
-                                <label class="quantity" tabindex="99">0</label>
-                                <input class="edit-input"/>
-                            </td>
-                            <td>
-                                <label class="price" tabindex="99">0.000</label>
-                                <input class="edit-input"/>
-                            </td>
-                            <td>
-                                <label class="product-total" tabindex="99">0.000</label>
-                                <input class="edit-input"/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="footer-table-wrapper">
-                <table class="table footer-table">
-                    <thead>
-                        <tr>
-                            <th>Invoice Total</th>
-                            <th id="invoice-total">0.000 KD</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-    </div>
-</form>
 </body>
 </html>
