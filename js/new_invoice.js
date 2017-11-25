@@ -242,7 +242,7 @@ $(document).ready(function() {
     setupEventTriggers();
 
     // Populate the products drop-down field
-    $.get(PRODUCTS_URL)
+    $.get(PRODUCTS_URL + "?hide_product=false")
         .done(function(products) {
             productAutocompletOptions = {
                 data: products,

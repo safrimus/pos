@@ -29,10 +29,11 @@ function resetPage(name) {
     $(":input").val('').trigger("change");
     $("#checkbox-hide-product").iCheck('uncheck');
 
+    $("#source-autocomplete").removeData("id");
     $("#supplier-autocomplete").removeData("id");
     $("#category-autocomplete").removeData("id");
-    $("#source-autocomplete").removeData("id");
 
+    $("#cancel-save-button").prop('disabled', true);
     $("#save-product-button").prop('disabled', true);
     $("#product-autocomplete").prop('disabled', false);
 
@@ -201,6 +202,7 @@ function setupEventTriggers() {
     // Logic to reset save button disabled state
     $("#product-id").on('change', function(event, params) {
         if ($(this).val() != selectedProduct) {
+            $("#cancel-save-button").prop('disabled', true);
             $("#save-product-button").prop('disabled', true);
             selectedProduct = $(this).val();
         }
@@ -208,11 +210,22 @@ function setupEventTriggers() {
 
     // Logic to detect change in product info and to enable save button
     $(".editable").on('input', function(event, params) {
+        $("#cancel-save-button").prop('disabled', false);
         $("#save-product-button").prop('disabled', false);
     });
 
     $("#checkbox-hide-product").on('ifClicked', function(event, params) {
+        $("#cancel-save-button").prop('disabled', false);
         $("#save-product-button").prop('disabled', false);
+    });
+
+    // Cancel button clicked
+    $("#cancel-save-button").on('click', function(event, params) {
+        if (newProduct) {
+            resetPage("1");
+        } else {
+            selectProduct($("#product-autocomplete").val());
+        }
     });
 
     // Save button clicked
@@ -267,7 +280,6 @@ function setupEventTriggers() {
     $("#new-product-button").on('click', function(event, params) {
         newProduct = true;
 
-        $("#product-autocomplete").prop('disabled', true);
         $("#product-id").val("").trigger("change");
         $(".editable").val("").trigger("change");
         $(".autocomplete").val("").trigger("change");
@@ -279,6 +291,9 @@ function setupEventTriggers() {
         $("#supplier-autocomplete").removeData("id");
         $("#category-autocomplete").removeData("id");
         $("#source-autocomplete").removeData("id");
+
+        $("#cancel-save-button").prop('disabled', false);
+        $("#product-autocomplete").prop('disabled', true);
 
         $("#product-name").focus();
     });
@@ -337,6 +352,7 @@ $(document).ready(function() {
                     onChooseEvent: function() {
                         supplier = $("#supplier-autocomplete").getSelectedItemData();
                         $("#supplier-autocomplete").data("id", supplier.id);
+                        $("#cancel-save-button").prop('disabled', false);
                         $("#save-product-button").prop('disabled', false);
                     },
                 }
@@ -382,6 +398,7 @@ $(document).ready(function() {
                     onChooseEvent: function() {
                         category = $("#category-autocomplete").getSelectedItemData();
                         $("#category-autocomplete").data("id", category.id);
+                        $("#cancel-save-button").prop('disabled', false);
                         $("#save-product-button").prop('disabled', false);
                     },
                 }
@@ -427,6 +444,7 @@ $(document).ready(function() {
                     onChooseEvent: function() {
                         source = $("#source-autocomplete").getSelectedItemData();
                         $("#source-autocomplete").data("id", source.id);
+                        $("#cancel-save-button").prop('disabled', false);
                         $("#save-product-button").prop('disabled', false);
                     },
                 }
