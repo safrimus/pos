@@ -14,6 +14,26 @@ var activeAutocomplete = -1;
 var productAutocompletOptions = -1;
 
 
+function resetPage() {
+    $(":input").val('');
+    $("#invoice-date").datepicker('setDate', 'today');
+    $("#checkbox-true").iCheck('uncheck');
+    $("#checkbox-false").iCheck('check');
+    $("#product-autocomplete").removeData("product-id");
+    $("#invoice-total").text("0.000 KD");
+    $(".quantity").text("0");
+    $(".price").text("0.000");
+    $(".product-total").text("0.000");
+
+    // Delete all rows from table except first
+    $("#product-list-table tbody").find("tr:gt(0)").remove();
+
+    selectedCustomer = -1;
+    activeAutocomplete = -1;
+
+    $("#customer-autocomplete").focus();
+}
+
 function updateInvoiceProductTotal(currElem, otherClass, newValue) {
     var otherValue = currElem.closest('tr').find('.' + otherClass).text();
 
@@ -163,7 +183,8 @@ function setupEventTriggers() {
         $(this).parent().children(".edit-input")
             .val($(this).text())
             .show()
-            .focus();
+            .focus()
+            .select();
     });
 
     $("#product-list-table tbody").on('blur', '.edit-input', function(event, params) {
@@ -436,7 +457,7 @@ $(document).ready(function() {
             contentType: "application/json",
             success: function(response) {
                 alert("Successfully saved invoice");
-                location.reload(true);
+                resetPage();
             },
             error: function(response) {
                 alert("Failed to save invoice");
