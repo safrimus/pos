@@ -11,82 +11,75 @@
     <div class="container-fluid">
         <div class="row top-formatting">
             <div class="col-sm-3 right-border-dashed">
-                <div class="card card-body py-3">
-                    <div class="form-row justify-content-center">
-                        <label>Credit Invoice?</label>
+                <div class="form-row justify-content-center h-47 border rounded">
+                    <div class="col-sm-auto h-50">
+                        <label class="pt-3">Credit Invoice?</label>
                     </div>
-                    <div class="form-row justify-content-center pt-2">
-                        <div class="col-sm-auto">
-                            <label for="checkbox-true">True</label>
-                            <input class="checkbox" id="checkbox-true" type="radio" name="iCheck">
-                        </div>
-                        <div class="col-sm-auto">
-                            <input class="checkbox" id="checkbox-false" type="radio" name="iCheck" checked>
-                            <label for="checkbox-false">False</label>
-                        </div>
+                    <!-- Force next column to break into a new line -->
+                    <div class="w-100"></div>
+                    <div class="col-sm-auto h-50">
+                        <label for="checkbox-true">True</label>
+                        <input class="checkbox" id="checkbox-true" type="radio" name="iCheck">
+
+                        <input class="checkbox" id="checkbox-false" type="radio" name="iCheck" checked>
+                        <label for="checkbox-false">False</label>
                     </div>
                 </div>
-                <div class="form-row justify-content-center pt-3">
-                    <div class="card card-body">
-                        <div class="col-sm-10 mx-auto text-center">
-                            <label for="customer-autocomplete">Select Customer</label>
-                            <input class="form-control form-control-sm" id="customer-autocomplete" tabindex="1">
-                        </div>
+                <div class="form-row justify-content-center mt-2 h-47 border rounded">
+                    <div class="col-sm-10 text-center">
+                        <label for="customer-autocomplete" class="pt-2">Select Customer</label>
+                        <input class="form-control form-control-sm" id="customer-autocomplete" tabindex="1">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 right-border-dashed">
-                <div class="form-row justify-content-center">
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-description">Description</label>
+                <div class="form-row justify-content-center h-47">
+                    <div class="col-sm-3 text-center border rounded">
+                        <label for="product-description" class="pt-2">Description</label>
                         <input class="form-control form-control-sm" id="product-description" readonly="readonly">
                     </div>
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-size">Size</label>
+                    <div class="col-sm-3 text-center border rounded">
+                        <label for="product-size" class="pt-2">Size</label>
                         <input class="form-control form-control-sm" id="product-size" readonly="readonly">
                     </div>
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-category">Category</label>
+                    <div class="col-sm-3 text-center border rounded">
+                        <label for="product-category" class="pt-2">Category</label>
                         <input class="form-control form-control-sm" id="product-category" readonly="readonly">
                     </div>
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-source">Source</label>
+                    <div class="col-sm-3 text-center border rounded">
+                        <label for="product-source" class="pt-2">Source</label>
                         <input class="form-control form-control-sm" id="product-source" readonly="readonly">
                     </div>
                 </div>
-                <div class="form-row justify-content-center pt-3">
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-sell-price">Sell Price</label>
+                <div class="form-row justify-content-center mt-2 h-47">
+                    <div class="col-sm-3 text-center border rounded">
+                        <label for="product-sell-price" class="pt-2">Sell Price</label>
                         <input class="form-control form-control-sm" id="product-sell-price" readonly="readonly">
                     </div>
-                    <div id="hidden-card" class="col-sm-3 text-center card card-body dont-display">
-                        <label for="product-cost-price">Cost Price</label>
+                    <div id="hidden-card" class="col-sm-3 text-center border rounded dont-display">
+                        <label for="product-cost-price" class="pt-2">Cost Price</label>
                         <input class="form-control form-control-sm" id="product-cost-price" readonly="readonly">
                     </div>
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-supplier">Supplier</label>
+                    <div class="col-sm-3 text-center border rounded">
+                        <label for="product-supplier" class="pt-2">Supplier</label>
                         <input class="form-control form-control-sm" id="product-supplier" readonly="readonly">
                     </div>
-                    <div class="col-sm-3 text-center card card-body">
-                        <label for="product-stock">Stock in Store</label>
+                    <div class="col-sm-3 text-center border rounded">
+                        <label for="product-stock" class="pt-2">Stock in Store</label>
                         <input class="form-control form-control-sm" id="product-stock" readonly="readonly">
                     </div>
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="form-row justify-content-center card">
-                    <div class="card-body">
-                        <div class="col-sm-10 mx-auto text-center">
-                            <label for="invoice-date">Invoice Date</label>
-                            <input class="form-control form-control-sm" id="invoice-date">                        
-                        </div>
+                <div class="form-row justify-content-center h-47">
+                    <div class="col-sm-12 text-center border rounded">
+                        <label for="invoice-date" class="pt-2">Invoice Date</label>
+                        <input class="form-control form-control-sm" id="invoice-date">                        
                     </div>
                 </div>
-                <div class="form-row justify-content-center pt-3">
-                    <div class="card card-body py-4">
-                        <div class="col-sm-10 mx-auto text-center">
-                            <button id="finalize-invoice-button" type="button" class="btn btn-lg btn-warning">Finalize Invoice</button>
-                        </div>
+                <div class="form-row justify-content-center mt-2 pt-3 h-47">
+                    <div class="col-sm-12 text-center">
+                        <button id="finalize-invoice-button" type="button" class="btn btn-lg btn-warning btn-block">Finalize Invoice</button>
                     </div>
                 </div>
             </div>

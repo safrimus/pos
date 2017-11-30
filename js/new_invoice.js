@@ -285,7 +285,7 @@ $(document).ready(function() {
                 template: {
                     type: "custom",
                     method: function(value, item) {
-                        var display = item.name;
+                        var display = value;
 
                         if (item.description) {
                             display = display + " -- " + item.description;
@@ -456,7 +456,7 @@ $(document).ready(function() {
             dataType: "json",
             contentType: "application/json",
             success: function(response) {
-                alert("Successfully saved invoice");
+                alert("Successfully saved invoice.");
                 resetPage();
             },
             error: function(response) {

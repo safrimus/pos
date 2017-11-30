@@ -138,15 +138,20 @@ input[id^='product-autocomplete'] {
     height: 26vh;
 }
 
-.btn {
-    width: 100%;
+.radio-inline {
+    font-size: 15px;
 }
 
+.h-47 {
+    height: 47% !important;
+}
+
+/* Override bootstrap classes*/
 .form-control {
     text-align: center;
 }
 
-.btn, .form-control {
+.form-control {
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -155,6 +160,6 @@ input[id^='product-autocomplete'] {
     font-size: 15px;
 }
 
-.radio-inline {
-    font-size: 15px;
+.border {
+    border-color: rgba(0, 0, 0, 0.125) !important;
 }

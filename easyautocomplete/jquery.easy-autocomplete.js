@@ -1504,7 +1504,6 @@ var EasyAutocomplete = (function(scope) {
 		}
 
 		function selectElement(index) {
-			
 			$container.trigger("selectElement.eac", index);
 		}
 
