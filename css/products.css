@@ -1,31 +1,55 @@
+.table-row-formatting {
+    height: 40%;
+}
+
 .input-row-formatting {
-    height: 78vh;
+    height: 50%;
 }
 
 .button-row-formatting {
-    height: 15vh;
+    height: 10%;
     border-top: 2px solid #FECB00;
 }
 
-.height-100 {
+.divider {
+   border-right: 2px solid #FECB00;
+}
+
+.h-30 {
+    height: 30% !important;
+}
+
+/*Override DataTables classes*/
+.dataTables_filter {
+    text-align: center !important;
+}
+
+.dataTables_wrapper {
+    font-size: 14px;
     height: 100%;
 }
 
-/*Override bootstrap btn class*/
-.btn {
-    width: 190px;
-    height: 65px;
+#products-table tbody tr.selected {
+    background-color: grey;
 }
 
-/*Override bootstrap form-control class*/
-.form-control {
+/*Override bootstrap classes*/
+.btn {
+    font-size: 17px;
+}
+
+.form-control, label {
     text-align: center;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .form-control, .btn {
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.border, .table-bordered {
+    border-color: rgba(0, 0, 0, 0.125) !important;
 }
 
 /*Override icheck class*/
