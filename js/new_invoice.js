@@ -108,6 +108,10 @@ function setupEventTriggers() {
         var newProduct = $("<tr>" + closeIcon + name + quantity + price + productTotal + "</tr>").appendTo("#product-list-table > tbody:last-child");
 
         newProduct.data("product-id", productData.id);
+
+        // Scroll products list table to the bottom
+        var elem = document.getElementById('scroll');
+        elem.scrollTop = elem.scrollHeight;
     });
 
     $("#products-table").DataTable().on('deselect', function(e, dt, type, indexes) {
@@ -416,7 +420,7 @@ $(document).ready(function() {
                     resetPage();
                 },
                 error: function(response) {
-                    alert("Failed to save invoice");
+                    alert("Failed to save invoice. " + JSON.stringify(response));
                 }
             });
         }

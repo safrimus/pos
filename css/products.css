@@ -34,7 +34,11 @@
 }
 
 #products-table tbody tr.selected {
-    background-color: grey;
+    background-color: grey !important;
+}
+
+#products-table tbody tr {
+    background-color: white;
 }
 
 /*Override bootstrap classes*/
