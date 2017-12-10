@@ -5,13 +5,12 @@ var SUPPLIERS_URL = "http://127.0.0.1:80/api/v1/suppliers/";
 var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/";
 var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/";
 
+var mouseEnterTimer;
 var sourceList = {};
 var supplierList = {};
 var categoryList = {};
 var creditInvoice = false;
 var selectedCustomer = -1;
-var activeAutocomplete = -1;
-var productAutocompletOptions = -1;
 
 
 function resetPage() {
@@ -19,19 +18,17 @@ function resetPage() {
     $("#invoice-date").datepicker('setDate', 'today');
     $("#checkbox-true").iCheck('uncheck');
     $("#checkbox-false").iCheck('check');
-    $("#product-autocomplete").removeData("product-id");
     $("#invoice-total").text("0.000 KD");
     $(".quantity").text("0");
     $(".price").text("0.000");
     $(".product-total").text("0.000");
 
-    // Delete all rows from table except first
-    $("#product-list-table tbody").find("tr:gt(0)").remove();
+    $("#product-list-table tbody").empty();
+    $("#products-table").DataTable().rows().deselect();
 
     selectedCustomer = -1;
-    activeAutocomplete = -1;
 
-    $("#customer-autocomplete").focus();
+    $("#products-search").focus();
 }
 
 function updateInvoiceProductTotal(currElem, otherClass, newValue) {
@@ -89,73 +86,59 @@ function validInput(input, value) {
 }
 
 function setupEventTriggers() {
-    // Product autocomplete event triggers
-    $("#product-list-table tbody").on('focus', '.autocomplete', function(event, params) {
-        activeAutocomplete = $(this);
+    // DataTable event triggers
+    $("#products-table").DataTable().on('select', function(e, dt, type, indexes) {
+        var productData = $("#products-table").DataTable().rows(indexes).data()[0];
+        var productString = productData.name 
 
-        var e = jQuery.Event("keyup");
-        // Simulate a backspace event so that easyautocomplete
-        // reloads it's suggestion list.
-        e.keyCode = 8;  // backspace
-        $(this).trigger(e);
+        if (productData.description) {
+            productString = productString + " -- " + productData.description;
+        }
 
-        // Simulate a down arrow event so that easyautocomplete
-        // triggers it's onSelectItemEvent.
-        e.keyCode = 40;  // down arrow
-        $(this).trigger(e);
+        if (productData.size) {
+            productString = productString + " -- " + productData.size;
+        }
+
+        var closeIcon = "<td class=\"delete-button\"><button type=\"button\" class=\"close\"><span>&times;</span></button></td>";
+        var name = "<td><label class=\"name\">" + productString + "</td>";
+        var quantity = "<td><label class=\"quantity\" tabindex=\"99\">0</label><input class=\"edit-input\"/></td>";
+        var price = "<td><label class=\"price\" tabindex=\"99\">0.000</label><input class=\"edit-input\"/></td>";
+        var productTotal = "<td><label class=\"product-total\" tabindex=\"99\">0.000</label><input class=\"edit-input\"/></td>";
+        
+        var newProduct = $("<tr>" + closeIcon + name + quantity + price + productTotal + "</tr>").appendTo("#product-list-table > tbody:last-child");
+
+        newProduct.data("product-id", productData.id);
     });
 
-    $("#product-list-table tbody").on('blur', '.autocomplete', function(event, params) {
-        if ($(this).val() == "") {
-            $(this).closest('tr').removeData("product-id");
+    $("#products-table").DataTable().on('deselect', function(e, dt, type, indexes) {
+        var productId = $("#products-table").DataTable().rows(indexes).data()[0].id;
 
-            $(this).closest('tr').find(".quantity").text("0");
-            $(this).closest('tr').find(".price").text("0.000");
-            $(this).closest('tr').find(".product-total").text("0.000");
-
-            var nextRow = $(this).closest('tr').next()
-            if (nextRow.find("input").val() == "") {
-                nextRow.remove();
+        // Remove product from products-list table
+        $("#product-list-table tbody tr").each(function() {
+            if ($(this).data("product-id") == productId) {
+                $(this).remove();
+                // return false is needed to break out of
+                // the each loop.
+                return false;
             }
-        };
-
-        // Check if the next row has been created already
-        if ($("#product-list-table tr:last td input").val() != "") {
-            var id = "product-autocomplete-" + $("#product-list-table tr").length
-
-            var closeIcon = "<td class=\"delete-button\"><button type=\"button\" class=\"close\"><span>&times;</span></button></td>";
-            var name = "<td><input id=\"" + id + "\" class=\"autocomplete\"></td>";
-            var quantity = "<td><label class=\"quantity\" tabindex=\"99\" style>0</label><input class=\"edit-input\"/></td>";
-            var price = "<td><label class=\"price\" tabindex=\"99\">0.000</label><input class=\"edit-input\"/></td>";
-            var productTotal = "<td><label class=\"product-total\" tabindex=\"99\">0.000</label><input class=\"edit-input\"/></td>";
-
-            var newProduct = $("<tr class=\"highlight\">" + closeIcon + name + quantity + price + productTotal + "</tr>").appendTo("#product-list-table > tbody:last-child");
-
-            $("#" + id).easyAutocomplete(productAutocompletOptions);
-        }
+        });
     });
 
-    $("#product-list-table tbody").on('keydown', '.autocomplete', function(event, params) {
-        if (event.shiftKey && event.keyCode == 9) {
-            event.preventDefault();
+    $("#products-table tbody").on('mouseenter', 'tr', function(events, params) {
+        var $self = $(this);
 
-            var prevRow = $(this).closest('tr').prev()
+        mouseEnterTimer = setTimeout(function () {
+            var product = $("#products-table").DataTable().row($self).data();
 
-            if (prevRow.length) {
-                prevRow.children('td:last').find('label').focus();
-            } else {
-                $("#customer-autocomplete").focus();
-            }
-        } else if (event.keyCode == 9) {
-            event.preventDefault();
-            // If tab press, simulate a enter event aswell so that easyautocomplete
-            // triggers it's onChooseEvent.
-            var e = jQuery.Event("keydown");
-            e.keyCode = 13; // enter key code
-            $(this).trigger(e);
-        } else if (event.keyCode == 13) {
-            $(this).closest('td').next().children('label').focus();
-        }
+            $("#product-cost-price").val(product.cost_price).trigger("change");
+            $("#product-sell-price").val(product.sell_price).trigger("change");
+            $("#product-stock").val(product.stock).trigger("change");
+            $("#product-supplier").val(supplierList[product.supplier]).trigger("change");
+            $("#product-category").val(categoryList[product.category]).trigger("change");
+            $("#product-source").val(sourceList[product.source]).trigger("change");
+        }, 500);
+    }).on('mouseleave', 'tr', function(events, params) {
+        clearTimeout(mouseEnterTimer);
     });
 
     // Customer autocomplete event triggers
@@ -167,14 +150,23 @@ function setupEventTriggers() {
             var e = jQuery.Event("keydown");
             e.keyCode = 13; // enter key code
             $(this).trigger(e);
-        } else if (event.keyCode == 13) {
-            $("#product-autocomplete").focus();
         }
+    });
+
+    $("#customer-autocomplete").on('focus', function(event, params) {
+        // Hack to get easyautocomplete to display it's suggestion list
+        var e = jQuery.Event("keyup", {keyCode: 65, which: 65});
+        $(this).attr('value', '');
+        $(this).triggerHandler(e);
+        $(this).trigger('change');
     });
 
     // Editable field event triggers
     $("#product-list-table tbody").on('click', '.delete-button', function(event, params) {
-        $(this).closest('tr').remove();
+        var currRow = $(this).closest('tr');
+
+        $("#products-table").DataTable().row("#" + currRow.data("product-id")).deselect();
+        currRow.remove();
         updateInvoiceTotal();
     });
     
@@ -215,33 +207,34 @@ function setupEventTriggers() {
         // Hide input field and show label.
         $(this).hide();
         $(this).parent().children('label')
-            .show()
-            .text(newValue);
+               .show()
+               .text(newValue);
     });
 
     $("#product-list-table tbody").on('keydown', '.edit-input', function(event) {
         if (event.shiftKey && event.keyCode == 9) {
             event.preventDefault();
 
-            var prevCell = $(this).parent().prev().children('label');
+            var prevCell = $(this).parent().prev().children('.quantity, .price');
+
             // Check if prev cell contains a label. If not, implies prev cell is autocomplete.
             if (validInput($(this), $(this).val())) {
                 if (prevCell.length) {
                     prevCell.focus();
                 } else {
-                    $(this).parent().prev().find('input').focus();
+                    $(this).closest('tr').prev().find('.product-total').focus();
                 }
             }
         } else if (event.keyCode == 9 || event.keyCode == 13) {
             event.preventDefault();
 
             var nextCell = $(this).parent().next();
-            // Check if next cell contains a label. If not, implies end of row. Move focus to next row.
+            // Check if there is a next cell in the row. If not, implies end of row. Move focus to next row.
             if (validInput($(this), $(this).val())) {
                 if (nextCell.length) {
                     nextCell.children('label').focus();
                 } else {
-                    $(this).closest('tr').next().children('td:first').next().find('input').focus();
+                    $(this).closest('tr').next().find('.quantity').focus();
                 }
             }
         }
@@ -259,85 +252,33 @@ function setupEventTriggers() {
 }
 
 $(document).ready(function() {
-    // Setup event triggers for all fields
-    setupEventTriggers();
+    $("#products-table").DataTable({
+        ajax: {
+            url: PRODUCTS_URL + "?hide_product=false",
+            dataSrc: '',
+        },
+        columns: [
+            {data: 'name', searchable: true, type: 'natural'},
+            {data: 'description', searchable: false, type: 'natural'},
+            {data: 'size', searchable: false, type: 'natural'},
+        ],
+        order: [[0, 'asc'], [1, 'asc'], [2, 'asc']],
+        select: {
+            style: 'multi',
+            items: 'row',
+        },
+        dom: 't',
+        rowId: "id",
+        paging: false,
+        scrollY: '53vh',
+        scrollCollapse: true,
+        autoWidth: true,
+    });
 
-    // Populate the products drop-down field
-    $.get(PRODUCTS_URL + "?hide_product=false")
-        .done(function(products) {
-            productAutocompletOptions = {
-                data: products,
-
-                getValue: function(product) {
-                    var display = product.name;
-
-                    if (product.description) {
-                        display = display + " -- " + product.description;
-                    }
-
-                    if (product.size) {
-                        display = display + " -- " + product.size;
-                    }
-
-                    return display;
-                },
-
-                template: {
-                    type: "custom",
-                    method: function(value, item) {
-                        var display = value;
-
-                        if (item.description) {
-                            display = display + " -- " + item.description;
-                        }
-
-                        if (item.size) {
-                            display = display + " -- " + item.size;
-                        }
-
-                        return display;
-                    }
-                },
-
-                list: {
-                    match: {
-                        enabled: true,
-                        method: function(element, phrase) {
-                            return element.indexOf(phrase) === 0;
-                        }
-                    },
-                    maxNumberOfElements: 100,
-                    sort: {
-                        enabled: true
-                    },
-
-                    onChooseEvent: function() {
-                        product = activeAutocomplete.getSelectedItemData();
-        
-                        // Attach product id to newProduct
-                        activeAutocomplete.closest('tr').data("product-id", product.id);
-                    },
-
-                    onSelectItemEvent: function() {
-                        product = activeAutocomplete.getSelectedItemData();
-
-                        $("#product-description").val(product.description).trigger("change");
-                        $("#product-size").val(product.size).trigger("change");
-                        $("#product-cost-price").val(product.cost_price).trigger("change");
-                        $("#product-sell-price").val(product.sell_price).trigger("change");
-                        $("#product-stock").val(product.stock).trigger("change");
-                        $("#product-supplier").val(supplierList[product.supplier]).trigger("change");
-                        $("#product-category").val(categoryList[product.category]).trigger("change");
-                        $("#product-source").val(sourceList[product.source]).trigger("change");
-                    },
-                }
-            };
-            console.log("Loaded Products");
-            $("#product-autocomplete").easyAutocomplete(productAutocompletOptions);
-        })
-        .fail(function() {
-            console.log("Failed to get products.");
-        });
+    // Override the default smart search
+    $("#products-search").on('keyup', function(event, params) {
+        $("#products-table").DataTable().search("^" + this.value, true, false).draw();
+    });
 
     // Populate the customers drop-down field
     $.get(CUSTOMERS_URL)
@@ -416,19 +357,27 @@ $(document).ready(function() {
         var data = {};
         var products = [];
 
-        // Validate if invoice is not empty and customer has been selected
-        if (parseFloat($(".product-total").text()) == 0.0) {
-            $("#product-autocomplete").focus();
+        // Validate if invoice is not empty
+        if ($("#product-list-table tbody tr").length == 0) {
+            $("#products-search").focus();
             return;
         }
 
+        // Validate if customer has been selected
         if (selectedCustomer == -1) {
             $("#customer-autocomplete").focus();
             return;
         }
 
+        // Validate if date has been entered
         if (!$("#invoice-date").datepicker("getDate")) {
             $("#invoice-date").focus();
+            return;
+        }
+
+        // Validate if invoice total is greater than 0
+        if ($("#invoice-total").text() == "0.000 KD") {
+            alert("Invoice total is zero.");
             return;
         }
 
@@ -490,4 +439,7 @@ $(document).ready(function() {
     // First line to init the datepicker
     $("#invoice-date").datepicker();
     $("#invoice-date").datepicker('setDate', 'today');
+
+    // Setup event triggers for all fields
+    setupEventTriggers();
 });

@@ -29,6 +29,10 @@
     height: 100%;
 }
 
+.dataTables_scrollBody {
+    overflow-y: scroll !important;
+}
+
 #products-table tbody tr.selected {
     background-color: grey;
 }
