@@ -355,6 +355,7 @@ $(document).ready(function() {
     // Finalize invoice button
     $("#finalize-invoice-button").on('click', function(event, params) {
         var data = {};
+        var post = true;
         var products = [];
 
         // Validate if invoice is not empty
@@ -384,34 +385,41 @@ $(document).ready(function() {
         $("#product-list-table tbody tr").each(function() {
             var product_info = {};
 
-            if ($(this).find(".quantity").text() != 0 && parseFloat($(this).find(".price").text()) != 0.0) {
-                product_info["product"] = $(this).data("product-id");
-                product_info["quantity"] = $(this).find(".quantity").text();
-                product_info["sell_price"] = $(this).find(".price").text();
-
-                products.push(product_info);
+            if ($(this).find(".quantity").text() == 0 || parseFloat($(this).find(".price").text()) == 0.0) {
+                alert("Product: '" + $(this).find(".name").text() + "' has zero quantity or zero sell price.");
+                // Return false here only exits each loop
+                post = false;
+                return false;
             }
+
+            product_info["product"] = $(this).data("product-id");
+            product_info["quantity"] = $(this).find(".quantity").text();
+            product_info["sell_price"] = $(this).find(".price").text();
+
+            products.push(product_info);
         });
 
-        data["credit"] = creditInvoice;
-        data["products"] = products;
-        data["customer"] = selectedCustomer.id;
-        data["date_of_sale"] = $("#invoice-date").datepicker("getDate");
+        if (post) {
+            data["credit"] = creditInvoice;
+            data["products"] = products;
+            data["customer"] = selectedCustomer.id;
+            data["date_of_sale"] = $("#invoice-date").datepicker("getDate");
 
-        $.ajax({
-            url: INVOICE_URL,
-            type: "POST",
-            data: JSON.stringify(data),
-            dataType: "json",
-            contentType: "application/json",
-            success: function(response) {
-                alert("Successfully saved invoice.");
-                resetPage();
-            },
-            error: function(response) {
-                alert("Failed to save invoice");
-            }
-        });
+            $.ajax({
+                url: INVOICE_URL,
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    alert("Successfully saved invoice.");
+                    resetPage();
+                },
+                error: function(response) {
+                    alert("Failed to save invoice");
+                }
+            });
+        }
     });
 
     // Checkboxes
