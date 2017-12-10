@@ -255,6 +255,19 @@ function setupEventTriggers() {
     });
 }
 
+function selectDefaultCustomer() {
+    $("#customer-autocomplete").val("Cash").trigger("change");
+    $("#customer-autocomplete").focus();
+    // Down arrow
+    var e = jQuery.Event("keyup", {keyCode: 40, which: 40});
+    $("#customer-autocomplete").triggerHandler(e);
+    // Enter key
+    e = jQuery.Event("keydown", {keyCode: 13, which: 13});
+    $("#customer-autocomplete").triggerHandler(e);
+
+    $("#products-search").focus();
+}
+
 $(document).ready(function() {
     $("#products-table").DataTable({
         ajax: {
@@ -319,6 +332,7 @@ $(document).ready(function() {
                 }
             };
             $("#customer-autocomplete").easyAutocomplete(options);
+            selectDefaultCustomer();
             console.log("Loaded Customers");
         })
         .fail(function() {
