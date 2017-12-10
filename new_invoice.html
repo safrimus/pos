@@ -10,122 +10,116 @@
 <form id="form">
     <div class="container-fluid">
         <div class="row top-formatting">
-            <div class="col-sm-3 right-border-dashed">
-                <div class="form-row justify-content-center h-47 border rounded">
-                    <div class="col-sm-auto h-50">
-                        <label class="pt-3">Credit Invoice?</label>
+            <div class="col-sm-5 pt-2">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-sm-5 px-0 inline">
+                        <label for="products-search" class="pr-2 my-0">Search</label>
+                        <input id="products-search" class="form-control form-control-sm">
                     </div>
-                    <!-- Force next column to break into a new line -->
-                    <div class="w-100"></div>
-                    <div class="col-sm-auto h-50">
+
+                    <div class="col-sm-12 px-0">
+                        <table id="products-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Size</th>
+                                </tr>
+                            </thead>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-7 px-0 all-products-table">
+                <div class="main-table-wrapper">
+                    <table id="product-list-table" class="table main-table table-sm">
+                        <thead>
+                            <tr>
+                                <th class="delete-header"></th>
+                                <th class="autocomplete-header">Product</th>
+                                <th class="header">Quantity</th>
+                                <th class="header">Price</th>
+                                <th class="header">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated with js -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer-table-wrapper">
+                    <table class="table table-sm footer-table">
+                        <thead>
+                            <tr>
+                                <th>Invoice Total</th>
+                                <th id="invoice-total" class="pr-5">0.000 KD</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row bottom-formatting">
+            <div class="col-sm-5">
+                <div class="form-row justify-content-center mt-2 h-45">
+                    <div class="col-sm-4 text-center border rounded">
+                        <label for="product-category" class="pt-1">Category</label>
+                        <input class="form-control form-control-sm" id="product-category" readonly="readonly">
+                    </div>
+                    <div class="col-sm-4 text-center border rounded">
+                        <label for="product-source" class="pt-1">Source</label>
+                        <input class="form-control form-control-sm" id="product-source" readonly="readonly">
+                    </div>
+                    <div class="col-sm-4 text-center border rounded">
+                        <label for="product-supplier" class="pt-1">Supplier</label>
+                        <input class="form-control form-control-sm" id="product-supplier" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center mt-1 h-45">
+                    <div class="col-sm-4 text-center border rounded">
+                        <label for="product-sell-price" class="pt-1">Sell Price</label>
+                        <input class="form-control form-control-sm" id="product-sell-price" readonly="readonly">
+                    </div>
+                    <div id="hidden-card" class="col-sm-4 text-center border rounded dont-display">
+                        <label for="product-cost-price" class="pt-1">Cost Price</label>
+                        <input class="form-control form-control-sm" id="product-cost-price" readonly="readonly">
+                    </div>
+                    <div class="col-sm-4 text-center border rounded">
+                        <label for="product-stock" class="pt-1">Stock in Store</label>
+                        <input class="form-control form-control-sm" id="product-stock" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7 top-border left-border">
+                <div class="form-row justify-content-center mt-2 h-45 ">
+                    <div class="col-sm-3 text-center border rounded">
+                        <label class="pt-2">Credit Invoice?</label>
+
+                        <!-- Force next row to break into a new line -->
+                        <div class="w-100"></div>
+
                         <label for="checkbox-true">True</label>
                         <input class="checkbox" id="checkbox-true" type="radio" name="iCheck">
 
                         <input class="checkbox" id="checkbox-false" type="radio" name="iCheck" checked>
                         <label for="checkbox-false">False</label>
                     </div>
-                </div>
-                <div class="form-row justify-content-center mt-2 h-47 border rounded">
-                    <div class="col-sm-10 text-center">
-                        <label for="customer-autocomplete" class="pt-2">Select Customer</label>
+                    <div class="col-sm-3 offset-sm-1 text-center border rounded">
+                        <label for="customer-autocomplete" class="pt-1">Select Customer</label>
                         <input class="form-control form-control-sm" id="customer-autocomplete" tabindex="1">
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-6 right-border-dashed">
-                <div class="form-row justify-content-center h-47">
-                    <div class="col-sm-3 text-center border rounded">
-                        <label for="product-description" class="pt-2">Description</label>
-                        <input class="form-control form-control-sm" id="product-description" readonly="readonly">
-                    </div>
-                    <div class="col-sm-3 text-center border rounded">
-                        <label for="product-size" class="pt-2">Size</label>
-                        <input class="form-control form-control-sm" id="product-size" readonly="readonly">
-                    </div>
-                    <div class="col-sm-3 text-center border rounded">
-                        <label for="product-category" class="pt-2">Category</label>
-                        <input class="form-control form-control-sm" id="product-category" readonly="readonly">
-                    </div>
-                    <div class="col-sm-3 text-center border rounded">
-                        <label for="product-source" class="pt-2">Source</label>
-                        <input class="form-control form-control-sm" id="product-source" readonly="readonly">
-                    </div>
-                </div>
-                <div class="form-row justify-content-center mt-2 h-47">
-                    <div class="col-sm-3 text-center border rounded">
-                        <label for="product-sell-price" class="pt-2">Sell Price</label>
-                        <input class="form-control form-control-sm" id="product-sell-price" readonly="readonly">
-                    </div>
-                    <div id="hidden-card" class="col-sm-3 text-center border rounded dont-display">
-                        <label for="product-cost-price" class="pt-2">Cost Price</label>
-                        <input class="form-control form-control-sm" id="product-cost-price" readonly="readonly">
-                    </div>
-                    <div class="col-sm-3 text-center border rounded">
-                        <label for="product-supplier" class="pt-2">Supplier</label>
-                        <input class="form-control form-control-sm" id="product-supplier" readonly="readonly">
-                    </div>
-                    <div class="col-sm-3 text-center border rounded">
-                        <label for="product-stock" class="pt-2">Stock in Store</label>
-                        <input class="form-control form-control-sm" id="product-stock" readonly="readonly">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-row justify-content-center h-47">
-                    <div class="col-sm-12 text-center border rounded">
-                        <label for="invoice-date" class="pt-2">Invoice Date</label>
+                    <div class="col-sm-3 offset-sm-1 text-center border rounded">
+                        <label for="invoice-date" class="pt-1">Invoice Date</label>
                         <input class="form-control form-control-sm" id="invoice-date">                        
                     </div>
                 </div>
-                <div class="form-row justify-content-center mt-2 pt-3 h-47">
-                    <div class="col-sm-12 text-center">
+                <div class="form-row justify-content-center mt-1 h-45">
+                    <div class="col-sm-4 text-center align-self-center">
                         <button id="finalize-invoice-button" type="button" class="btn btn-lg btn-warning btn-block">Finalize Invoice</button>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row bottom-formatting">
-            <div class="main-table-wrapper">
-                <table id="product-list-table" class="table main-table table-sm">
-                    <thead>
-                        <tr>
-                            <th class="delete-header"></th>
-                            <th class="autocomplete-header">Product</th>
-                            <th class="header">Quantity</th>
-                            <th class="header">Price</th>
-                            <th class="header">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="highlight">
-                            <td></td>
-                            <td><input id="product-autocomplete" class="autocomplete" tabindex="2"></td>
-                            <td>
-                                <!-- Need tabindex to make label focusable -->
-                                <label class="quantity" tabindex="99">0</label>
-                                <input class="edit-input"/>
-                            </td>
-                            <td>
-                                <label class="price" tabindex="99">0.000</label>
-                                <input class="edit-input"/>
-                            </td>
-                            <td>
-                                <label class="product-total" tabindex="99">0.000</label>
-                                <input class="edit-input"/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="footer-table-wrapper">
-                <table class="table footer-table">
-                    <thead>
-                        <tr>
-                            <th>Invoice Total</th>
-                            <th id="invoice-total">0.000 KD</th>
-                        </tr>
-                    </thead>
-                </table>
             </div>
         </div>
     </div>

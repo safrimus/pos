@@ -127,7 +127,7 @@ function loadSources() {
         });
 }
 
-function loadProducts(name) {
+function loadProducts() {
     $("#products-table").DataTable({
         ajax: {
             url: PRODUCTS_URL,
@@ -146,12 +146,17 @@ function loadProducts(name) {
         initComplete: function(settings, json) {
             $("#products-table").DataTable().row(0).select();
         },
-        rowId: 'productId',
-        dom: 'ft',
+        rowId: 'id',
+        dom: 't',
         paging: false,
         scrollY: '23vh',
         scrollCollapse: true,
         autoWidth: true,
+    });
+
+    // Override the default smart search
+    $("#products-search").on('keyup', function(event, params) {
+        $("#products-table").DataTable().search("^" + this.value, true, false).draw();
     });
 }
 
@@ -452,7 +457,7 @@ $(document).ready(function() {
     // Populate the products, sources and categories drop-down fields
     loadSources();
     loadCategories();
-    loadProducts("");
+    loadProducts();
 
     // Get supplier info
     $.get(SUPPLIERS_URL)
@@ -516,5 +521,6 @@ $(document).ready(function() {
         checkboxClass: "icheckbox_square-red"
     });
 
+    // Setup event triggers for all fields
     setupEventTriggers();
 });
