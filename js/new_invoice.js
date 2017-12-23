@@ -102,12 +102,13 @@ function setupEventTriggers() {
         var closeIcon = "<td class=\"delete-button\"><button type=\"button\" class=\"close\"><span>&times;</span></button></td>";
         var name = "<td><label class=\"name\">" + productString + "</td>";
         var quantity = "<td><label class=\"quantity\" tabindex=\"99\">0</label><input class=\"edit-input\"/></td>";
-        var price = "<td><label class=\"price\" tabindex=\"99\">0.000</label><input class=\"edit-input\"/></td>";
+        var price = "<td><label class=\"price\" tabindex=\"99\">" + productData.sell_price + "</label><input class=\"edit-input\"/></td>";
         var productTotal = "<td><label class=\"product-total\" tabindex=\"99\">0.000</label><input class=\"edit-input\"/></td>";
         
         var newProduct = $("<tr>" + closeIcon + name + quantity + price + productTotal + "</tr>").appendTo("#product-list-table > tbody:last-child");
 
         newProduct.data("product-id", productData.id);
+        newProduct.data("cost-price", productData.cost_price);
 
         // Scroll products list table to the bottom
         var elem = document.getElementById('scroll');
@@ -140,7 +141,7 @@ function setupEventTriggers() {
             $("#product-supplier").val(supplierList[product.supplier]).trigger("change");
             $("#product-category").val(categoryList[product.category]).trigger("change");
             $("#product-source").val(sourceList[product.source]).trigger("change");
-        }, 500);
+        }, 250);
     }).on('mouseleave', 'tr', function(events, params) {
         clearTimeout(mouseEnterTimer);
     });
@@ -201,8 +202,15 @@ function setupEventTriggers() {
                 updateInvoiceProductPrice($(this), '', newValue);
             }
         } else if (className == "price") {
-            updateInvoiceProductTotal($(this), 'quantity', newValue);
-            newValue = parseFloat(newValue).toFixed(3)
+            var sellPrice = parseFloat(newValue).toFixed(3);
+            var costPrice = parseFloat($(this).closest('tr').data('cost-price'));
+
+            if (sellPrice < costPrice) {
+                alert("Sell price " + newValue + " is lower than cost price " + costPrice + ".");
+            }
+
+            updateInvoiceProductTotal($(this), 'quantity', sellPrice);
+            newValue = sellPrice;
         } else if (className == "product-total") {
             updateInvoiceProductPrice($(this), newValue);
             newValue = parseFloat(newValue).toFixed(3)
@@ -275,9 +283,9 @@ $(document).ready(function() {
             dataSrc: '',
         },
         columns: [
-            {data: 'name', searchable: true, type: 'natural'},
-            {data: 'description', searchable: false, type: 'natural'},
-            {data: 'size', searchable: false, type: 'natural'},
+            {data: 'name', searchable: true, type: 'natural-ci'},
+            {data: 'description', searchable: false, type: 'natural-ci'},
+            {data: 'size', searchable: false, type: 'natural-ci'},
         ],
         order: [[0, 'asc'], [1, 'asc'], [2, 'asc']],
         select: {

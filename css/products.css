@@ -41,6 +41,15 @@
     background-color: white;
 }
 
+.dataTable > thead > tr > th[class*="sort"] {
+    padding-right: 0.3rem !important;
+}
+
+.dataTable > thead > tr > th[class*="sort"]:after,
+.dataTable > thead > tr > th[class*="sort"]:before {
+    content: "" !important;
+}
+
 /*Override bootstrap classes*/
 .btn {
     font-size: 17px;

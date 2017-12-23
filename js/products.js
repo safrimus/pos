@@ -10,7 +10,7 @@ var newProduct = false;
 var selectedProduct = -1;
 
 function resetPage(productId = 1) {
-    $(":input").val('').trigger("change");
+    $(":input").val('');
     $("#checkbox-hide-product").iCheck('uncheck');
 
     $("#source-autocomplete").removeData("id");
@@ -135,9 +135,9 @@ function loadProducts() {
             dataSrc: '',
         },
         columns: [
-            {data: 'name', searchable: true, type: 'natural'},
-            {data: 'description', searchable: false, type: 'natural'},
-            {data: 'size', searchable: false, type: 'natural'},
+            {data: 'name', searchable: true, type: 'natural-ci'},
+            {data: 'description', searchable: false, type: 'natural-ci'},
+            {data: 'size', searchable: false, type: 'natural-ci'},
         ],
         order: [[0, 'asc'], [1, 'asc'], [2, 'asc']],
         select: {

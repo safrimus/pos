@@ -1,0 +1,61 @@
+.full-height {
+    height: 93vh;
+}
+
+.right-border {
+    border-right: 1px dashed red;
+}
+
+label {
+    font-size: 14px;
+}
+
+.success-text {
+    color: green;
+    font-style: italic;
+}
+
+.edit-input-error {
+    border-color: red;
+}
+
+/*-----------------------------------------------------*/
+/* CSS formatting DataTable*/
+/*-----------------------------------------------------*/
+.dataTables_filter {
+    text-align: center !important;
+}
+
+.dataTables_wrapper {
+    font-size: 14px;
+    text-align: center !important;
+}
+
+.dataTables_scrollBody {
+    overflow-y: scroll !important;
+}
+
+#invoices-table tbody tr {
+    background-color: white;
+}
+
+#products-table tbody tr.selected,
+#invoices-table tbody tr.selected {
+    background-color: grey;
+}
+
+.dataTable > thead > tr > th[class*="sort"] {
+    padding-right: 0.3rem !important;
+}
+
+.dataTable > thead > tr > th[class*="sort"]:after,
+.dataTable > thead > tr > th[class*="sort"]:before {
+    content: "" !important;
+}
+
+/*-----------------------------------------------------*/
+/* CSS formatting Bootstrap 4 classes*/
+/*-----------------------------------------------------*/
+.table-hover tbody tr:hover {
+    background-color: #D2D2D2;
+}
