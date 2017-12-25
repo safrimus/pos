@@ -1,7 +1,3 @@
-ul.ui-autocomplete {
-    list-style: none;
-}
-
 /*----------------------------------------------------*/
 /* Misc CSS formatting*/
 /*----------------------------------------------------*/
@@ -158,6 +154,15 @@ ul.ui-autocomplete {
 
 #products-table tbody tr.selected {
     background-color: grey;
+}
+
+.dataTable > thead > tr > th[class*="sort"] {
+    padding-right: 0.3rem !important;
+}
+
+.dataTable > thead > tr > th[class*="sort"]:after,
+.dataTable > thead > tr > th[class*="sort"]:before {
+    content: "" !important;
 }
 
 /*-----------------------------------------------------*/

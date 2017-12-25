@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="daterangepicker/daterangepicker.css">
     <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css">
     <link rel="stylesheet" type="text/css" href="easyautocomplete/easy-autocomplete.min.css">
     <link rel="stylesheet" type="text/css" href="icheck/skins/square/red.css">
@@ -20,6 +21,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="daterangepicker/moment.min.js"></script>
+    <script type="text/javascript" src="daterangepicker/daterangepicker.js"></script>
     <script type="text/javascript" src="datatables/datatables.min.js"></script>
     <script type="text/javascript" src="datatables/sorting/natural.js"></script>
     <script type="text/javascript" src="easyautocomplete/jquery.easy-autocomplete.min.js"></script>
@@ -47,8 +50,7 @@
                     <!-- Invoice submenu -->
                     <div class="navbar-nav submenu" id="invoice-menu">
                         <a id="new-invoice" class="nav-item nav-link" href="#7">New Invoice</a>
-                        <a class="nav-item nav-link" href="#8">Return Invoice</a>
-                        <a class="nav-item nav-link" href="#9">Search Invoice</a>
+                        <a id="invoices" class="nav-item nav-link" href="#8">View and Return Invoice</a>
                     </div>
                     <!-- Credit submenu -->
                     <div class="navbar-nav submenu" id="credit-menu">

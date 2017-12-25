@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/invoices.css">
+    <script type="text/javascript" src="js/invoices.js"></script>
+</head>
+
+<body>
+<form id="form">
+    <div class="container-fluid">
+        <div class="row justify-content-center align-content-start pt-1 full-height">
+            <div class="col-sm-2">
+                <div class="row ml-1">
+                    <div class="col-sm-12 text-center mt-4 pb-2 border rounded">
+                        <label for="created-date-range-search">Date of Creation</label>
+                        <input id="created-date-range-search" class="form-control form-control-sm text-center">
+                    </div>
+
+                    <div class="col-sm-12 text-center mt-4 pb-2 border rounded">
+                        <label for="sale-date-range-search">Date of Sale</label>
+                        <input id="sale-date-range-search" class="form-control form-control-sm text-center" readonly>
+                    </div>
+
+                    <div class="col-sm-12 text-center mt-4 pb-2 border rounded">
+                        <label for="product-search">Product Name</label>
+                        <input id="product-search" class="form-control form-control-sm text-center">
+                    </div>
+
+                    <div class="col-sm-12 text-center mt-4 pb-2 border rounded">
+                        <label for="customer-search">Customer Name</label>
+                        <input id="customer-search" class="form-control form-control-sm text-center">
+                    </div>
+
+                    <div class="col-sm-12 text-center mt-4 border rounded">
+                        <label>Credit</label>
+
+                        <!-- Force next row to break into a new line -->
+                        <div class="w-100"></div>
+
+                        <label for="checkbox-true">True</label>
+                        <input class="checkbox" id="checkbox-true" type="checkbox" name="iCheck">
+
+                        <input class="checkbox" id="checkbox-false" type="checkbox" name="iCheck">
+                        <label for="checkbox-false">False</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5 right-border">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <table id="invoices-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Invoice ID</th>
+                                    <th>Date of Sale</th>
+                                    <th>Date Created</th>
+                                    <th>Customer</th>
+                                    <th>Credit</th>
+                                </tr>
+                            </thead>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <table id="products-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Size</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Return</th>
+                                </tr>
+                            </thead>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

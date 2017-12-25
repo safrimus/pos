@@ -39,4 +39,9 @@ $(document).ready(function(){
     $("#products").on('click', function(event, params) {
         $("#active-form").load("products.html");
     });
+
+    // Load invoices
+    $("#invoices").on('click', function(event, params) {
+        $("#active-form").load("invoices.html");
+    });
 });
