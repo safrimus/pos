@@ -1,13 +1,9 @@
-.table-row-formatting {
-    height: 40%;
-}
-
-.input-row-formatting {
-    height: 50%;
+.top-formatting {
+    height: 87%;
 }
 
 .button-row-formatting {
-    height: 10%;
+    height: 13%;
     border-top: 2px solid #FECB00;
 }
 

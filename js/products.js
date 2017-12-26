@@ -150,7 +150,7 @@ function loadProducts() {
         rowId: 'id',
         dom: 't',
         scroller: true,
-        scrollY: '23vh',
+        scrollY: '65vh',
         scrollCollapse: true,
         autoWidth: true,
     });

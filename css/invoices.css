@@ -3,7 +3,7 @@
 }
 
 .right-border {
-    border-right: 1px dashed red;
+    border-right: 1px solid #FECB00;
 }
 
 label {
