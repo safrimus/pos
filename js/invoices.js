@@ -19,29 +19,27 @@ function validateInput(input, value) {
 }
 
 function invoiceFilter() {
-    var startDate, endDate, dateFilter;
-    var product = $("#product-search").val();
-    var customer = $("#customer-search").val();
+    var invoiceId = $("#invoice-id-search").val();
 
-    var creditFilter = "&credit=";
-    if (creditInvoice != null) {
-        creditFilter = creditFilter + creditInvoice;
-    }
+    if (invoiceId == "") {
+        var startDate, endDate, dateFilter;
+        var product = $("#product-search").val();
+        var customer = $("#customer-search").val();
 
-    // Pick either one of the date ranges based on the readonly prop value
-    if (!$("#created-date-range-search").is('[readonly]')) {
-        startDate = $("#created-date-range-search").data('daterangepicker').startDate.format("YYYY-MM-DD") + "+00:00:00";
-        endDate = $("#created-date-range-search").data('daterangepicker').endDate.format("YYYY-MM-DD") + "+23:59:59";
 
-        dateFilter = "created__lte=" + endDate + "&created__gte=" + startDate;
-    } else {
+        var creditFilter = "&credit=";
+        if (creditInvoice != null) {
+            creditFilter = creditFilter + creditInvoice;
+        }
+
         startDate = $("#sale-date-range-search").data('daterangepicker').startDate.format("YYYY-MM-DD") + "+00:00:00";
         endDate = $("#sale-date-range-search").data('daterangepicker').endDate.format("YYYY-MM-DD") + "+23:59:59";
-
         dateFilter = "date_of_sale__lte=" + endDate + "&date_of_sale__gte=" + startDate;
-    }
 
-    return INVOICE_URL + "?" + dateFilter + creditFilter + "&product_name=" + product + "&customer_name=" + customer;
+        return INVOICE_URL + "?" + dateFilter + creditFilter + "&product_name=" + product + "&customer_name=" + customer;
+    } else {
+        return INVOICE_URL + "?" + "id=" + invoiceId;
+    }
 }
 
 function getCustomers() {
@@ -70,12 +68,12 @@ function getProducts() {
 
 function setupEventTriggers() {
     // Date search
-    $("#created-date-range-search, #sale-date-range-search").on('apply.daterangepicker', function(event, picker) {
+    $("#sale-date-range-search").on('apply.daterangepicker', function(event, picker) {
         $("#invoices-table").DataTable().ajax.url(invoiceFilter()).load();
     });
 
     // Product and customer search
-    $("#product-search, #customer-search").on('change', function(event, params) {
+    $("#invoice-id-search, #product-search, #customer-search").on('change', function(event, params) {
         $("#invoices-table").DataTable().ajax.url(invoiceFilter()).load();
     });
 
@@ -137,17 +135,6 @@ function setupEventTriggers() {
         }
     });
 
-    // Date range pickers
-    $("#created-date-range-search").on('click', function(event, params) {
-        $("#created-date-range-search").prop('readonly', false);
-        $("#sale-date-range-search").prop('readonly', true);
-    });
-
-    $("#sale-date-range-search").on('click', function(event, params) {
-        $("#sale-date-range-search").prop('readonly', false);
-        $("#created-date-range-search").prop('readonly', true);
-    });
-
     // Credit checkboxes
     $("#checkbox-true").on('ifChecked', function() {
         $("#checkbox-false").iCheck('uncheck');
@@ -173,7 +160,7 @@ $(document).ready(function() {
     getProducts();
     getCustomers();
 
-    $("#created-date-range-search, #sale-date-range-search").daterangepicker({
+    $("#sale-date-range-search").daterangepicker({
         dateLimit: {
             days: 30
         },
