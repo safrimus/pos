@@ -1,5 +1,9 @@
-.full-height {
-    height: 93vh;
+.h-63 {
+    height: 63%;
+}
+
+.h-37 {
+    height: 37%;
 }
 
 .right-border {
@@ -22,10 +26,6 @@ label {
 /*-----------------------------------------------------*/
 /* CSS formatting DataTable*/
 /*-----------------------------------------------------*/
-.dataTables_filter {
-    text-align: center !important;
-}
-
 .dataTables_wrapper {
     font-size: 14px;
     text-align: center !important;
@@ -35,10 +35,7 @@ label {
     overflow-y: scroll !important;
 }
 
-#invoices-table tbody tr {
-    background-color: white;
-}
-
+#payments-table tbody tr.selected,
 #products-table tbody tr.selected,
 #invoices-table tbody tr.selected {
     background-color: grey;

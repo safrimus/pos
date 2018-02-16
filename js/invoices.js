@@ -1,10 +1,15 @@
 var INVOICE_URL = "http://127.0.0.1:80/api/v1/invoices/";
 var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/";
+var PAYMENTS_URL = "http://127.0.0.1:80/api/v1/payments/";
 var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/";
+var PAYMENTS_PER_INVOICE_URL = "http://127.0.0.1:80/api/v1/payments/?invoice=";
 
 var productList = {};
 var customerList = {};
+var invoiceTable = null;
 var currentInvoice = -1;
+var productsTable = null;
+var paymentsTable = null;
 var creditInvoice = null;
 
 
@@ -69,18 +74,23 @@ function getProducts() {
 function setupEventTriggers() {
     // Date search
     $("#sale-date-range-search").on('apply.daterangepicker', function(event, picker) {
-        $("#invoices-table").DataTable().ajax.url(invoiceFilter()).load();
+        invoiceTable.ajax.url(invoiceFilter()).load();
+        productsTable.clear().draw();
+        paymentsTable.clear().draw();
     });
 
     // Product and customer search
     $("#invoice-id-search, #product-search, #customer-search").on('change', function(event, params) {
-        $("#invoices-table").DataTable().ajax.url(invoiceFilter()).load();
+        invoiceTable.ajax.url(invoiceFilter()).load();
+        productsTable.clear().draw();
+        paymentsTable.clear().draw();
     });
 
     // Select invoice
-    $("#invoices-table").DataTable().on('select', function(e, dt, type, indexes) {
-        currentInvoice = $("#invoices-table").DataTable().rows(indexes).data()[0].id;
-        var productData = $("#invoices-table").DataTable().rows(indexes).data()[0].products;
+    invoiceTable.on('select', function(e, dt, type, indexes) {
+        credit = invoiceTable.rows(indexes).data()[0].credit;
+        currentInvoice = invoiceTable.rows(indexes).data()[0].id;
+        var productData = invoiceTable.rows(indexes).data()[0].products;
 
         for (i in productData) {
             productData[i].name = productList[productData[i].product].name;
@@ -88,9 +98,17 @@ function setupEventTriggers() {
             productData[i].size = productList[productData[i].product].size;
         }
 
-        $("#products-table").DataTable().clear().draw();
-        $("#products-table").DataTable().rows.add(productData);
-        $("#products-table").DataTable().columns.adjust().draw();
+        productsTable.clear().draw();
+        productsTable.rows.add(productData);
+        productsTable.columns.adjust().draw();
+
+        if (credit) {
+            paymentsTable.buttons().enable();
+            paymentsTable.ajax.url(PAYMENTS_PER_INVOICE_URL + currentInvoice).load();
+        } else {
+            paymentsTable.buttons().disable();
+            paymentsTable.clear().draw();
+        }
     });
 
     // Returned quantity
@@ -103,7 +121,7 @@ function setupEventTriggers() {
             var data = {};
             var product_info = {}
 
-            product_info["product"] = $("#products-table").DataTable().row($(this).closest('tr')).id();
+            product_info["product"] = productsTable.row($(this).closest('tr')).id();
             product_info["returned_quantity"] = parseInt(newValue);
 
             data["id"] = currentInvoice;
@@ -119,11 +137,11 @@ function setupEventTriggers() {
                     self.addClass('success-text');
                     self.val("Saved");
 
-                    setTimeout(function () {
-                        $("#invoices-table").DataTable().ajax.reload( function(json) {
-                            $("#invoices-table").DataTable().search('').draw();
-                            $("#invoices-table").DataTable().row("#" + currentInvoice).scrollTo()
-                                                                                      .select();
+                    setTimeout(function() {
+                        invoiceTable.ajax.reload( function(json) {
+                            invoiceTable.search('').draw();
+                            invoiceTable.row("#" + currentInvoice).scrollTo()
+                                                                  .select();
                         });
                     }, 500);
 
@@ -139,19 +157,25 @@ function setupEventTriggers() {
     $("#checkbox-true").on('ifChecked', function() {
         $("#checkbox-false").iCheck('uncheck');
         creditInvoice = true;
-        $("#invoices-table").DataTable().ajax.url(invoiceFilter()).load();
+        invoiceTable.ajax.url(invoiceFilter()).load();
+        productsTable.clear().draw();
+        paymentsTable.clear().draw();
     });
 
     $("#checkbox-false").on('ifChecked', function() {
         $("#checkbox-true").iCheck('uncheck');
         creditInvoice = false;
-        $("#invoices-table").DataTable().ajax.url(invoiceFilter()).load();
+        invoiceTable.ajax.url(invoiceFilter()).load();
+        productsTable.clear().draw();
+        paymentsTable.clear().draw();
     });
 
     $("#checkbox-false, #checkbox-true").on('ifUnchecked', function() {
         if (!$("#checkbox-false").checked && !$("#checkbox-true").checked) {
             creditInvoice = null;
-            $("#invoices-table").DataTable().ajax.url(invoiceFilter()).load();
+            invoiceTable.ajax.url(invoiceFilter()).load();
+            productsTable.clear().draw();
+            paymentsTable.clear().draw();
         }
     });
 }
@@ -160,6 +184,49 @@ $(document).ready(function() {
     getProducts();
     getCustomers();
 
+    // Setup dialog
+    $("#dialog").dialog({
+        autoOpen: false,
+        closeOpEscape: false,
+        draggable: false,
+        modal: true,
+        resizable: false,
+        buttons: [
+            {
+                text: "Save",
+                click: function() {
+                    var data = {};
+
+                    data["payment"] = parseFloat($("#dialog-input").val()).toFixed(3);
+                    data["invoice"] = currentInvoice;
+
+                    $.ajax({
+                        url: PAYMENTS_URL,
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function(response) {
+                            setTimeout(function() {
+                                paymentsTable.ajax.url(
+                                    PAYMENTS_PER_INVOICE_URL + currentInvoice).load();
+                            }, 500);
+                        },
+                        error: function(response) {
+                            alert("Failed to save payment. " + JSON.stringify(response));
+                        }
+                    });
+
+                    $(this).dialog("close");
+                }
+            }
+        ],
+        close: function(event, ui) {
+            $("#dialog-input").val("");
+        },
+    });
+
+    // Search date range
     $("#sale-date-range-search").daterangepicker({
         dateLimit: {
             days: 30
@@ -167,7 +234,8 @@ $(document).ready(function() {
         showDropdowns: true,
     });
 
-    $("#invoices-table").DataTable({
+    // Invoice table
+    invoiceTable = $("#invoices-table").DataTable({
         ajax: {
             url: invoiceFilter(),
             dataSrc: '',
@@ -207,14 +275,14 @@ $(document).ready(function() {
         },
         dom: 't',
         rowId: "id",
-        scroller: true,
+        paging: false,
         scrollY: '85vh',
         scrollCollapse: true,
         autoWidth: true,
     });
 
     // Products table
-    $("#products-table").DataTable({
+    productsTable = $("#products-table").DataTable({
         columns: [
             {data: 'name', type: 'natural-ci'},
             {data: 'description', type: 'natural-ci'},
@@ -229,10 +297,72 @@ $(document).ready(function() {
                 width: '15%'
             },
         ],
+        footerCallback: function(row, data, start, end, display) {
+            var invoice_total = 0.0;
+
+            $("#products-table").DataTable().rows().every(function(rowIdx, tableLoop, rowLoop) {
+                var product = this.data();
+                var quantity = parseInt(product.quantity);
+                var returned = parseInt(product.returned_quantity);
+                var sell_price = parseFloat(product.sell_price);
+
+                invoice_total += (quantity - returned) * sell_price;
+            });
+
+            $(this.api().column(3).footer()).html(
+                "KD " + parseFloat(invoice_total).toFixed(3)
+            );
+        },
         dom: 't',
         rowId: "product",
         paging: false,
-        scrollY: '83vh',
+        scrollY: '45vh',
+        scrollCollapse: true,
+        autoWidth: true,
+    });
+
+    // Payments table
+    paymentsTable = $("#payments-table").DataTable({
+        ajax: {
+            url: PAYMENTS_PER_INVOICE_URL + "-1",
+            dataSrc: '',
+        },
+        columns: [
+            {data: 'payment', type: 'natural-ci'},
+            {
+                data: 'date_of_payment',
+                type: 'natural-ci',
+                render: function(data, type, row) {
+                            return $.datepicker.formatDate("D, d M yy", new Date(data));
+                        },
+            },
+        ],
+        order: [[1, 'asc'],],
+        buttons: [
+            {
+                text: "New Payment",
+                enabled: false,
+                action: function(e, dt, node, config) {
+                    $("#dialog").dialog("option", "title", "New payment")
+                                .dialog("open");
+                }
+            }
+        ],
+        footerCallback: function(row, data, start, end, display) {
+            var payment_total = 0.0;
+
+            $("#payments-table").DataTable().rows().every(function(rowIdx, tableLoop, rowLoop) {
+                var payment = this.data();
+                payment_total += parseFloat(payment.payment);
+            });
+
+            $(this.api().column(1).footer()).html(
+                "KD " + parseFloat(payment_total).toFixed(3)
+            );
+        },
+        dom: 'tB',
+        paging: false,
+        scrollY: '15vh',
         scrollCollapse: true,
         autoWidth: true,
     });
