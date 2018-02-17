@@ -294,7 +294,7 @@ function setupEventTriggers() {
             url = PRODUCTS_URL;
         } else {
             type = "PUT";
-            url = PRODUCTS_URL + $("#product-id").val();
+            url = PRODUCTS_URL + $("#product-id").val() + "/";
         }
 
         if (validateInputs()) {
@@ -307,6 +307,7 @@ function setupEventTriggers() {
             data["supplier"] = $("#supplier-autocomplete").data("id");
             data["category"] = $("#category-autocomplete").data("id");
             data["source"] = $("#source-autocomplete").data("id");
+            data["hide_product"] = $("#checkbox-hide-product").closest('div').hasClass("checked");
 
             $.ajax({
                 url: url,
