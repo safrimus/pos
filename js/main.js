@@ -44,4 +44,9 @@ $(document).ready(function(){
     $("#invoices").on('click', function(event, params) {
         $("#active-form").load("invoices.html");
     });
+
+    // Load suppliers
+    $("#suppliers").on('click', function(event, params) {
+        $("#active-form").load("suppliers.html");
+    });
 });

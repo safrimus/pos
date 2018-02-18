@@ -5,6 +5,10 @@
     visibility: hidden;
 }
 
+.red-text {
+    color: red;
+}
+
 /* Override easyautocomplete class css properties */
 .easy-autocomplete {
     width: 100% !important;
@@ -126,10 +130,6 @@
 }
 
 /* Override bootstrap classes*/
-.table-hover tbody tr:hover {
-    background-color: #D2D2D2;
-}
-
 .inline {
     display: flex;
     align-items: center;
@@ -153,7 +153,12 @@
 }
 
 #products-table tbody tr.selected {
-    background-color: grey;
+    background-color: grey !important;
+}
+
+.tab-focus {
+    outline: 1px solid darkred;
+    background-color: #D2D2D2;
 }
 
 .dataTable > thead > tr > th[class*="sort"] {

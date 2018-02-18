@@ -86,6 +86,21 @@ function validInput(input, value) {
 }
 
 function setupEventTriggers() {
+    // Form shortcuts
+    $("#form").on('keydown', function(event) {
+        // Shift + 's'
+        if (event.shiftKey && event.keyCode == 83) {
+            event.preventDefault();
+            $("#products-search").focus();
+        }
+
+        // Shift + 'd'
+        if (event.shiftKey && event.keyCode == 68) {
+            event.preventDefault();
+            $("#invoice-date").focus();
+        }
+    });
+
     // DataTable event triggers
     $("#products-table").DataTable().on('select', function(e, dt, type, indexes) {
         var productData = $("#products-table").DataTable().rows(indexes).data()[0];
@@ -99,7 +114,7 @@ function setupEventTriggers() {
             productString = productString + " -- " + productData.size;
         }
 
-        var closeIcon = "<td class=\"delete-button\"><button type=\"button\" class=\"close\"><span>&times;</span></button></td>";
+        var closeIcon = "<td class=\"delete-button\"><button type=\"button\" class=\"close\" tabindex=\"-1\"><span>&times;</span></button></td>";
         var name = "<td><label class=\"name\">" + productString + "</td>";
         var quantity = "<td><label class=\"quantity\" tabindex=\"99\">0</label><input class=\"edit-input\"/></td>";
         var price = "<td><label class=\"price\" tabindex=\"99\">" + productData.sell_price + "</label><input class=\"edit-input\"/></td>";
@@ -129,21 +144,30 @@ function setupEventTriggers() {
         });
     });
 
-    $("#products-table tbody").on('mouseenter', 'tr', function(events, params) {
-        var $self = $(this);
+    $("#products-table").DataTable().on('key-focus', function(e, dt, cell) {
+        var row = dt.row(cell.index().row).node();
+        $(row).addClass('tab-focus');
+        updateProductDetails(cell.index().row);
+    });
 
-        mouseEnterTimer = setTimeout(function () {
-            var product = $("#products-table").DataTable().row($self).data();
+    $("#products-table").DataTable().on('key-blur', function(e, dt, cell) {
+        var row = dt.row(cell.index().row).node();
+        $(row).removeClass('tab-focus');
+    });
 
-            $("#product-cost-price").val(product.cost_price).trigger("change");
-            $("#product-sell-price").val(product.sell_price).trigger("change");
-            $("#product-stock").val(product.stock).trigger("change");
-            $("#product-supplier").val(supplierList[product.supplier]).trigger("change");
-            $("#product-category").val(categoryList[product.category]).trigger("change");
-            $("#product-source").val(sourceList[product.source]).trigger("change");
-        }, 250);
-    }).on('mouseleave', 'tr', function(events, params) {
-        clearTimeout(mouseEnterTimer);
+    $("#products-table").DataTable().on('key', function(e, dt, key, cell, originalEvent) {
+        // Enter key
+        if (key == 13) {
+            var row = dt.row(cell.index().row)
+
+            if ($(row.node()).hasClass('selected')) {
+                row.deselect();
+            } else {
+                row.select();
+                dt.cell.blur();
+                $("#product-list-table tr:last").find('.quantity').focus();
+            }
+        }
     });
 
     // Customer autocomplete event triggers
@@ -206,7 +230,9 @@ function setupEventTriggers() {
             var costPrice = parseFloat($(this).closest('tr').data('cost-price'));
 
             if (sellPrice < costPrice) {
-                alert("Sell price " + newValue + " is lower than cost price " + costPrice + ".");
+                $(this).closest('td').addClass('red-text');
+            } else {
+                $(this).closest('td').removeClass('red-text');
             }
 
             updateInvoiceProductTotal($(this), 'quantity', sellPrice);
@@ -229,24 +255,24 @@ function setupEventTriggers() {
 
             var prevCell = $(this).parent().prev().children('.quantity, .price');
 
-            // Check if prev cell contains a label. If not, implies prev cell is autocomplete.
+            // Check if prev cell contains a label. If not, implies beginning of row.
             if (validInput($(this), $(this).val())) {
                 if (prevCell.length) {
                     prevCell.focus();
                 } else {
-                    $(this).closest('tr').prev().find('.product-total').focus();
+                    $("#products-search").focus();
                 }
             }
         } else if (event.keyCode == 9 || event.keyCode == 13) {
             event.preventDefault();
 
             var nextCell = $(this).parent().next();
-            // Check if there is a next cell in the row. If not, implies end of row. Move focus to next row.
+            // Check if there is a next cell in the row. If not, implies end of row.
             if (validInput($(this), $(this).val())) {
                 if (nextCell.length) {
                     nextCell.children('label').focus();
                 } else {
-                    $(this).closest('tr').next().find('.quantity').focus();
+                    $("#products-search").focus();
                 }
             }
         }
@@ -261,6 +287,17 @@ function setupEventTriggers() {
             $("#hidden-card").css('visibility', 'hidden');
         }
     });
+}
+
+function updateProductDetails(row) {
+    var product = $("#products-table").DataTable().row(row).data();
+
+    $("#product-cost-price").val(product.cost_price).trigger("change");
+    $("#product-sell-price").val(product.sell_price).trigger("change");
+    $("#product-stock").val(product.stock).trigger("change");
+    $("#product-supplier").val(supplierList[product.supplier]).trigger("change");
+    $("#product-category").val(categoryList[product.category]).trigger("change");
+    $("#product-source").val(sourceList[product.source]).trigger("change");
 }
 
 function selectDefaultCustomer() {
@@ -298,6 +335,12 @@ $(document).ready(function() {
         scrollY: '53vh',
         scrollCollapse: true,
         autoWidth: true,
+        keys: {
+            columns: '0',
+            className: 'no-highlight',
+            tabIndex: '0',
+        },
+        tabIndex: "-1",
     });
 
     // Override the default smart search
@@ -438,7 +481,7 @@ $(document).ready(function() {
                 dataType: "json",
                 contentType: "application/json",
                 success: function(response) {
-                    alert("Successfully saved invoice.");
+                    alert("Successfully saved invoice. New invoice ID is: " + response.id);
                     resetPage();
                 },
                 error: function(response) {

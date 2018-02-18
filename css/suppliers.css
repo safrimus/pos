@@ -7,10 +7,6 @@
     border-top: 2px solid #FECB00;
 }
 
-.divider {
-   border-right: 2px solid #FECB00;
-}
-
 .table-hover tbody tr:hover {
     background-color: #D2D2D2;
 }
@@ -29,7 +25,7 @@
     overflow-y: scroll !important;
 }
 
-#products-table tbody tr.selected {
+#suppliers-table tbody tr.selected {
     background-color: grey !important;
 }
 
@@ -59,19 +55,6 @@
 
 .border, .table-bordered {
     border-color: rgba(0, 0, 0, 0.125) !important;
-}
-
-/*Override icheck class*/
-.icheckbox_square-red {
-    display: table;
-    margin: 0 auto;
-}
-
-/* Override easyautocomplete class css properties */
-.easy-autocomplete-container {
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 /* Hide arrows for number input fields*/

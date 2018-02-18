@@ -9,7 +9,12 @@ var categoryList = {};
 var newProduct = false;
 var selectedProduct = -1;
 
-function resetPage(productId = 1) {
+function resetPage(productId = -1) {
+    var row = ':eq(0)'
+    if (productId != -1) {
+        row = "#" + productId
+    }
+
     $(":input").val('');
     $("#checkbox-hide-product").iCheck('uncheck');
 
@@ -25,7 +30,7 @@ function resetPage(productId = 1) {
     $("#products-table").DataTable().ajax.reload( function(json) {
         $("#products-table").DataTable().search('').draw();
         $("#products-table").DataTable().select.style("single");
-        $("#products-table").DataTable().row("#" + productId).scrollTo()
+        $("#products-table").DataTable().row(row).scrollTo()
                                                              .select();
     });
 
@@ -145,7 +150,7 @@ function loadProducts() {
             items: 'row',
         },
         initComplete: function(settings, json) {
-            $("#products-table").DataTable().row(0).select();
+            $("#products-table").DataTable().row(':eq(0)').select();
         },
         rowId: 'id',
         dom: 't',
