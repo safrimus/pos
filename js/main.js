@@ -12,18 +12,6 @@ $(document).ready(function(){
         $("#invoice-menu").delay(50).show("fast");
     });
 
-    // Credit menu
-    $("#credit").on('click', function(event, params) {
-        $("#main-menu").hide("fast");
-        $("#credit-menu").delay(50).show("fast");
-    });
-
-    // Stock menu
-    $("#stock").on('click', function(event, params) {
-        $("#main-menu").hide("fast");
-        $("#stock-menu").delay(50).show("fast");
-    });
-
     // Sales Reports menu
     $("#sales-reports").on('click', function(event, params) {
         $("#main-menu").hide("fast");
@@ -49,4 +37,10 @@ $(document).ready(function(){
     $("#suppliers").on('click', function(event, params) {
         $("#active-form").load("suppliers.html");
     });
+
+    // Load customers
+    $("#customers").on('click', function(event, params) {
+        $("#active-form").load("customers.html");
+    });
+
 });

@@ -1,0 +1,67 @@
+.top-formatting {
+    height: 87%;
+}
+
+.button-row-formatting {
+    height: 13%;
+    border-top: 2px solid #FECB00;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #D2D2D2;
+}
+
+/*Override DataTables classes*/
+.dataTables_filter {
+    text-align: center !important;
+}
+
+.dataTables_wrapper {
+    font-size: 14px;
+    height: 100%;
+}
+
+.dataTables_scrollBody {
+    overflow-y: scroll !important;
+}
+
+#customers-table tbody tr.selected {
+    background-color: grey !important;
+}
+
+.dataTable > thead > tr > th[class*="sort"] {
+    padding-right: 0.3rem !important;
+}
+
+.dataTable > thead > tr > th[class*="sort"]:after,
+.dataTable > thead > tr > th[class*="sort"]:before {
+    content: "" !important;
+}
+
+/*Override bootstrap classes*/
+.btn {
+    font-size: 17px;
+}
+
+.form-control, label {
+    text-align: center;
+    font-size: 14px;
+}
+
+.form-control, .btn {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.border, .table-bordered {
+    border-color: rgba(0, 0, 0, 0.125) !important;
+}
+
+/* Hide arrows for number input fields*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}

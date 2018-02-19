@@ -19,16 +19,16 @@ function resetPage(supplierId = -1) {
         $("#suppliers-table").DataTable().search('').draw();
         $("#suppliers-table").DataTable().select.style("single");
         $("#suppliers-table").DataTable().row(row).scrollTo()
-                                                               .select();
+                                                  .select();
     });
 
     $("#products-table").DataTable().clear().draw();
 
-    newProduct = false;
+    newSupplier = false;
 }
 
 function setupEventTriggers() {
-    // Product selected from datatable
+    // Supplier selected from datatable
     $("#suppliers-table").DataTable().on('select', function(e, dt, type, indexes) {
         var supplier = $("#suppliers-table").DataTable().rows(indexes).data()[0];
         selectedSupplier = supplier.id;
@@ -51,7 +51,7 @@ function setupEventTriggers() {
         }
     });
 
-    // Logic to detect change in product info and to enable save button
+    // Logic to detect change in supplier info and to enable save button
     $(".editable").on('input', function(event, params) {
         $("#cancel-save-button").prop('disabled', false);
         $("#save-supplier-button").prop('disabled', false);
@@ -98,8 +98,8 @@ function setupEventTriggers() {
                 success: function(response) {
                     alert("Successfully saved supplier.");
 
-                    // Save current products name. Then reset page
-                    // and set the current product as the saved product
+                    // Save current supplier's id. Then reset page
+                    // and set the current supplier as the saved supplier
                     resetPage(response.id);
                 },
                 error: function(response) {

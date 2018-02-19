@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/customers.css">
+    <script type="text/javascript" src="js/customers.js"></script>
+</head>
+
+<body>
+<div class="container-fluid h-100">
+    <div class="row top-formatting">
+        <div class="col-sm-5 pt-1">
+            <div class="row justify-content-center">
+                <div class="col-sm-6 pt-2 form-inline">
+                    <label for="customers-search" class="pr-2">Search</label>
+                    <input id="customers-search" class="form-control form-control-sm">
+                </div>
+
+                <!-- Force next row to break into a new line -->
+                <div class="w-100"></div>
+
+                <div class="col-sm-10 text-center h-100">
+                    <table id="customers-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Customer Name</th>
+                            </tr>
+                        </thead>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-7 my-auto pt-1">
+            <div class="row justify-content-center pb-4">
+                <div class="col-sm-2 pt-1 pb-2 text-center border rounded">
+                    <label for="customer-id">ID</label>
+                    <input class="form-control form-control-sm" id="customer-id" readonly>
+                </div>
+            </div>
+            <div class="row justify-content-center pb-4">
+                <div class="col-sm-3 pt-1 pb-2 text-center border rounded">
+                    <label for="customer-name" class="pb-1">Name</label>
+                    <input class="form-control form-control-sm editable" id="customer-name">
+                </div>
+                <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
+                    <label for="customer-primary-phone" class="pb-1">Phone Number 1</label>
+                    <input class="form-control form-control-sm editable" id="customer-primary-phone" type="tel">
+                </div>
+                <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
+                    <label for="customer-sec-phone" class="pb-1">Phone Number 2</label>
+                    <input class="form-control form-control-sm editable" id="customer-sec-phone" type="tel">
+                </div>
+            </div>
+            <div class="row justify-content-center pb-2">
+                <div class="col-sm-8 text-center">
+                    <table id="invoices-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Invoice</th>
+                                <th>Date of Sale</th>
+                                <th>Credit</th>
+                            </tr>
+                        </thead>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row align-items-center justify-content-center button-row-formatting">
+        <div class="col-sm-2 text-center">
+            <button id="save-customer-button" type="button" class="btn btn-lg btn-warning" disabled>Save Customer</button>
+        </div>
+        <div class="col-sm-2 text-center">
+            <button id="new-customer-button" type="button" class="btn btn-lg btn-warning">New Customer</button>
+        </div>
+        <div class="col-sm-2 text-center">
+            <button id="cancel-save-button" type="button" class="btn btn-lg btn-warning" disabled>Cancel Changes</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

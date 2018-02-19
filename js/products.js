@@ -323,7 +323,7 @@ function setupEventTriggers() {
                 success: function(response) {
                     alert("Successfully saved product.");
 
-                    // Save current products name. Then reset page
+                    // Save current product's id. Then reset page
                     // and set the current product as the saved product
                     resetPage(response.id);
                 },
