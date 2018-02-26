@@ -2,6 +2,8 @@ var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/";
 var SUPPLIERS_URL = "http://127.0.0.1:80/api/v1/suppliers/";
 
 var newSupplier = false;
+var supplierTable = null;
+var productsTable = null;
 var selectedSupplier = -1;
 
 function resetPage(supplierId = -1) {
@@ -15,22 +17,22 @@ function resetPage(supplierId = -1) {
     $("#cancel-save-button").prop('disabled', true);
     $("#save-supplier-button").prop('disabled', true);
 
-    $("#suppliers-table").DataTable().ajax.reload( function(json) {
-        $("#suppliers-table").DataTable().search('').draw();
-        $("#suppliers-table").DataTable().select.style("single");
-        $("#suppliers-table").DataTable().row(row).scrollTo()
-                                                  .select();
+    supplierTable.ajax.reload( function(json) {
+        supplierTable.search('').draw();
+        supplierTable.select.style("single");
+        supplierTable.row(row).scrollTo()
+                              .select();
     });
 
-    $("#products-table").DataTable().clear().draw();
+    productsTable.clear().draw();
 
     newSupplier = false;
 }
 
 function setupEventTriggers() {
     // Supplier selected from datatable
-    $("#suppliers-table").DataTable().on('select', function(e, dt, type, indexes) {
-        var supplier = $("#suppliers-table").DataTable().rows(indexes).data()[0];
+    supplierTable.on('select', function(e, dt, type, indexes) {
+        var supplier = supplierTable.rows(indexes).data()[0];
         selectedSupplier = supplier.id;
 
         $("#supplier-id").val(supplier.id).trigger("change");
@@ -40,7 +42,7 @@ function setupEventTriggers() {
         $("#supplier-phone").val(supplier.phone).trigger("change");
         $("#supplier-address").val(supplier.address).trigger("change");
 
-        $("#products-table").DataTable().ajax.url(PRODUCTS_URL + "?supplier=" + supplier.id).load();
+        productsTable.ajax.url(PRODUCTS_URL + "?supplier=" + supplier.id).load();
     });
 
     // Logic to reset save button disabled state
@@ -62,7 +64,7 @@ function setupEventTriggers() {
         if (newSupplier) {
             resetPage();
         } else {
-            $("#suppliers-table").DataTable().rows(".selected").select();
+            supplierTable.rows(".selected").select();
             $("#cancel-save-button").prop('disabled', true);
             $("#save-supplier-button").prop('disabled', true);
         }
@@ -121,10 +123,10 @@ function setupEventTriggers() {
 
         $("#cancel-save-button").prop('disabled', false);
 
-        $("#suppliers-table").DataTable().select.style("api");
-        $("#suppliers-table").DataTable().rows(".selected").deselect();
+        supplierTable.select.style("api");
+        supplierTable.rows(".selected").deselect();
 
-        $("#products-table").DataTable().clear().draw()
+        productsTable.clear().draw()
 
         $("#supplier-company").focus();
     });
@@ -132,7 +134,7 @@ function setupEventTriggers() {
 
 $(document).ready(function() {
     // Suppliers table
-    $("#suppliers-table").DataTable({
+    supplierTable = $("#suppliers-table").DataTable({
         ajax: {
             url: SUPPLIERS_URL,
             dataSrc: '',
@@ -159,11 +161,11 @@ $(document).ready(function() {
 
     // Override the default smart search
     $("#suppliers-search").on('keyup', function(event, params) {
-        $("#suppliers-table").DataTable().search("^" + this.value, true, false).draw();
+        supplierTable.search("^" + this.value, true, false).draw();
     });
 
     // Products table
-    $("#products-table").DataTable({
+    productsTable = $("#products-table").DataTable({
         ajax: {
             dataSrc: '',
         },
@@ -175,6 +177,15 @@ $(document).ready(function() {
         order: [[0, 'asc'], [1, 'asc'], [2, 'asc']],
         select: {
             style: 'api',
+        },
+        footerCallback: function(row, data, start, end, display) {
+            var total = 0;
+
+            $("#products-table").DataTable().rows().every(function(rowIdx, tableLoop, rowLoop) {
+                total += 1;
+            });
+
+            $(this.api().column(2).footer()).html(total);
         },
         rowId: 'id',
         dom: 't',
