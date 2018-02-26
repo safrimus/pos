@@ -1,8 +1,8 @@
-var INVOICE_URL = "http://127.0.0.1:80/api/v1/invoices/";
 var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/";
 var PAYMENTS_URL = "http://127.0.0.1:80/api/v1/payments/";
 var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/";
 var PAYMENTS_PER_INVOICE_URL = "http://127.0.0.1:80/api/v1/payments/?invoice=";
+var INVOICE_URL = "http://127.0.0.1:80/api/v1/invoices/?fields=id,products,created,credit,date_of_sale,customer";
 
 var productList = {};
 var customerList = {};
@@ -41,9 +41,9 @@ function invoiceFilter() {
         endDate = $("#sale-date-range-search").data('daterangepicker').endDate.format("YYYY-MM-DD") + "+23:59:59";
         dateFilter = "date_of_sale__lte=" + endDate + "&date_of_sale__gte=" + startDate;
 
-        return INVOICE_URL + "?" + dateFilter + creditFilter + "&product_name=" + product + "&customer_name=" + customer;
+        return INVOICE_URL + "&" + dateFilter + creditFilter + "&product_name=" + product + "&customer_name=" + customer;
     } else {
-        return INVOICE_URL + "?" + "id=" + invoiceId;
+        return INVOICE_URL + "&" + "id=" + invoiceId;
     }
 }
 

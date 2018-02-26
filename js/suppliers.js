@@ -124,6 +124,8 @@ function setupEventTriggers() {
         $("#suppliers-table").DataTable().select.style("api");
         $("#suppliers-table").DataTable().rows(".selected").deselect();
 
+        $("#products-table").DataTable().clear().draw()
+
         $("#supplier-company").focus();
     });
 }

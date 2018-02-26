@@ -39,7 +39,7 @@
                     <input class="form-control form-control-sm" id="customer-id" readonly>
                 </div>
             </div>
-            <div class="row justify-content-center pb-4">
+            <div class="row justify-content-center pb-2">
                 <div class="col-sm-3 pt-1 pb-2 text-center border rounded">
                     <label for="customer-name" class="pb-1">Name</label>
                     <input class="form-control form-control-sm editable" id="customer-name">
@@ -53,17 +53,22 @@
                     <input class="form-control form-control-sm editable" id="customer-sec-phone" type="tel">
                 </div>
             </div>
-            <div class="row justify-content-center pb-2">
-                <div class="col-sm-8 text-center">
+            <div class="row justify-content-center pb-1">
+                <div class="col-sm-10 text-center">
                     <table id="invoices-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Invoice</th>
                                 <th>Date of Sale</th>
-                                <th>Credit</th>
+                                <th>Total (KD)</th>
+                                <th>Payments (KD)</th>
+                                <th>Balance (KD)</th>
                             </tr>
                         </thead>
-                        <tfoot></tfoot>
+                        <tfoot>
+                            <th colspan="4" class="text-left">Total Amount Pending:</th>
+                            <th></th>
+                        </tfoot>
                     </table>
                 </div>
             </div>

@@ -27,6 +27,11 @@ function resetPage() {
     $("#products-table").DataTable().rows().deselect();
 
     selectedCustomer = -1;
+    selectDefaultCustomer();
+
+    $("#products-table").DataTable().ajax.reload( function(json) {
+        $("#products-table").DataTable().search('').draw();
+    });
 
     $("#products-search").focus();
 }

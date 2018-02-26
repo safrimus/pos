@@ -31,7 +31,7 @@ function resetPage(productId = -1) {
         $("#products-table").DataTable().search('').draw();
         $("#products-table").DataTable().select.style("single");
         $("#products-table").DataTable().row(row).scrollTo()
-                                                             .select();
+                                                 .select();
     });
 
     newProduct = false;
@@ -168,6 +168,12 @@ function loadProducts() {
 
 function validateInputs() {
     var success = true;
+
+    if ($("#product-sell").val() < $("#product-cost").val()) {
+        alert("Sell price can not be lower than cost price.");
+        $("#product-sell").focus();
+        return false;
+    }
 
     var elements = $("#product-name")
                     .add($("#product-cost"))

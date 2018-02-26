@@ -1,6 +1,8 @@
 var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/";
+var INVOICES_URL = "http://127.0.0.1:80/api/v1/invoices/?fields=id,date_of_sale,invoice_total,payments_total&credit=false";
 
 var newCustomer = false;
+var customerTable = null;
 var selectedCustomer = -1;
 
 function resetPage(customerId = -1) {
@@ -14,11 +16,11 @@ function resetPage(customerId = -1) {
     $("#cancel-save-button").prop('disabled', true);
     $("#save-customer-button").prop('disabled', true);
 
-    $("#customers-table").DataTable().ajax.reload( function(json) {
-        $("#customers-table").DataTable().search('').draw();
-        $("#customers-table").DataTable().select.style("single");
-        $("#customers-table").DataTable().row(row).scrollTo()
-                                                  .select();
+    customerTable.ajax.reload( function(json) {
+        customerTable.search('').draw();
+        customerTable.select.style("single");
+        customerTable.row(row).scrollTo()
+                              .select();
     });
 
     newCustomer = false;
@@ -26,14 +28,16 @@ function resetPage(customerId = -1) {
 
 function setupEventTriggers() {
     // Customer selected from datatable
-    $("#customers-table").DataTable().on('select', function(e, dt, type, indexes) {
-        var customer = $("#customers-table").DataTable().rows(indexes).data()[0];
+    customerTable.on('select', function(e, dt, type, indexes) {
+        var customer = customerTable.rows(indexes).data()[0];
         selectedCustomer = customer.id;
 
         $("#customer-id").val(customer.id).trigger("change");
         $("#customer-name").val(customer.name).trigger("change");
         $("#customer-primary-phone").val(customer.primary_phone).trigger("change");
         $("#customer-sec-phone").val(customer.secondary_phone).trigger("change");
+
+        $("#invoices-table").DataTable().ajax.url(INVOICES_URL + "&customer_name=" + customer.name).load();
     });
 
     // Logic to reset save button disabled state
@@ -55,7 +59,7 @@ function setupEventTriggers() {
         if (newCustomer) {
             resetPage();
         } else {
-            $("#customers-table").DataTable().rows(".selected").select();
+            customerTable.rows(".selected").select();
             $("#cancel-save-button").prop('disabled', true);
             $("#save-customer-button").prop('disabled', true);
         }
@@ -112,8 +116,8 @@ function setupEventTriggers() {
 
         $("#cancel-save-button").prop('disabled', false);
 
-        $("#customers-table").DataTable().select.style("api");
-        $("#customers-table").DataTable().rows(".selected").deselect();
+        customerTable.select.style("api");
+        customerTable.rows(".selected").deselect();
 
         $("#customer-name").focus();
     });
@@ -121,7 +125,7 @@ function setupEventTriggers() {
 
 $(document).ready(function() {
     // Customers table
-    $("#customers-table").DataTable({
+    customerTable = $("#customers-table").DataTable({
         ajax: {
             url: CUSTOMERS_URL,
             dataSrc: '',
@@ -146,24 +150,69 @@ $(document).ready(function() {
 
     // Override the default smart search
     $("#customers-search").on('keyup', function(event, params) {
-        $("#customers-table").DataTable().search("^" + this.value, true, false).draw();
+        customerTable.search("^" + this.value, true, false).draw();
     });
 
     // Invoices table
     $("#invoices-table").DataTable({
+        ajax: {
+            dataSrc: '',
+        },
         columns: [
             {data: 'id', type: 'natural-ci'},
-            {data: 'date_of_sale', type: 'natural-ci'},
-            {data: 'credit', type: 'natural-ci'},
+            {
+                data: 'date_of_sale',
+                searchable: false,
+                render: function(data, type, row) {
+                            return $.datepicker.formatDate("D, d M yy", new Date(data));
+                        },
+            },
+            {
+                data: 'invoice_total',
+                searchable: false,
+                render: function(data, type, row) {
+                            total = data || 0;
+                            return parseFloat(total).toFixed(3);
+                        },
+
+            },
+            {
+                data: 'payments_total',
+                searchable: false,
+                render: function(data, type, row) {
+                            payments = data || 0;
+                            return parseFloat(payments).toFixed(3);
+                        },
+            },
+            {
+                searchable: false,
+                type: 'natural-ci',
+                render: function(data, type, row) {
+                            total = row['invoice_total'] || 0;
+                            payments = row['payments_total'] || 0;
+                            return (total-payments).toFixed(3);
+                        },
+            }
         ],
-        order: [[0, 'asc'], [1, 'asc']],
+        order: [[4, 'desc'], [0, 'asc']],
         select: {
             style: 'api',
         },
+        footerCallback: function(row, data, start, end, display) {
+            var credit_owed = 0.0;
+
+            $("#invoices-table").DataTable().column(4).nodes().each(function(cell, index) {
+                credit_owed += parseFloat($(cell).text());
+            });
+
+            $(this.api().column(4).footer()).html(
+                "KD " + parseFloat(credit_owed).toFixed(3)
+            );
+        },
         rowId: 'id',
         dom: 't',
-        scroller: true,
-        scrollY: '35vh',
+        paging: false,
+        scrollY: '37vh',
         scrollCollapse: true,
         autoWidth: true,
     });
