@@ -1,0 +1,31 @@
+.table-hover tbody tr:hover {
+    background-color: #D2D2D2;
+}
+
+/*Override DataTables classes*/
+.dataTables_filter {
+    text-align: center !important;
+}
+
+.dataTables_wrapper {
+    font-size: 14px;
+    height: 100%;
+}
+
+.dataTables_scrollBody {
+    overflow-y: scroll !important;
+}
+
+.dataTable > thead > tr > th[class*="sort"] {
+    padding-right: 0.3rem !important;
+}
+
+.dataTable > thead > tr > th[class*="sort"]:after,
+.dataTable > thead > tr > th[class*="sort"]:before {
+    content: "" !important;
+}
+
+/*Override bootstrap classes*/
+.border, .table-bordered {
+    border-color: rgba(0, 0, 0, 0.125) !important;
+}

@@ -5,6 +5,11 @@ var newCustomer = false;
 var customerTable = null;
 var selectedCustomer = -1;
 
+
+function format_number(n) {
+  return n.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+}
+
 function resetPage(customerId = -1) {
     var row = ':eq(0)'
     if (customerId != -1) {
@@ -171,8 +176,7 @@ $(document).ready(function() {
                 data: 'invoice_total',
                 searchable: false,
                 render: function(data, type, row) {
-                            total = data || 0;
-                            return parseFloat(total).toFixed(3);
+                            return format_number(data || 0);
                         },
 
             },
@@ -180,17 +184,16 @@ $(document).ready(function() {
                 data: 'payments_total',
                 searchable: false,
                 render: function(data, type, row) {
-                            payments = data || 0;
-                            return parseFloat(payments).toFixed(3);
+                            return format_number(data || 0);
                         },
             },
             {
                 searchable: false,
                 type: 'natural-ci',
                 render: function(data, type, row) {
-                            total = row['invoice_total'] || 0;
-                            payments = row['payments_total'] || 0;
-                            return (total-payments).toFixed(3);
+                            var total = row['invoice_total'] || 0;
+                            var payments = row['payments_total'] || 0;
+                            return format_number(total-payments);
                         },
             }
         ],
@@ -202,11 +205,11 @@ $(document).ready(function() {
             var credit_owed = 0.0;
 
             $("#invoices-table").DataTable().column(4).nodes().each(function(cell, index) {
-                credit_owed += parseFloat($(cell).text());
+                credit_owed += parseFloat($(cell).text().replace(/,/g,''));
             });
 
             $(this.api().column(4).footer()).html(
-                "KD " + parseFloat(credit_owed).toFixed(3)
+                "KD " + format_number(credit_owed)
             );
         },
         rowId: 'id',

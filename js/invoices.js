@@ -13,6 +13,10 @@ var paymentsTable = null;
 var creditInvoice = null;
 
 
+function format_number(n) {
+  return n.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+}
+
 function validateInput(input, value) {
     if ($.isNumeric(value) && Math.floor(value) == value && value > 0) {
         input.removeClass('edit-input-error');
@@ -310,7 +314,7 @@ $(document).ready(function() {
             });
 
             $(this.api().column(3).footer()).html(
-                "KD " + parseFloat(invoice_total).toFixed(3)
+                "KD " + format_number(invoice_total)
             );
         },
         dom: 't',
@@ -328,7 +332,13 @@ $(document).ready(function() {
             dataSrc: '',
         },
         columns: [
-            {data: 'payment', type: 'natural-ci'},
+            {
+                data: 'payment',
+                type: 'natural-ci',
+                render: function(data, type, row) {
+                            return format_number(parseFloat(data));
+                        },
+            },
             {
                 data: 'date_of_payment',
                 type: 'natural-ci',
@@ -357,7 +367,7 @@ $(document).ready(function() {
             });
 
             $(this.api().column(1).footer()).html(
-                "KD " + parseFloat(payment_total).toFixed(3)
+                "KD " + format_number(payment_total)
             );
         },
         dom: 'tB',

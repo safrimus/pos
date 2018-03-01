@@ -1,9 +1,9 @@
-var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/";
 var INVOICE_URL = "http://127.0.0.1:80/api/v1/invoices/";
 var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/";
-var SUPPLIERS_URL = "http://127.0.0.1:80/api/v1/suppliers/";
 var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/";
-var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/";
+var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/?fields=id,name";
+var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/?fields=id,name";
+var SUPPLIERS_URL = "http://127.0.0.1:80/api/v1/suppliers/?fields=id,company";
 
 var mouseEnterTimer;
 var sourceList = {};
@@ -12,6 +12,10 @@ var categoryList = {};
 var creditInvoice = false;
 var selectedCustomer = -1;
 
+
+function format_number(n) {
+  return n.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+}
 
 function resetPage() {
     $(":input").val('');
@@ -77,7 +81,7 @@ function updateInvoiceTotal() {
         total += parseFloat($(this).text());
     });
 
-    $("#invoice-total").text(total.toFixed(3) + " KD");
+    $("#invoice-total").text(format_number(total) + " KD");
 }
 
 function validInput(input, value) {

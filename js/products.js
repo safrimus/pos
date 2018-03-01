@@ -1,7 +1,7 @@
-var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/";
 var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/";
-var SUPPLIERS_URL = "http://127.0.0.1:80/api/v1/suppliers/";
-var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/";
+var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/?fields=id,name";
+var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/?fields=id,name";
+var SUPPLIERS_URL = "http://127.0.0.1:80/api/v1/suppliers/?fields=id,company,agent,address";
 
 var sourceList = {};
 var supplierList = {};

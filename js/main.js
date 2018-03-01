@@ -20,27 +20,31 @@ $(document).ready(function(){
 
     // Load new_invoices
     $("#new-invoice").on('click', function(event, params) {
-        $("#active-form").load("new_invoice.html");
+        $("#active-form").load("html/new_invoice.html");
     });
 
     // Load new_invoices
     $("#products").on('click', function(event, params) {
-        $("#active-form").load("products.html");
+        $("#active-form").load("html/products.html");
     });
 
     // Load invoices
     $("#invoices").on('click', function(event, params) {
-        $("#active-form").load("invoices.html");
+        $("#active-form").load("html/invoices.html");
     });
 
     // Load suppliers
     $("#suppliers").on('click', function(event, params) {
-        $("#active-form").load("suppliers.html");
+        $("#active-form").load("html/suppliers.html");
     });
 
     // Load customers
     $("#customers").on('click', function(event, params) {
-        $("#active-form").load("customers.html");
+        $("#active-form").load("html/customers.html");
     });
 
+    // Load stock details
+    $("#stock").on('click', function(event, params) {
+        $("#active-form").load("html/stock.html");
+    });
 });
