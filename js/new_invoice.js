@@ -353,9 +353,13 @@ $(document).ready(function() {
     });
 
     // Override the default smart search
-    $("#products-search").on('keyup', function(event, params) {
-        $("#products-table").DataTable().search("^" + this.value, true, false).draw();
-    });
+    var typewatch_options = {
+        callback: function(value) { $("#products-table").DataTable().search("^" + this.value, true, false).draw(); },
+        wait: 500,
+        highlight: true,
+        captureLength: 1,
+    }
+    $("#products-search").typeWatch(typewatch_options);
 
     // Populate the customers drop-down field
     $.get(CUSTOMERS_URL)
@@ -490,7 +494,7 @@ $(document).ready(function() {
                 dataType: "json",
                 contentType: "application/json",
                 success: function(response) {
-                    alert("Successfully saved invoice. New invoice ID is: " + response.id);
+                    alert("Success. New invoice ID is: " + response.id);
                     resetPage();
                 },
                 error: function(response) {

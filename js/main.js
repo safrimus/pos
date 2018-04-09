@@ -23,7 +23,7 @@ $(document).ready(function(){
         $("#active-form").load("html/new_invoice.html");
     });
 
-    // Load new_invoices
+    // Load products
     $("#products").on('click', function(event, params) {
         $("#active-form").load("html/products.html");
     });

@@ -1,5 +1,5 @@
 var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/";
-var INVOICES_URL = "http://127.0.0.1:80/api/v1/invoices/?fields=id,date_of_sale,invoice_total,payments_total&credit=false";
+var INVOICES_URL = "http://127.0.0.1:80/api/v1/invoices/?fields=id,date_of_sale,invoice_total,payments_total&credit=true";
 
 var newCustomer = false;
 var customerTable = null;
