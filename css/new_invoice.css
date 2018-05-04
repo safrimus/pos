@@ -9,22 +9,6 @@
     color: red;
 }
 
-/* Override easyautocomplete class css properties */
-.easy-autocomplete {
-    width: 100% !important;
-}
-
-.easy-autocomplete-container {
-    bottom: 100%;
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.easy-autocomplete-container ul {
-    margin-bottom: 0;
-}
-
 /*----------------------------------------------------*/
 /* CSS formatting the rows in the main product table*/
 /*----------------------------------------------------*/
@@ -209,4 +193,15 @@
 
 .border {
     border-color: rgba(0, 0, 0, 0.125) !important;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active {
+    color: black;
+    background: #ffc107;
+    border-color: transparent;
+}
+
+.btn-secondary.focus {
+    outline: none;
+    box-shadow: none !important;
 }

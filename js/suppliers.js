@@ -140,8 +140,8 @@ $(document).ready(function() {
             dataSrc: '',
         },
         columns: [
-            {data: 'company', searchable: true, type: 'natural-ci'},
-            {data: 'agent', searchable: false, type: 'natural-ci'},
+            {data: 'company', searchable: true, type: 'string'},
+            {data: 'agent', searchable: false, type: 'string'},
         ],
         order: [[0, 'asc'], [1, 'asc']],
         select: {
@@ -151,12 +151,12 @@ $(document).ready(function() {
         initComplete: function(settings, json) {
             $("#suppliers-table").DataTable().row(':eq(0)').select();
         },
-        rowId: 'id',
         dom: 't',
+        rowId: 'id',
         scroller: true,
+        autoWidth: true,
         scrollY: '65vh',
         scrollCollapse: true,
-        autoWidth: true,
     });
 
     // Override the default smart search
@@ -187,12 +187,12 @@ $(document).ready(function() {
 
             $(this.api().column(2).footer()).html(total);
         },
-        rowId: 'id',
         dom: 't',
+        rowId: 'id',
         scroller: true,
+        autoWidth: true,
         scrollY: '35vh',
         scrollCollapse: true,
-        autoWidth: true,
     });
 
     // Setup event triggers for all fields

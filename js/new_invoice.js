@@ -1,9 +1,9 @@
 var INVOICE_URL = "http://127.0.0.1:80/api/v1/invoices/";
-var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/";
-var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/";
+var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/?fields=id,name";
 var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/?fields=id,name";
 var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/?fields=id,name";
 var SUPPLIERS_URL = "http://127.0.0.1:80/api/v1/suppliers/?fields=id,company";
+var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/?hide_product=false&ordering=name_sort,description_sort,size_sort";
 
 var mouseEnterTimer;
 var sourceList = {};
@@ -11,6 +11,16 @@ var supplierList = {};
 var categoryList = {};
 var creditInvoice = false;
 var selectedCustomer = -1;
+var cashCustomerID = -1;
+
+
+// Overrides the default autocomplete filter function to search only from the beginning of the string
+$.ui.autocomplete.filter = function (array, term) {
+    var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(term), "i");
+    return $.grep(array, function (value) {
+        return matcher.test(value.label || value.value || value);
+    });
+};
 
 
 function format_number(n) {
@@ -20,12 +30,14 @@ function format_number(n) {
 function resetPage() {
     $(":input").val('');
     $("#invoice-date").datepicker('setDate', 'today');
-    $("#checkbox-true").iCheck('uncheck');
-    $("#checkbox-false").iCheck('check');
     $("#invoice-total").text("0.000 KD");
     $(".quantity").text("0");
     $(".price").text("0.000");
     $(".product-total").text("0.000");
+
+    creditInvoice = false;
+    $("#checkbox-false").closest('label').addClass('active');
+    $("#checkbox-true").closest('label').removeClass('active');
 
     $("#product-list-table tbody").empty();
     $("#products-table").DataTable().rows().deselect();
@@ -179,26 +191,6 @@ function setupEventTriggers() {
         }
     });
 
-    // Customer autocomplete event triggers
-    $("#customer-autocomplete").on('keydown', function(event, params) {
-        if (event.keyCode == 9) {
-            event.preventDefault();
-            // If tab press, simulate a enter event aswell so that easyautocomplete
-            // triggers it's onChooseEvent.
-            var e = jQuery.Event("keydown");
-            e.keyCode = 13; // enter key code
-            $(this).trigger(e);
-        }
-    });
-
-    $("#customer-autocomplete").on('focus', function(event, params) {
-        // Hack to get easyautocomplete to display it's suggestion list
-        var e = jQuery.Event("keyup", {keyCode: 65, which: 65});
-        $(this).attr('value', '');
-        $(this).triggerHandler(e);
-        $(this).trigger('change');
-    });
-
     // Editable field event triggers
     $("#product-list-table tbody").on('click', '.delete-button', function(event, params) {
         var currRow = $(this).closest('tr');
@@ -296,6 +288,21 @@ function setupEventTriggers() {
             $("#hidden-card").css('visibility', 'hidden');
         }
     });
+
+    // Checkboxes
+    $("#checkbox-true").on('change', function(event, params) {
+        creditInvoice = true;
+    });
+
+    $("#checkbox-false").on('change', function(event, params) {
+        creditInvoice = false;
+    });
+
+    // Highlight customer text on click
+    $("#customer-autocomplete").on('focus', function(event, params) {
+        $(this).select();
+        $("#customer-autocomplete").autocomplete('search');
+    });
 }
 
 function updateProductDetails(row) {
@@ -310,40 +317,37 @@ function updateProductDetails(row) {
 }
 
 function selectDefaultCustomer() {
-    $("#customer-autocomplete").val("Cash").trigger("change");
-    $("#customer-autocomplete").focus();
-    // Down arrow
-    var e = jQuery.Event("keyup", {keyCode: 40, which: 40});
-    $("#customer-autocomplete").triggerHandler(e);
-    // Enter key
-    e = jQuery.Event("keydown", {keyCode: 13, which: 13});
-    $("#customer-autocomplete").triggerHandler(e);
-
-    $("#products-search").focus();
+    $("#customer-autocomplete").val("Cash");
+    selectedCustomer = cashCustomerID;
 }
 
 $(document).ready(function() {
     $("#products-table").DataTable({
         ajax: {
-            url: PRODUCTS_URL + "?hide_product=false",
+            url: PRODUCTS_URL,
             dataSrc: '',
         },
         columns: [
-            {data: 'name', searchable: true, type: 'natural-ci'},
-            {data: 'description', searchable: false, type: 'natural-ci'},
-            {data: 'size', searchable: false, type: 'natural-ci'},
+            {data: 'name', searchable: true},
+            {data: 'description', searchable: false},
+            {data: 'size', searchable: false},
         ],
-        order: [[0, 'asc'], [1, 'asc'], [2, 'asc']],
         select: {
             style: 'multi',
             items: 'row',
         },
-        dom: 't',
+        scroller: {
+            displayBuffer: 1.1
+        },
+        dom: 'tS',
         rowId: "id",
-        paging: false,
+        paging: true,
+        pageLength: 20,
+        ordering: false,
+        autoWidth: true,
+        deferRender: true,
         scrollY: '53vh',
         scrollCollapse: true,
-        autoWidth: true,
         keys: {
             columns: '0',
             className: 'no-highlight',
@@ -364,40 +368,32 @@ $(document).ready(function() {
     // Populate the customers drop-down field
     $.get(CUSTOMERS_URL)
         .done(function(customers) {
-            var options = {
-                data: customers,
+            formattedCustomers = [];
 
-                getValue: function(customer) {
-                    return customer.name;
-                },
+            for (i in customers) {
+                formattedCustomers.push({'label': customers[i].name, 'value': customers[i].id});
 
-                template: {
-                    type: "custom",
-                    method: function(value, item) {
-                        return item.name;
-                    }
-                },
-
-                list: {
-                    match: {
-                        enabled: true,
-                        method: function(element, phrase) {
-                            return element.indexOf(phrase) === 0;
-                        }
-                    },
-                    maxNumberOfElements: 100,
-                    sort: {
-                        enabled: true
-                    },
-
-                    onChooseEvent: function() {
-                        selectedCustomer = $("#customer-autocomplete").getSelectedItemData();
-                    },
+                if (customers[i].name == "Cash") {
+                    cashCustomerID = customers[i].id;
                 }
-            };
-            $("#customer-autocomplete").easyAutocomplete(options);
-            selectDefaultCustomer();
-            console.log("Loaded Customers");
+            }
+
+            $("#customer-autocomplete").autocomplete({
+                source: formattedCustomers,
+                position: {collision: 'flip'},
+                focus: function(event, ui) {
+                    $("#customer-autocomplete").val(ui.item.label);
+                    return false;
+                },
+                select: function(event, ui) {
+                    $("#customer-autocomplete").val(ui.item.label);
+                    selectedCustomer = ui.item.value;
+                    return false;
+                },
+            });
+
+            selectDefaultCustomer(cashCustomerID);
+            $("#products-search").focus();
         })
         .fail(function() {
             console.log("Failed to get customers.");
@@ -484,7 +480,7 @@ $(document).ready(function() {
         if (post) {
             data["credit"] = creditInvoice;
             data["products"] = products;
-            data["customer"] = selectedCustomer.id;
+            data["customer"] = selectedCustomer;
             data["date_of_sale"] = $("#invoice-date").datepicker("getDate");
 
             $.ajax({
@@ -502,20 +498,6 @@ $(document).ready(function() {
                 }
             });
         }
-    });
-
-    // Checkboxes
-    $(".checkbox").iCheck({
-        checkboxClass: "icheckbox_square-red",
-        radioClass: "iradio_square-red",
-    });
-
-    $("#checkbox-true").on("ifChecked", function() {
-        creditInvoice = true;
-    });
-
-    $("#checkbox-false").on("ifChecked", function() {
-        creditInvoice = false;
     });
 
     // Datetime picker

@@ -95,16 +95,14 @@
             <div class="col-sm-7 top-border left-border">
                 <div class="form-row justify-content-center mt-2 h-45 ">
                     <div class="col-sm-3 text-center border rounded">
-                        <label class="pt-2">Credit Invoice?</label>
-
-                        <!-- Force next row to break into a new line -->
-                        <div class="w-100"></div>
-
-                        <label for="checkbox-true">True</label>
-                        <input class="checkbox" id="checkbox-true" type="radio" name="iCheck" tabindex="-1">
-
-                        <input class="checkbox" id="checkbox-false" type="radio" name="iCheck" checked tabindex="-1">
-                        <label for="checkbox-false">False</label>
+                        <div class="btn-group btn-group-toggle pt-3" data-toggle="buttons">
+                            <label class="btn btn-secondary">
+                                <input type="radio" id="checkbox-true" autocomplete="off" tabindex="-1"> Credit
+                            </label>
+                            <label class="btn btn-secondary active">
+                                <input type="radio" id="checkbox-false" autocomplete="off" tabindex="-1" checked> Cash
+                            </label>
+                        </div>
                     </div>
                     <div class="col-sm-3 offset-sm-1 text-center border rounded">
                         <label for="customer-autocomplete" class="pt-1">Select Customer</label>

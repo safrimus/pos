@@ -164,7 +164,7 @@ $(document).ready(function() {
             dataSrc: '',
         },
         columns: [
-            {data: 'id', type: 'natural-ci'},
+            {data: 'id', type: 'num'},
             {
                 data: 'date_of_sale',
                 searchable: false,
@@ -189,7 +189,7 @@ $(document).ready(function() {
             },
             {
                 searchable: false,
-                type: 'natural-ci',
+                type: 'num',
                 render: function(data, type, row) {
                             var total = row['invoice_total'] || 0;
                             var payments = row['payments_total'] || 0;

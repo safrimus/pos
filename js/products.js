@@ -1,7 +1,7 @@
-var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/";
 var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/?fields=id,name";
 var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/?fields=id,name";
 var SUPPLIERS_URL = "http://127.0.0.1:80/api/v1/suppliers/?fields=id,company,agent,address";
+var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/?ordering=name_sort,description_sort,size_sort";
 
 var sourceList = {};
 var supplierList = {};
@@ -140,11 +140,10 @@ function loadProducts() {
             dataSrc: '',
         },
         columns: [
-            {data: 'name', searchable: true, type: 'natural-ci'},
-            {data: 'description', searchable: false, type: 'natural-ci'},
-            {data: 'size', searchable: false, type: 'natural-ci'},
+            {data: 'name', searchable: true},
+            {data: 'description', searchable: false},
+            {data: 'size', searchable: false},
         ],
-        order: [[0, 'asc'], [1, 'asc'], [2, 'asc']],
         select: {
             style: 'single',
             items: 'row',
@@ -152,12 +151,18 @@ function loadProducts() {
         initComplete: function(settings, json) {
             $("#products-table").DataTable().row(':eq(0)').select();
         },
+        scroller: {
+            displayBuffer: 1.1
+        },
+        dom: 'tS',
         rowId: 'id',
-        dom: 't',
-        scroller: true,
+        paging: true,
+        pageLength: 20,
+        ordering: false,
+        autoWidth: true,
+        deferRender: true,
         scrollY: '65vh',
         scrollCollapse: true,
-        autoWidth: true,
     });
 
     // Override the default smart search
