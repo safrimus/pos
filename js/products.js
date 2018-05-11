@@ -1,3 +1,4 @@
+var PRODUCTS_POST_URL = "http://127.0.0.1:80/api/v1/products/"
 var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/?fields=id,name";
 var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/?fields=id,name";
 var SUPPLIERS_URL = "http://127.0.0.1:80/api/v1/suppliers/?fields=id,company,agent,address";
@@ -307,10 +308,10 @@ function setupEventTriggers() {
 
         if (newProduct) {
             type = "POST";
-            url = PRODUCTS_URL;
+            url = PRODUCTS_POST_URL;
         } else {
             type = "PUT";
-            url = PRODUCTS_URL + $("#product-id").val() + "/";
+            url = PRODUCTS_POST_URL + $("#product-id").val() + "/";
         }
 
         if (validateInputs()) {
