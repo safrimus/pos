@@ -47,4 +47,9 @@ $(document).ready(function(){
     $("#stock").on('click', function(event, params) {
         $("#active-form").load("html/stock.html");
     });
+
+    // Load graphs
+    $("#graphs").on('click', function(event, params) {
+        $("#active-form").load("html/graphs.html");
+    });
 });
