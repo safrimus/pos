@@ -3,7 +3,7 @@ var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/?fields=id,name,tota
 
 
 function format_number(n) {
-  return n.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+  return parseFloat(n).toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
 }
 
 $(document).ready(function() {

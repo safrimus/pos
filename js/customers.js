@@ -7,7 +7,7 @@ var selectedCustomer = -1;
 
 
 function format_number(n) {
-  return n.toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+  return parseFloat(n).toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
 }
 
 function resetPage(customerId = -1) {
