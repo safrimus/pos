@@ -86,7 +86,7 @@ $(document).ready(function() {
                             return context.dataset.backgroundColor;
                         },
                         borderRadius: 4,
-                        color: 'white',
+                        color: 'black',
                         font: {
                             size: '14',
                         },
