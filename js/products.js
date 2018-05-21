@@ -175,7 +175,7 @@ function loadProducts() {
 function validateInputs() {
     var success = true;
 
-    if ($("#product-sell").val() < $("#product-cost").val()) {
+    if (parseFloat($("#product-sell").val()) < parseFloat($("#product-cost").val())) {
         alert("Sell price can not be lower than cost price.");
         $("#product-sell").focus();
         return false;

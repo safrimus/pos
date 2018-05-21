@@ -32,7 +32,7 @@ $(document).ready(function() {
             var total = 0.0;
 
             $("#sources-table").DataTable().rows().every(function(rowIdx, tableLoop, rowLoop) {
-                total += this.data().total_value;
+                total += parseFloat(this.data().total_value);
             });
 
             $(this.api().column(1).footer()).html(
@@ -72,7 +72,7 @@ $(document).ready(function() {
             var total = 0.0;
 
             $("#categories-table").DataTable().rows().every(function(rowIdx, tableLoop, rowLoop) {
-                total += this.data().total_value;
+                total += parseFloat(this.data().total_value);
             });
 
             $(this.api().column(1).footer()).html(

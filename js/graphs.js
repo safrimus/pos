@@ -54,6 +54,7 @@ $(document).ready(function() {
                             anchor: 'end',
                         },
                         fill: false,
+                        lineTension: 0,
                     },
                     {
                         label: "Total Profit",
@@ -66,6 +67,7 @@ $(document).ready(function() {
                             anchor: 'end',
                         },
                         fill: false,
+                        lineTension: 0,
                     },
                 ],
             };
