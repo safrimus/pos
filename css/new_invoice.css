@@ -13,7 +13,7 @@
 /* CSS formatting the rows in the main product table*/
 /*----------------------------------------------------*/
 .product-total {
-    color: yellow;
+    color: darkred;
 }
 
 .edit-input {

@@ -153,7 +153,7 @@ function loadProducts() {
             $("#products-table").DataTable().row(':eq(0)').select();
         },
         scroller: {
-            displayBuffer: 1.1
+            displayBuffer: 2
         },
         dom: 'tS',
         rowId: 'id',

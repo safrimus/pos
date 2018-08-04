@@ -337,7 +337,7 @@ $(document).ready(function() {
             items: 'row',
         },
         scroller: {
-            displayBuffer: 1.1
+            displayBuffer: 2
         },
         dom: 'tS',
         rowId: "id",
