@@ -45,8 +45,8 @@ $(document).ready(function() {
                 datasets: [
                     {
                         label: "Total Sales",
-                        backgroundColor: 'blue',
-                        borderColor: 'blue',
+                        backgroundColor: 'lightblue',
+                        borderColor: 'lightblue',
                         xAxisID: 'xAxis1',
                         data: chartData.sales,
                         datalabels: {

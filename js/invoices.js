@@ -13,7 +13,6 @@ var productsTable = null;
 var paymentsTable = null;
 var creditInvoice = null;
 
-
 function format_number(n) {
   return parseFloat(n).toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
 }
@@ -333,6 +332,12 @@ $(document).ready(function() {
         ajax: {
             url: PAYMENTS_PER_INVOICE_URL + "-1",
             dataSrc: '',
+            error: function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status != 400)
+                {
+                    alert(jqXHR.responseText);
+                }
+            },
         },
         columns: [
             {
