@@ -6,16 +6,22 @@ $(document).ready(function(){
         $("#main-menu").delay(50).show("fast");
     });
 
-    // Invoice menu
+    // Invoice submenu
     $("#invoice").on('click', function(event, params) {
         $("#main-menu").hide("fast");
         $("#invoice-menu").delay(50).show("fast");
     });
 
-    // Sales Reports menu
-    $("#sales-reports").on('click', function(event, params) {
+    // Sales stats submenu
+    $("#sales-stats").on('click', function(event, params) {
         $("#main-menu").hide("fast");
-        $("#sales-reports-menu").delay(50).show("fast");
+        $("#sales-stats-menu").delay(50).show("fast");
+    });
+
+    // Graphs submenu
+    $("#graphs").on('click', function(event, params) {
+        $("#sales-stats-menu").hide("fast");
+        $("#sales-graphs-menu").delay(50).show("fast");
     });
 
     // Load new_invoices
@@ -49,7 +55,11 @@ $(document).ready(function(){
     });
 
     // Load graphs
-    $("#graphs").on('click', function(event, params) {
-        $("#active-form").load("html/graphs.html");
+    $("#total-graph").on('click', function(event, params) {
+        $("#active-form").load("html/total_graph.html");
+    });
+
+    $("#category-graph").on('click', function(event, params) {
+        $("#active-form").load("html/category_graph.html");
     });
 });
