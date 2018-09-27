@@ -68,11 +68,13 @@ $(document).ready(function(){
 
     $("#category-graph").on('click', function(event, params) {
         $("#active-form").empty();
-        $("#active-form").load("html/category_graph.html");
+        $("#active-form").prop("graph", "category");
+        $("#active-form").load("html/category_source_graph.html");
     });
 
     $("#source-graph").on('click', function(event, params) {
         $("#active-form").empty();
-        $("#active-form").load("html/source_graph.html");
+        $("#active-form").prop("graph", "source");
+        $("#active-form").load("html/category_source_graph.html");
     });
 });

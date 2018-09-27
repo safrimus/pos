@@ -1,10 +1,11 @@
 var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/";
-var SALES_SOURCE_URL = "http://127.0.0.1:80/api/v1/sales/source/";
+var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/";
+var SALES_URL = "http://127.0.0.1:80/api/v1/sales/category_source/";
 
 var YEAR = 2018
 var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-var sourceList = {};
+var requestedTypeList = {};
 var salesValuesPerMonth = {};
 
 
@@ -36,31 +37,31 @@ function populateChartData(sales) {
     var tempDict = {};
 
     for (i in sales) {
-        if (!(sales[i].source in tempDict))
+        if (!(sales[i].requested_type in tempDict))
         {
-            tempDict[sales[i].source] = {};
-            tempDict[sales[i].source] = {};
+            tempDict[sales[i].requested_type] = {};
+            tempDict[sales[i].requested_type] = {};
 
-            tempDict[sales[i].source]["sales"] = {};
-            tempDict[sales[i].source]["profit"] = {};
+            tempDict[sales[i].requested_type]["sales"] = {};
+            tempDict[sales[i].requested_type]["profit"] = {};
         }
 
-        tempDict[sales[i].source]["sales"][sales[i].month] = sales[i].sales;
-        tempDict[sales[i].source]["profit"][sales[i].month] = sales[i].profit;
+        tempDict[sales[i].requested_type]["sales"][sales[i].month] = sales[i].sales;
+        tempDict[sales[i].requested_type]["profit"][sales[i].month] = sales[i].profit;
     }
 
-    for (source in tempDict) {
+    for (requestedType in tempDict) {
         var salesData = [];
         var marginData = [];
         var profitData = [];
 
         for (var i = 1; i <= 12; i++) {
-            if (i in tempDict[source]["sales"]) {
-                salesData.push(tempDict[source]["sales"][i]);
-                profitData.push(tempDict[source]["profit"][i]);
-                marginData.push((tempDict[source]["profit"][i] / tempDict[source]["sales"][i]) * 100);
+            if (i in tempDict[requestedType]["sales"]) {
+                salesData.push(tempDict[requestedType]["sales"][i]);
+                profitData.push(tempDict[requestedType]["profit"][i]);
+                marginData.push((tempDict[requestedType]["profit"][i] / tempDict[requestedType]["sales"][i]) * 100);
 
-                addValuetoSalesValuesPerMonth(i, tempDict[source]["sales"][i]);
+                addValuetoSalesValuesPerMonth(i, tempDict[requestedType]["sales"][i]);
             } else {
                 salesData.push(0);
                 profitData.push(0);
@@ -71,8 +72,8 @@ function populateChartData(sales) {
         }
 
         var salesDict = {
-            label: sourceList[source],
-            stack: sourceList[source],
+            label: requestedTypeList[requestedType],
+            stack: requestedTypeList[requestedType],
             backgroundColor: 'lightblue',
             borderColor: 'lightblue',
             yAxisID: 'yAxis1',
@@ -88,8 +89,8 @@ function populateChartData(sales) {
         };
 
         var profitDict = {
-            label: sourceList[source],
-            stack: sourceList[source],
+            label: requestedTypeList[requestedType],
+            stack: requestedTypeList[requestedType],
             backgroundColor: 'red',
             borderColor: 'red',
             yAxisID: 'yAxis1',
@@ -105,8 +106,8 @@ function populateChartData(sales) {
         };
 
         var marginDict = {
-            label: sourceList[source],
-            stack: sourceList[source],
+            label: requestedTypeList[requestedType],
+            stack: requestedTypeList[requestedType],
             pointBackgroundColor: 'grey',
             borderColor: 'lightgrey',
             yAxisID: 'yAxis2',
@@ -132,7 +133,7 @@ function populateChartData(sales) {
     }
 
     // Add labels to enable grouping by month. Don't display trailing months that have zero
-    // sales in all sources.
+    // sales in all categories.
     var nonEmptyMonthSeen = false;
     for (var i = 12; i >= 1; i--) {
         if (!monthIsNull(i) || nonEmptyMonthSeen) {
@@ -174,17 +175,27 @@ function generateCustomLegend(chart) {
 }
 
 $(document).ready(function() {
-    $.get(SOURCES_URL)
-        .done (function(source) {
-            for (i in source) {
-                sourceList[source[i].id] = source[i].name;
+    // Get graph type
+    var dataURL, salesURL;
+    if ($("#active-form").prop("graph") == "category") {
+        dataURL = CATEGORIES_URL;
+        salesURL = SALES_URL + "?type=category";
+    } else {
+        dataURL = SOURCES_URL;
+        salesURL = SALES_URL + "?type=source";
+    }
+
+    $.get(dataURL)
+        .done (function(data) {
+            for (i in data) {
+                requestedTypeList[data[i].id] = data[i].name;
             }
         })
         .fail(function() {
-            console.log("Failed to get source.");
+            console.log("Failed to get data.");
         });
 
-    $.get(SALES_SOURCE_URL + "?year=" + YEAR)
+    $.get(salesURL + "&year=" + YEAR)
         .done (function(sales) {
             // Data
             chartData = populateChartData(sales);
@@ -201,10 +212,10 @@ $(document).ready(function() {
                 legendCallback: function(chart) {
                         var text = [];
 
-                        // Legend for all sources
+                        // Legend for all categories
                         text.push('<ul class="custom-legend list-inline">');
-                        for (i in sourceList) {
-                            text.push('<li class="list-inline-item btn btn-sm btn-warning">' + sourceList[i] + '</li>');
+                        for (i in requestedTypeList) {
+                            text.push('<li class="list-inline-item btn btn-sm btn-warning">' + requestedTypeList[i] + '</li>');
                         }
                         text.push('</ul>');
 
@@ -241,10 +252,6 @@ $(document).ready(function() {
                         chart.update();
                     },
                 },
-                title: {
-                    display: true,
-                    text: "Source Data per Month for " + YEAR,
-                },
                 plugins: {
                     datalabels: {
                         formatter: function(value, context) {
@@ -255,7 +262,7 @@ $(document).ready(function() {
                 scales:{
                     xAxes: [{
                         stacked: true,
-                        sourcePercentage: 0.90,
+                        categoryPercentage: 0.90,
                         gridLines: {
                             tickMarkLength: 135,
                         },
@@ -297,7 +304,7 @@ $(document).ready(function() {
             };
 
             // Chart
-            var chart = new Chart($("#sales-source"), {
+            var chart = new Chart($("#sales-category-source"), {
                 type: 'bar',
                 data: data,
                 options: options,
