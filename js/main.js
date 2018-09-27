@@ -26,40 +26,53 @@ $(document).ready(function(){
 
     // Load new_invoices
     $("#new-invoice").on('click', function(event, params) {
+        $("#active-form").empty();
         $("#active-form").load("html/new_invoice.html");
     });
 
     // Load products
     $("#products").on('click', function(event, params) {
+        $("#active-form").empty();
         $("#active-form").load("html/products.html");
     });
 
     // Load invoices
     $("#invoices").on('click', function(event, params) {
+        $("#active-form").empty();
         $("#active-form").load("html/invoices.html");
     });
 
     // Load suppliers
     $("#suppliers").on('click', function(event, params) {
+        $("#active-form").empty();
         $("#active-form").load("html/suppliers.html");
     });
 
     // Load customers
     $("#customers").on('click', function(event, params) {
+        $("#active-form").empty();
         $("#active-form").load("html/customers.html");
     });
 
     // Load stock details
     $("#stock").on('click', function(event, params) {
+        $("#active-form").empty();
         $("#active-form").load("html/stock.html");
     });
 
     // Load graphs
     $("#total-graph").on('click', function(event, params) {
+        $("#active-form").empty();
         $("#active-form").load("html/total_graph.html");
     });
 
     $("#category-graph").on('click', function(event, params) {
+        $("#active-form").empty();
         $("#active-form").load("html/category_graph.html");
+    });
+
+    $("#source-graph").on('click', function(event, params) {
+        $("#active-form").empty();
+        $("#active-form").load("html/source_graph.html");
     });
 });
