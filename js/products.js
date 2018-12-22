@@ -164,12 +164,22 @@ function loadProducts() {
         deferRender: true,
         scrollY: '65vh',
         scrollCollapse: true,
+        keys: {
+            columns: '0',
+            className: 'no-highlight',
+            tabIndex: '0',
+        },
+        tabIndex: "-1",
     });
 
     // Override the default smart search
-    $("#products-search").on('keyup', function(event, params) {
-        $("#products-table").DataTable().search("^" + this.value, true, false).draw();
-    });
+    var typewatch_options = {
+        callback: function(value) { $("#products-table").DataTable().search("^" + this.value, true, false).draw(); },
+        wait: 500,
+        highlight: true,
+        captureLength: 1,
+    }
+    $("#products-search").typeWatch(typewatch_options);
 }
 
 function validateInputs() {
@@ -205,7 +215,7 @@ function validateInputs() {
 }
 
 function setupEventTriggers() {
-    // Product selected from datatable
+    // DataTable event triggers
     $("#products-table").DataTable().on('select', function(e, dt, type, indexes) {
         var product = $("#products-table").DataTable().rows(indexes).data()[0];
         selectedProduct = product.id;
@@ -234,6 +244,31 @@ function setupEventTriggers() {
             $("#checkbox-hide-product").iCheck('check');
         } else {
             $("#checkbox-hide-product").iCheck('uncheck');
+        }
+    });
+
+    $("#products-table").DataTable().on('key-focus', function(e, dt, cell) {
+        var row = dt.row(cell.index().row).node();
+        $(row).addClass('tab-focus');
+    });
+
+    $("#products-table").DataTable().on('key-blur', function(e, dt, cell) {
+        var row = dt.row(cell.index().row).node();
+        $(row).removeClass('tab-focus');
+    });
+
+    $("#products-table").DataTable().on('key', function(e, dt, key, cell, originalEvent) {
+        // Enter key
+        if (key == 13) {
+            var row = dt.row(cell.index().row)
+
+            if ($(row.node()).hasClass('selected')) {
+                row.deselect();
+            } else {
+                row.select();
+                dt.cell.blur();
+                $("#product-name").focus();
+            }
         }
     });
 
@@ -542,4 +577,6 @@ $(document).ready(function() {
 
     // Setup event triggers for all fields
     setupEventTriggers();
+
+    $("#products-search").focus();
 });

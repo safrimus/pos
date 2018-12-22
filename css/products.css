@@ -15,6 +15,11 @@
     background-color: #D2D2D2;
 }
 
+.tab-focus {
+    outline: 1px solid darkred;
+    background-color: #D2D2D2;
+}
+
 /*Override DataTables classes*/
 .dataTables_filter {
     text-align: center !important;

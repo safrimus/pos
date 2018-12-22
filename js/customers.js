@@ -45,6 +45,31 @@ function setupEventTriggers() {
         $("#invoices-table").DataTable().ajax.url(INVOICES_URL + "&customer_name=" + customer.name).load();
     });
 
+    customerTable.on('key-focus', function(e, dt, cell) {
+        var row = dt.row(cell.index().row).node();
+        $(row).addClass('tab-focus');
+    });
+
+    customerTable.on('key-blur', function(e, dt, cell) {
+        var row = dt.row(cell.index().row).node();
+        $(row).removeClass('tab-focus');
+    });
+
+    customerTable.on('key', function(e, dt, key, cell, originalEvent) {
+        // Enter key
+        if (key == 13) {
+            var row = dt.row(cell.index().row)
+
+            if ($(row.node()).hasClass('selected')) {
+                row.deselect();
+            } else {
+                row.select();
+                dt.cell.blur();
+                $("#customer-name").focus();
+            }
+        }
+    });
+
     // Logic to reset save button disabled state
     $("#customer-id").on('change', function(event, params) {
         if ($(this).val() != selectedCustomer) {
@@ -151,6 +176,12 @@ $(document).ready(function() {
         scrollY: '65vh',
         scrollCollapse: true,
         autoWidth: true,
+        keys: {
+            columns: '0',
+            className: 'no-highlight',
+            tabIndex: '0',
+        },
+        tabIndex: "-1",
     });
 
     // Override the default smart search
@@ -222,4 +253,6 @@ $(document).ready(function() {
 
     // Setup event triggers for all fields
     setupEventTriggers();
+
+    $("#customers-search").focus();
 });

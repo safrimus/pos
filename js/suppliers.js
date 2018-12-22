@@ -30,7 +30,7 @@ function resetPage(supplierId = -1) {
 }
 
 function setupEventTriggers() {
-    // Supplier selected from datatable
+    // DataTable event triggers
     supplierTable.on('select', function(e, dt, type, indexes) {
         var supplier = supplierTable.rows(indexes).data()[0];
         selectedSupplier = supplier.id;
@@ -43,6 +43,31 @@ function setupEventTriggers() {
         $("#supplier-address").val(supplier.address).trigger("change");
 
         productsTable.ajax.url(PRODUCTS_URL + "?supplier=" + supplier.id).load();
+    });
+
+    supplierTable.on('key-focus', function(e, dt, cell) {
+        var row = dt.row(cell.index().row).node();
+        $(row).addClass('tab-focus');
+    });
+
+    supplierTable.on('key-blur', function(e, dt, cell) {
+        var row = dt.row(cell.index().row).node();
+        $(row).removeClass('tab-focus');
+    });
+
+    supplierTable.on('key', function(e, dt, key, cell, originalEvent) {
+        // Enter key
+        if (key == 13) {
+            var row = dt.row(cell.index().row)
+
+            if ($(row.node()).hasClass('selected')) {
+                row.deselect();
+            } else {
+                row.select();
+                dt.cell.blur();
+                $("#supplier-company").focus();
+            }
+        }
     });
 
     // Logic to reset save button disabled state
@@ -157,6 +182,12 @@ $(document).ready(function() {
         autoWidth: true,
         scrollY: '65vh',
         scrollCollapse: true,
+        keys: {
+            columns: '0',
+            className: 'no-highlight',
+            tabIndex: '0',
+        },
+        tabIndex: "-1",
     });
 
     // Override the default smart search
@@ -197,4 +228,6 @@ $(document).ready(function() {
 
     // Setup event triggers for all fields
     setupEventTriggers();
+
+    $("#suppliers-search").focus();
 });
