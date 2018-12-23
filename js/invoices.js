@@ -219,7 +219,14 @@ $(document).ready(function() {
                             }, 500);
                         },
                         error: function(response) {
-                            alert("Failed to save payment. " + JSON.stringify(response));
+                            json = JSON.parse(response.responseText);
+
+                            if (json.non_field_errors[0]) {
+                                alert("Failed to save payment. " + json.non_field_errors[0]);
+                            }
+                            else {
+                                alert("Failed to save payment. " + response.responseText);
+                            }
                         }
                     });
 
