@@ -205,6 +205,7 @@ $(document).ready(function() {
 
                     data["payment"] = parseFloat($("#dialog-input").val()).toFixed(3);
                     data["invoice"] = currentInvoice;
+                    data["date_of_payment"] = $("#dialog-date").datepicker("getDate");
 
                     $.ajax({
                         url: PAYMENTS_URL,
@@ -234,8 +235,13 @@ $(document).ready(function() {
                 }
             }
         ],
+        open: function(event, ui) {
+            $("#dialog-date").datepicker();
+            $("#dialog-date").datepicker('setDate', 'today');
+        },
         close: function(event, ui) {
             $("#dialog-input").val("");
+            $("#dialog-date").datepicker("destroy");
         },
     });
 
@@ -356,9 +362,12 @@ $(document).ready(function() {
             },
             {
                 data: 'date_of_payment',
-                type: 'natural-ci',
                 render: function(data, type, row) {
-                            return $.datepicker.formatDate("D, d M yy", new Date(data));
+                            if (type == "display") {
+                                return $.datepicker.formatDate("D, d M yy", new Date(data));
+                            }
+
+                            return data;
                         },
             },
         ],
