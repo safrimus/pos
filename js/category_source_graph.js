@@ -31,6 +31,14 @@ function monthIsNull(month) {
     return flag;
 }
 
+function dynamicColours() {
+    var r = Math.floor(Math.random() * 150);
+    var g = Math.floor(Math.random() * 150);
+    var b = Math.floor(Math.random() * 150);
+
+    return "rgb(" + r + "," + g + "," + b + ")";
+}
+
 function populateChartData(sales) {
     var labels = [];
     var dataset = [];
@@ -63,9 +71,9 @@ function populateChartData(sales) {
 
                 addValuetoSalesValuesPerMonth(i, tempDict[requestedType]["sales"][i]);
             } else {
-                salesData.push(0);
-                profitData.push(0);
-                marginData.push(0);
+                salesData.push(null);
+                profitData.push(null);
+                marginData.push(null);
 
                 addValuetoSalesValuesPerMonth(i, null);
             }
@@ -109,12 +117,13 @@ function populateChartData(sales) {
             label: requestedTypeList[requestedType],
             stack: requestedTypeList[requestedType],
             pointBackgroundColor: 'grey',
-            borderColor: 'lightgrey',
+            borderColor: dynamicColours(),
             yAxisID: 'yAxis2',
             data: marginData,
             type: 'line',
             fill: false,
             hidden: true,
+            spanGaps: true,
             datalabels: {
                 align: 'right',
                 anchor: 'end',
