@@ -1,11 +1,7 @@
 var SALES_TOTAL_URL = "http://127.0.0.1:80/api/v1/sales/total/";
 
-var YEAR = 2018
-var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-function monthNumberToName(number) {
-    return MONTHS[number - 1];
-}
+var CURRENT_DATE = new Date();
+var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 function populateChartData(sales) {
     var salesData = []
@@ -19,23 +15,40 @@ function populateChartData(sales) {
         profitsDict[sales[i].month] = sales[i].profit;
     }
 
-    for (var i = 1; i <= 12; i++) {
-        if (i in salesDict) {
-            salesData.push(salesDict[i]);
-            profitData.push(profitsDict[i]);
-        } else {
-            salesData.push(0);
-            profitData.push(0);
+    var currentMonth = CURRENT_DATE.getMonth() + 1;  // Adding one as jan is zero
+    var currentYear = parseInt(CURRENT_DATE.getFullYear().toString().substr(-2));  // Get last two digits of year
+
+    var month;
+    for (var i = 0; i <= 11; i++) {
+        if (currentMonth - i < 1) {
+            currentMonth = i + 12;
+            currentYear--;
         }
 
-        labels.push(monthNumberToName(i) + ';' + YEAR);
+        month = currentMonth - i;
+
+        if (month in salesDict) {
+            salesData.unshift(salesDict[month]);
+            profitData.unshift(profitsDict[month]);
+        } else {
+            salesData.unshift(0);
+            profitData.unshift(0);
+        }
+
+        labels.unshift(MONTHS[month - 1] + ' ' + currentYear);
     }
 
     return {'sales': salesData, 'profit': profitData, 'labels': labels};
 }
 
 $(document).ready(function() {
-    $.get(SALES_TOTAL_URL + "?year=" + YEAR)
+    var yearFilter = "?year=" + CURRENT_DATE.getFullYear();
+
+    if (CURRENT_DATE.getMonth() != 12) {
+        yearFilter = yearFilter + "&year=" + (CURRENT_DATE.getFullYear() - 1);
+    }
+
+    $.get(SALES_TOTAL_URL + yearFilter)
         .done (function(sales) {
             // Data
             chartData = populateChartData(sales);
@@ -78,7 +91,7 @@ $(document).ready(function() {
                 animation: false,
                 title: {
                     display: true,
-                    text: "Total Sales & Profit per Month for " + YEAR,
+                    text: "Total Sales & Profit per Month",
                 },
                 plugins: {
                     datalabels: {
@@ -96,32 +109,6 @@ $(document).ready(function() {
                     xAxes:[
                     {
                         id: 'xAxis1',
-                        type: "category",
-                        ticks: {
-                            callback:function(label){
-                                var month = label.split(";")[0];
-                                var year = label.split(";")[1];
-                                return month;
-                            }
-                        },
-                    },
-                    {
-                        id: 'xAxis2',
-                        type: "category",
-                        gridLines: {
-                            drawOnChartArea: false, // only want the grid lines for one axis to show up
-                        },
-                        ticks: {
-                            callback: function(label){
-                                var month = label.split(";")[0];
-                                var year = label.split(";")[1];
-                                if (month === "June"){
-                                    return year;
-                                } else {
-                                    return "";
-                                }
-                            }
-                        },
                     }],
                     yAxes: [{
                         ticks: {

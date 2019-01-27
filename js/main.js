@@ -1,3 +1,16 @@
+var lastProducts;
+
+
+function savePreviousTab() {
+    var formName = $("#detach-form").data("name");
+
+    switch(formName) {
+        case "products":
+            lastProducts = $("#detach-form").detach();
+            break;
+    }
+}
+
 $(document).ready(function(){
     $(".submenu").hide();
 
@@ -32,8 +45,14 @@ $(document).ready(function(){
 
     // Load products
     $("#products").on('click', function(event, params) {
+        savePreviousTab();
         $("#active-form").empty();
-        $("#active-form").load("html/products.html");
+
+        if (lastProducts) {
+            lastProducts.appendTo($("#active-form"));
+        } else {
+            $("#active-form").load("html/products.html");
+        }
     });
 
     // Load invoices
@@ -50,6 +69,7 @@ $(document).ready(function(){
 
     // Load customers
     $("#customers").on('click', function(event, params) {
+        savePreviousTab();
         $("#active-form").empty();
         $("#active-form").load("html/customers.html");
     });

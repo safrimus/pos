@@ -580,3 +580,5 @@ $(document).ready(function() {
 
     $("#products-search").focus();
 });
+
+//# sourceURL=products.js 

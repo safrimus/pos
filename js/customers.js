@@ -256,3 +256,5 @@ $(document).ready(function() {
 
     $("#customers-search").focus();
 });
+
+//# sourceURL=http://localhost:8080/js/customers.js 
