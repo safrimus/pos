@@ -2,34 +2,12 @@ var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/";
 var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/";
 var SALES_URL = "http://127.0.0.1:80/api/v1/sales/category_source/";
 
-var YEAR = 2018
-var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+var CURRENT_DATE = new Date();
+var CURRENT_MONTH = CURRENT_DATE.getMonth() + 1;  // Adding one as jan is zero
+var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 var requestedTypeList = {};
-var salesValuesPerMonth = {};
 
-
-function addValuetoSalesValuesPerMonth(index, value) {
-    if (salesValuesPerMonth[index]) {
-        salesValuesPerMonth[index].push(value);
-    } else {
-        salesValuesPerMonth[index] = [value];
-    }
-}
-
-function monthIsNull(month) {
-    var flag = true;
-
-    for (i = 0; i < salesValuesPerMonth[month].length; i++) {
-        if (salesValuesPerMonth[month][i] != null)
-        {
-            flag = false;
-            break;
-        }
-    }
-
-    return flag;
-}
 
 function dynamicColours() {
     var r = Math.floor(Math.random() * 150);
@@ -45,13 +23,20 @@ function populateChartData(sales) {
     var tempDict = {};
 
     for (i in sales) {
+        // Seeing this requested_type (category or source) for the first time
         if (!(sales[i].requested_type in tempDict))
         {
             tempDict[sales[i].requested_type] = {};
-            tempDict[sales[i].requested_type] = {};
-
             tempDict[sales[i].requested_type]["sales"] = {};
             tempDict[sales[i].requested_type]["profit"] = {};
+        }
+
+        // If sales entry for this month has been seen before and if the year is earlier than the current
+        // year, skip to next item. This is to ensure we have the latest sale value for each month
+        // when looking at multiple years.
+        if (tempDict[sales[i].requested_type]["sales"][sales[i].month] !== undefined &&
+            sales[i].year < CURRENT_DATE.getFullYear()) {
+            continue;
         }
 
         tempDict[sales[i].requested_type]["sales"][sales[i].month] = sales[i].sales;
@@ -63,19 +48,23 @@ function populateChartData(sales) {
         var marginData = [];
         var profitData = [];
 
-        for (var i = 1; i <= 12; i++) {
-            if (i in tempDict[requestedType]["sales"]) {
-                salesData.push(tempDict[requestedType]["sales"][i]);
-                profitData.push(tempDict[requestedType]["profit"][i]);
-                marginData.push((tempDict[requestedType]["profit"][i] / tempDict[requestedType]["sales"][i]) * 100);
+        var month;
+        var currentMonth = CURRENT_MONTH
+        for (var i = 0; i <= 11; i++) {
+            if (currentMonth - i < 1) {
+                currentMonth = i + 12;
+            }
 
-                addValuetoSalesValuesPerMonth(i, tempDict[requestedType]["sales"][i]);
+            month = currentMonth - i;
+
+            if (month in tempDict[requestedType]["sales"]) {
+                salesData.unshift(tempDict[requestedType]["sales"][month]);
+                profitData.unshift(tempDict[requestedType]["profit"][month]);
+                marginData.unshift((tempDict[requestedType]["profit"][month] / tempDict[requestedType]["sales"][month]) * 100);
             } else {
-                salesData.push(null);
-                profitData.push(null);
-                marginData.push(null);
-
-                addValuetoSalesValuesPerMonth(i, null);
+                salesData.unshift(null);
+                profitData.unshift(null);
+                marginData.unshift(null);
             }
         }
 
@@ -141,18 +130,19 @@ function populateChartData(sales) {
         dataset.push(salesDict);
     }
 
-    // Add labels to enable grouping by month. Don't display trailing months that have zero
-    // sales in all categories.
-    var nonEmptyMonthSeen = false;
-    for (var i = 12; i >= 1; i--) {
-        if (!monthIsNull(i) || nonEmptyMonthSeen) {
-            labels.unshift(MONTHS[i - 1]);
+    // Add labels to enable grouping by month.
+    var month;
+    var currentMonth = CURRENT_MONTH;
+    var currentYear = parseInt(CURRENT_DATE.getFullYear().toString().substr(-2));  // Get last two digits of year
+    for (var i = 0; i <= 11; i++) {
+        if (currentMonth - i < 1) {
+            currentMonth = i + 12;
+            currentYear--;
         }
 
-        if (!monthIsNull(i))
-        {
-            nonEmptyMonthSeen = true;
-        }
+        month = currentMonth - i;
+
+        labels.unshift(MONTHS[month - 1] + ' ' + currentYear);
     }
 
     return {'dataset': dataset, 'labels': labels};
@@ -184,14 +174,20 @@ function generateCustomLegend(chart) {
 }
 
 $(document).ready(function() {
-    // Get graph type
+    // Get graph type and create year filter
     var dataURL, salesURL;
+    var yearFilter = "&year=" + CURRENT_DATE.getFullYear();
+
     if ($("#active-form").prop("graph") == "category") {
         dataURL = CATEGORIES_URL;
         salesURL = SALES_URL + "?type=category";
     } else {
         dataURL = SOURCES_URL;
         salesURL = SALES_URL + "?type=source";
+    }
+
+    if (CURRENT_DATE.getMonth() != 12) {
+        yearFilter = yearFilter + "," + (CURRENT_DATE.getFullYear() - 1);
     }
 
     $.get(dataURL)
@@ -204,7 +200,7 @@ $(document).ready(function() {
             console.log("Failed to get data.");
         });
 
-    $.get(salesURL + "&year=" + YEAR)
+    $.get(salesURL + yearFilter)
         .done (function(sales) {
             // Data
             chartData = populateChartData(sales);

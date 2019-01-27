@@ -12,7 +12,7 @@ function populateChartData(sales) {
 
     for (i in sales) {
         // If sales entry for this month has been seen before and if the year is earlier than the current
-        // year, skip to next item in sales. This is to ensure we have the latest sale value for each month
+        // year, skip to next item. This is to ensure we have the latest sale value for each month
         // when looking at multiple years.
         if (salesDict[sales[i].month] !== undefined && sales[i].year < CURRENT_DATE.getFullYear()) {
             continue;
@@ -38,8 +38,8 @@ function populateChartData(sales) {
             salesData.unshift(salesDict[month]);
             profitData.unshift(profitsDict[month]);
         } else {
-            salesData.unshift(0);
-            profitData.unshift(0);
+            salesData.unshift(null);
+            profitData.unshift(null);
         }
 
         labels.unshift(MONTHS[month - 1] + ' ' + currentYear);
@@ -75,6 +75,7 @@ $(document).ready(function() {
                         },
                         fill: false,
                         lineTension: 0,
+                        spanGaps: true,
                     },
                     {
                         label: "Total Profit",
@@ -88,6 +89,7 @@ $(document).ready(function() {
                         },
                         fill: false,
                         lineTension: 0,
+                        spanGaps: true,
                     },
                 ],
             };
