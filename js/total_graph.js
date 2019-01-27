@@ -11,6 +11,13 @@ function populateChartData(sales) {
     var profitsDict = {}
 
     for (i in sales) {
+        // If sales entry for this month has been seen before and if the year is earlier than the current
+        // year, skip to next item in sales. This is to ensure we have the latest sale value for each month
+        // when looking at multiple years.
+        if (salesDict[sales[i].month] !== undefined && sales[i].year < CURRENT_DATE.getFullYear()) {
+            continue;
+        }
+
         salesDict[sales[i].month] = sales[i].sales;
         profitsDict[sales[i].month] = sales[i].profit;
     }
@@ -45,7 +52,7 @@ $(document).ready(function() {
     var yearFilter = "?year=" + CURRENT_DATE.getFullYear();
 
     if (CURRENT_DATE.getMonth() != 12) {
-        yearFilter = yearFilter + "&year=" + (CURRENT_DATE.getFullYear() - 1);
+        yearFilter = yearFilter + "," + (CURRENT_DATE.getFullYear() - 1);
     }
 
     $.get(SALES_TOTAL_URL + yearFilter)
