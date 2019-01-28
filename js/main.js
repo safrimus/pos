@@ -77,4 +77,10 @@ $(document).ready(function(){
         $("#active-form").prop("graph", "source");
         $("#active-form").load("html/category_source_graph.html");
     });
+
+    // Load unpaid invoices
+    $("#unpaid-invoices").on('click', function(event, params) {
+        $("#active-form").empty();
+        $("#active-form").load("html/unpaid_invoices.html");
+    });
 });

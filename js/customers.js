@@ -199,6 +199,7 @@ $(document).ready(function() {
             {
                 data: 'date_of_sale',
                 searchable: false,
+                orderable: false,
                 render: function(data, type, row) {
                             return $.datepicker.formatDate("D, d M yy", new Date(data));
                         },
@@ -206,6 +207,7 @@ $(document).ready(function() {
             {
                 data: 'invoice_total',
                 searchable: false,
+                orderable: false,
                 render: function(data, type, row) {
                             return format_number(data || 0);
                         },
@@ -214,6 +216,7 @@ $(document).ready(function() {
             {
                 data: 'payments_total',
                 searchable: false,
+                orderable: false,
                 render: function(data, type, row) {
                             return format_number(data || 0);
                         },
@@ -224,7 +227,7 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                             var total = row['invoice_total'] || 0;
                             var payments = row['payments_total'] || 0;
-                            return format_number(total-payments);
+                            return format_number(total - payments);
                         },
             }
         ],

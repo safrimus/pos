@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/unpaid_invoices.css">
+    <script type="text/javascript" src="js/unpaid_invoices.js"></script>
+</head>
+
+<body>
+<div class="container-fluid h-100">
+    <div class="row">
+        <div class="col-sm-12 pt-1">
+            <div class="row justify-content-center">
+                <div class="col-sm-6 pt-2 form-inline justify-content-center">
+                    <label for="unpaid-customers-search" class="pr-2">Customer Search</label>
+                    <input id="unpaid-customers-search" class="form-control form-control-sm">
+                </div>
+
+                <!-- Force next row to break into a new line -->
+                <div class="w-100"></div>
+
+                <div class="col-sm-8 text-center pt-2">
+                    <table id="unpaid-invoices-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Invoice</th>
+                                <th>Date of Sale</th>
+                                <th>Total (KD)</th>
+                                <th>Payments (KD)</th>
+                                <th>Balance (KD)</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <th colspan="5" class="text-left">Total Amount Pending:</th>
+                            <th id="grand-total"></th>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
