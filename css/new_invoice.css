@@ -1,81 +1,87 @@
 /*----------------------------------------------------*/
 /* Misc CSS formatting*/
 /*----------------------------------------------------*/
-.dont-display {
+#new-invoice-form .dont-display {
     visibility: hidden;
 }
 
-.red-text {
+#new-invoice-form .red-text {
     color: red;
 }
 
 /*----------------------------------------------------*/
 /* CSS formatting the rows in the main product table*/
 /*----------------------------------------------------*/
-.product-total {
+#new-invoice-form .product-total {
     color: darkred;
 }
 
-.edit-input {
+#new-invoice-form .edit-input {
     display: none;
     width: 100px;
     text-align: center;
 }
 
-.edit-input-error {
+#new-invoice-form .edit-input-error {
     border-color: red;
 }
 
-.quantity, .price, .product-total {
+#new-invoice-form .quantity,
+#new-invoice-form .price,
+#new-invoice-form .product-total {
     margin-bottom: 0;
     vertical-align: middle;
 }
 
-.main-table .delete-header {
+#new-invoice-form .main-table .delete-header {
     width: 5%;
 }
 
-.main-table .autocomplete-header {
+#new-invoice-form .main-table .autocomplete-header {
     width: 35%;
 }
 
-.main-table .header {
+#new-invoice-form .main-table .header {
     width: 20%;
 }
 
 /*----------------------------------------------------*/
 /* CSS formatting the TOP of the invoice display*/
 /*----------------------------------------------------*/
-.top-formatting {
+#new-invoice-form .top-formatting {
     height: 67vh;
 }
 
-.all-products-table {
+#new-invoice-form .new-invoice-all-products-table {
     background-color: lightgrey;
     border-left: 1px solid black;
 }
 
-.main-table, .footer-table {
+#new-invoice-form .main-table,
+#new-invoice-form .footer-table {
     table-layout: fixed;
     margin-bottom: 0 !important;
 }
 
-.main-table-wrapper {
+#new-invoice-form .main-table-wrapper {
     height: 92%;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-.main-table tr {
+#new-invoice-form .main-table tr {
     text-align: center;
 }
 
-.main-table .header, .autocomplete-header, .delete-header, td {
+#new-invoice-form .main-table td,
+#new-invoice-form .header,
+#new-invoice-form .autocomplete-header,
+#new-invoice-form .delete-header {
     text-align: center !important;
     border: none !important;
 }
 
-.main-table td label {
+#new-invoice-form .main-table td label {
     width: 100%;
     margin-bottom: 0;
     overflow: hidden;
@@ -84,37 +90,37 @@
     vertical-align: middle !important;
 }
 
-.main-table thead {
+#new-invoice-form .main-table thead {
     font-size: 15px;
     border-bottom: 1px solid black;
 }
 
-.footer-table-wrapper {
+#new-invoice-form .footer-table-wrapper {
     height: 8%;
     border-top: 1px solid black;
     position: absolute;
     bottom: 0;
 }
 
-.footer-table th {
+#new-invoice-form .footer-table th {
     font-size: 16px;
     text-align: left;
     border-bottom: 0 !important;
 }
 
-.footer-table #invoice-total {
+#new-invoice-form .footer-table #new-invoice-invoice-total {
     font-size: 16px;
     color: darkred;
     text-align: right;
 }
 
 /* Override close button css properties */
-.close {
+#new-invoice-form .close {
     color: red !important;
 }
 
 /* Override bootstrap classes*/
-.inline {
+#new-invoice-form .inline {
     display: flex;
     align-items: center;
 }
@@ -122,86 +128,86 @@
 /*-----------------------------------------------------*/
 /* CSS formatting the products list datatable*/
 /*-----------------------------------------------------*/
-.dataTables_filter {
+#new-invoice-form .dataTables_filter {
     text-align: center !important;
 }
 
-.dataTables_wrapper {
+#new-invoice-form .dataTables_wrapper {
     font-size: 14px;
     height: 100%;
     text-align: center !important;
 }
 
-.dataTables_scrollBody {
+#new-invoice-form .dataTables_scrollBody {
     overflow-y: scroll !important;
 }
 
-#products-table tbody tr.selected {
+#new-invoice-products-table tbody tr.selected {
     background-color: grey !important;
 }
 
-.tab-focus {
+#new-invoice-form .tab-focus {
     outline: 1px solid darkred;
     background-color: #D2D2D2;
 }
 
-.dataTable > thead > tr > th[class*="sort"] {
+#new-invoice-form .dataTable > thead > tr > th[class*="sort"] {
     padding-right: 0.3rem !important;
 }
 
-.dataTable > thead > tr > th[class*="sort"]:after,
-.dataTable > thead > tr > th[class*="sort"]:before {
+#new-invoice-form .dataTable > thead > tr > th[class*="sort"]:after,
+#new-invoice-form .dataTable > thead > tr > th[class*="sort"]:before {
     content: "" !important;
 }
 
 /*-----------------------------------------------------*/
 /* CSS formatting the BOTTOM of the invoice display*/
 /*-----------------------------------------------------*/
-.bottom-formatting {
+#new-invoice-form .bottom-formatting {
     height: 26vh;
 }
 
-.top-border {
+#new-invoice-form .top-border {
     border-top: 1px solid black;
 }
 
-.left-border {
+#new-invoice-form .left-border {
     border-left: 1px solid black;
 }
 
-.radio-inline {
+#new-invoice-form .radio-inline {
     font-size: 15px;
 }
 
-.h-45 {
+#new-invoice-form .h-45 {
     height: 45% !important;
 }
 
 /* Override bootstrap classes*/
-.form-control {
+#new-invoice-form .form-control {
     text-align: center;
 }
 
-.form-control {
+#new-invoice-form .form-control {
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.row {
+#new-invoice-form .row {
     font-size: 15px;
 }
 
-.border {
+#new-invoice-form .border {
     border-color: rgba(0, 0, 0, 0.125) !important;
 }
 
-.btn-secondary:not(:disabled):not(.disabled).active {
+#new-invoice-form .btn-secondary:not(:disabled):not(.disabled).active {
     color: black;
     background: #ffc107;
     border-color: transparent;
 }
 
-.btn-secondary.focus {
+#new-invoice-form .btn-secondary.focus {
     outline: none;
     box-shadow: none !important;
 }

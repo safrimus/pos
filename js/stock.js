@@ -1,89 +1,106 @@
-var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/?fields=id,name,total_value";
-var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/?fields=id,name,total_value";
+(function(window, document) {
+    var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/?fields=id,name,total_value";
+    var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/?fields=id,name,total_value";
 
 
-function format_number(n) {
-  return parseFloat(n).toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-}
+    function format_number(n) {
+      return parseFloat(n).toFixed(3).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+    }
 
-$(document).ready(function() {
-    $("#sources-table").DataTable({
-        ajax: {
-            url: SOURCES_URL,
-            dataSrc: '',
-        },
-        columns: [
-            {data: 'name', type: 'natural-ci'},
-            {
-            	data: 'total_value',
-            	searchable: false,
-            	type: 'natural-ci',
-                render: function(data, type, row) {
-                			var value = data || 0;
-                            return format_number(value);
-                        },
+    window.refreshStockPage = function() {
+        $("#stock-sources-table").DataTable().ajax.reload();
+        $("#stock-categories-table").DataTable().ajax.reload();
+    }
+
+    $(document).ready(function() {
+        $("#stock-sources-table").DataTable({
+            ajax: {
+                url: SOURCES_URL,
+                dataSrc: '',
             },
-        ],
-        order: [[0, 'asc'],],
-        select: {
-            style: 'api',
-        },
-        footerCallback: function(row, data, start, end, display) {
-            var total = 0.0;
-
-            $("#sources-table").DataTable().rows().every(function(rowIdx, tableLoop, rowLoop) {
-                total += parseFloat(this.data().total_value);
-            });
-
-            $(this.api().column(1).footer()).html(
-                "KD " + format_number(total)
-            );
-        },
-        rowId: 'id',
-        dom: 't',
-        paging: false,
-        scrollY: '85vh',
-        scrollCollapse: true,
-        autoWidth: true,
-    });
-
-    $("#categories-table").DataTable({
-        ajax: {
-            url: CATEGORIES_URL,
-            dataSrc: '',
-        },
-        columns: [
-            {data: 'name', type: 'natural-ci'},
-            {
-                data: 'total_value',
-                searchable: false,
-                type: 'natural-ci',
-                render: function(data, type, row) {
-                            var value = data || 0;
-                            return format_number(value);
-                        },
+            columns: [
+                {data: 'name', type: 'natural-ci'},
+                {
+                	data: 'total_value',
+                	searchable: false,
+                	type: 'natural-ci',
+                    render: function(data, type, row) {
+                    			var value = data || 0;
+                                return format_number(value);
+                            },
+                },
+            ],
+            order: [[0, 'asc'],],
+            select: {
+                style: 'api',
             },
-        ],
-        order: [[0, 'asc'],],
-        select: {
-            style: 'api',
-        },
-        footerCallback: function(row, data, start, end, display) {
-            var total = 0.0;
+            footerCallback: function(row, data, start, end, display) {
+                var total = 0.0;
 
-            $("#categories-table").DataTable().rows().every(function(rowIdx, tableLoop, rowLoop) {
-                total += parseFloat(this.data().total_value);
-            });
+                $("#stock-sources-table").DataTable().rows().every(function(rowIdx, tableLoop, rowLoop) {
+                    if (this.data().total_value) {
+                        total += parseFloat(this.data().total_value);
+                    } else {
+                        total += 0.0;
+                    }
+                });
 
-            $(this.api().column(1).footer()).html(
-                "KD " + format_number(total)
-            );
-        },
-        rowId: 'id',
-        dom: 't',
-        paging: false,
-        scrollY: '85vh',
-        scrollCollapse: true,
-        autoWidth: true,
+                $(this.api().column(1).footer()).html(
+                    "KD " + format_number(total)
+                );
+            },
+            rowId: 'id',
+            dom: 't',
+            paging: false,
+            scrollY: '85vh',
+            scrollCollapse: true,
+            autoWidth: true,
+        });
+
+        $("#stock-categories-table").DataTable({
+            ajax: {
+                url: CATEGORIES_URL,
+                dataSrc: '',
+            },
+            columns: [
+                {data: 'name', type: 'natural-ci'},
+                {
+                    data: 'total_value',
+                    searchable: false,
+                    type: 'natural-ci',
+                    render: function(data, type, row) {
+                                var value = data || 0;
+                                return format_number(value);
+                            },
+                },
+            ],
+            order: [[0, 'asc'],],
+            select: {
+                style: 'api',
+            },
+            footerCallback: function(row, data, start, end, display) {
+                var total = 0.0;
+
+                $("#stock-categories-table").DataTable().rows().every(function(rowIdx, tableLoop, rowLoop) {
+                    if (this.data().total_value) {
+                        total += parseFloat(this.data().total_value);
+                    } else {
+                        total += 0.0;
+                    }
+                });
+
+                $(this.api().column(1).footer()).html(
+                    "KD " + format_number(total)
+                );
+            },
+            rowId: 'id',
+            dom: 't',
+            paging: false,
+            scrollY: '85vh',
+            scrollCollapse: true,
+            autoWidth: true,
+        });
     });
-});
+})(window, document);
+
+//# sourceURL=stock.js 

@@ -1,65 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<div id="search-invoices-form" class="container-fluid top-level-form h-100">
     <link rel="stylesheet" href="css/invoices.css">
     <script type="text/javascript" src="js/invoices.js"></script>
-</head>
 
-<body>
-<div class="container-fluid h-100">
-    <!-- Need this button to circumvent a bug in datatables buttons -->
-    <!-- <button class="dont-display"></button> -->
+    <div id="search-invoices-dialog">
+        <label for="search-invoices-dialog-input" class="search-invoices-label w-25">Amount</label>
+        <input id="search-invoices-dialog-input" class="w-70">
 
-    <div id="dialog">
-        <label for="dialog-input" class="w-25">Amount</label>
-        <input id="dialog-input" class="w-70">
-
-        <label for="dialog-date" class="w-25">Date</label>
-        <input id="dialog-date" class="w-70">
+        <label for="search-invoices-dialog-date" class="search-invoices-label w-25">Date</label>
+        <input id="search-invoices-dialog-date" class="w-70">
     </div>
 
     <div class="row justify-content-center align-content-start pt-1 h-100">
-        <div class="col-sm-2">
+        <div class="col-sm-2 h-100">
             <div class="row ml-1">
                 <div class="col-sm-12 text-center mt-4 pb-2 border rounded">
-                    <label for="invoice-id-search">Invoice ID</label>
+                    <label for="invoice-id-search" class="search-invoices-label">Invoice ID</label>
                     <input id="invoice-id-search" class="form-control form-control-sm text-center">
                 </div>
 
                 <div class="col-sm-12 text-center mt-4 pb-2 border rounded">
-                    <label for="sale-date-range-search">Date of Sale</label>
+                    <label for="sale-date-range-search" class="search-invoices-label">Date of Sale</label>
                     <input id="sale-date-range-search" class="form-control form-control-sm text-center">
                 </div>
 
                 <div class="col-sm-12 text-center mt-4 pb-2 border rounded">
-                    <label for="product-search">Product Name</label>
+                    <label for="product-search" class="search-invoices-label">Product Name</label>
                     <input id="product-search" class="form-control form-control-sm text-center">
                 </div>
 
                 <div class="col-sm-12 text-center mt-4 pb-2 border rounded">
-                    <label for="customer-search">Customer Name</label>
+                    <label for="customer-search" class="search-invoices-label">Customer Name</label>
                     <input id="customer-search" class="form-control form-control-sm text-center">
                 </div>
 
                 <div class="col-sm-12 text-center mt-4 border rounded">
-                    <label>Credit</label>
+                    <label class="search-invoices-label">Credit</label>
 
                     <!-- Force next row to break into a new line -->
                     <div class="w-100"></div>
 
-                    <label for="checkbox-true">True</label>
-                    <input class="checkbox" id="checkbox-true" type="checkbox" name="iCheck">
+                    <label for="search-invoices-checkbox-true" class="search-invoices-label">True</label>
+                    <input class="checkbox" id="search-invoices-checkbox-true" type="checkbox" name="iCheck">
 
-                    <input class="checkbox" id="checkbox-false" type="checkbox" name="iCheck">
-                    <label for="checkbox-false">False</label>
+                    <input class="checkbox" id="search-invoices-checkbox-false" type="checkbox" name="iCheck">
+                    <label for="search-invoices-checkbox-false" class="search-invoices-label">False</label>
                 </div>
             </div>
         </div>
-        <div class="col-sm-5 right-border">
+        <div class="col-sm-5 search-invoices-right-border h-100">
             <div class="row justify-content-center">
                 <div class="col-sm-12 text-center">
-                    <table id="invoices-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                    <table id="search-invoices-invoices-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Invoice ID</th>
@@ -74,10 +65,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-5 h-100">
             <div class="row h-63 justify-content-center">
                 <div class="col-sm-12 text-center">
-                    <table id="products-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                    <table id="search-invoices-products-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -99,7 +90,7 @@
             </div>
             <div class="row h-37 justify-content-center">
                 <div class="col-sm-8 text-center">
-                    <table id="payments-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                    <table id="search-invoices-payments-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Credit Payment</th>
@@ -118,5 +109,3 @@
         </div>
     </div>
 </div>
-</body>
-</html>

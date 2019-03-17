@@ -1,24 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<form id="new-invoice-form" class="top-level-form">
     <link rel="stylesheet" href="css/new_invoice.css">
     <script type="text/javascript" src="js/new_invoice.js"></script>
-</head>
 
-<body>
-<form id="form">
     <div class="container-fluid">
         <div class="row top-formatting">
             <div class="col-sm-5 pt-2">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-sm-5 px-0 inline">
-                        <label for="products-search" class="pr-2 my-0">Search</label>
-                        <input id="products-search" class="form-control form-control-sm">
+                        <label for="new-invoice-products-search" class="pr-2 my-0">Search</label>
+                        <input id="new-invoice-products-search" class="form-control form-control-sm" tabindex="0">
                     </div>
 
                     <div class="col-sm-12 px-0">
-                        <table id="products-table" class="table table-bordered table-sm table-responsive-sm" cellspacing="0">
+                        <table id="new-invoice-products-table" class="table table-bordered table-sm table-responsive-sm row-border" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -32,7 +26,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-7 px-0 all-products-table">
+            <div class="col-sm-7 px-0 new-invoice-all-products-table">
                 <div id="scroll" class="main-table-wrapper">
                     <table id="product-list-table" class="table main-table table-sm">
                         <thead>
@@ -54,7 +48,7 @@
                         <thead>
                             <tr>
                                 <th>Invoice Total</th>
-                                <th id="invoice-total" class="pr-5">0.000 KD</th>
+                                <th id="new-invoice-invoice-total" class="pr-5">0.000 KD</th>
                             </tr>
                         </thead>
                     </table>
@@ -65,30 +59,30 @@
             <div class="col-sm-5">
                 <div class="form-row justify-content-center mt-2 h-45">
                     <div class="col-sm-4 text-center border rounded">
-                        <label for="product-category" class="pt-1">Category</label>
-                        <input class="form-control form-control-sm" id="product-category" readonly="readonly" tabindex="-1">
+                        <label for="new-invoice-product-category" class="pt-1">Category</label>
+                        <input class="form-control form-control-sm" id="new-invoice-product-category" readonly="readonly" tabindex="-1">
                     </div>
                     <div class="col-sm-4 text-center border rounded">
-                        <label for="product-source" class="pt-1">Source</label>
-                        <input class="form-control form-control-sm" id="product-source" readonly="readonly" tabindex="-1">
+                        <label for="new-invoice-product-source" class="pt-1">Source</label>
+                        <input class="form-control form-control-sm" id="new-invoice-product-source" readonly="readonly" tabindex="-1">
                     </div>
                     <div class="col-sm-4 text-center border rounded">
-                        <label for="product-supplier" class="pt-1">Supplier</label>
-                        <input class="form-control form-control-sm" id="product-supplier" readonly="readonly" tabindex="-1">
+                        <label for="new-invoice-product-supplier" class="pt-1">Supplier</label>
+                        <input class="form-control form-control-sm" id="new-invoice-product-supplier" readonly="readonly" tabindex="-1">
                     </div>
                 </div>
                 <div class="form-row justify-content-center mt-1 h-45">
                     <div class="col-sm-4 text-center border rounded">
-                        <label for="product-sell-price" class="pt-1">Sell Price</label>
-                        <input class="form-control form-control-sm" id="product-sell-price" readonly="readonly" tabindex="-1">
+                        <label for="new-invoice-product-sell-price" class="pt-1">Sell Price</label>
+                        <input class="form-control form-control-sm" id="new-invoice-product-sell-price" readonly="readonly" tabindex="-1">
                     </div>
                     <div id="hidden-card" class="col-sm-4 text-center border rounded dont-display">
-                        <label for="product-cost-price" class="pt-1">Cost Price</label>
-                        <input class="form-control form-control-sm" id="product-cost-price" readonly="readonly" tabindex="-1">
+                        <label for="new-invoice-product-cost-price" class="pt-1">Cost Price</label>
+                        <input class="form-control form-control-sm" id="new-invoice-product-cost-price" readonly="readonly" tabindex="-1">
                     </div>
                     <div class="col-sm-4 text-center border rounded">
-                        <label for="product-stock" class="pt-1">Stock in Store</label>
-                        <input class="form-control form-control-sm" id="product-stock" readonly="readonly" tabindex="-1">
+                        <label for="new-invoice-product-stock" class="pt-1">Stock in Store</label>
+                        <input class="form-control form-control-sm" id="new-invoice-product-stock" readonly="readonly" tabindex="-1">
                     </div>
                 </div>
             </div>
@@ -97,20 +91,20 @@
                     <div class="col-sm-3 text-center border rounded">
                         <div class="btn-group btn-group-toggle pt-3" data-toggle="buttons">
                             <label class="btn btn-secondary">
-                                <input type="radio" id="checkbox-true" autocomplete="off" tabindex="-1"> Credit
+                                <input type="radio" id="new-invoice-checkbox-true" autocomplete="off" tabindex="-1"> Credit
                             </label>
                             <label class="btn btn-secondary active">
-                                <input type="radio" id="checkbox-false" autocomplete="off" tabindex="-1" checked> Cash
+                                <input type="radio" id="new-invoice-checkbox-false" autocomplete="off" tabindex="-1" checked> Cash
                             </label>
                         </div>
                     </div>
                     <div class="col-sm-3 offset-sm-1 text-center border rounded">
-                        <label for="customer-autocomplete" class="pt-1">Select Customer</label>
-                        <input class="form-control form-control-sm" id="customer-autocomplete" tabindex="-1">
+                        <label for="new-invoice-customer-autocomplete" class="pt-1">Select Customer</label>
+                        <input class="form-control form-control-sm" id="new-invoice-customer-autocomplete" tabindex="-1">
                     </div>
                     <div class="col-sm-3 offset-sm-1 text-center border rounded">
-                        <label for="invoice-date" class="pt-1">Invoice Date</label>
-                        <input class="form-control form-control-sm" id="invoice-date" tabindex="-1">
+                        <label for="new-invoice-invoice-date" class="pt-1">Invoice Date</label>
+                        <input class="form-control form-control-sm" id="new-invoice-invoice-date" tabindex="-1">
                     </div>
                 </div>
                 <div class="form-row justify-content-center mt-1 h-45">
@@ -122,5 +116,3 @@
         </div>
     </div>
 </form>
-</body>
-</html>

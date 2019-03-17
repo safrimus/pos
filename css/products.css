@@ -1,87 +1,83 @@
-.top-formatting {
+#products-form .top-formatting {
     height: 87%;
 }
 
-.button-row-formatting {
+#products-form .button-row-formatting {
     height: 13%;
     border-top: 2px solid #FECB00;
 }
 
-.divider {
+#products-form .divider {
    border-right: 2px solid #FECB00;
 }
 
-.table-hover tbody tr:hover {
+#products-form .table-hover tbody tr:hover {
     background-color: #D2D2D2;
 }
 
-.tab-focus {
+#products-form .tab-focus {
     outline: 1px solid darkred;
     background-color: #D2D2D2;
 }
 
 /*Override DataTables classes*/
-.dataTables_filter {
+#products-form .dataTables_filter {
     text-align: center !important;
 }
 
-.dataTables_wrapper {
+#products-form .dataTables_wrapper {
     font-size: 14px;
     height: 100%;
 }
 
-.dataTables_scrollBody {
+#products-form .dataTables_scrollBody {
     overflow-y: scroll !important;
 }
 
-#products-table tbody tr.selected {
+#products-products-table tbody tr.selected {
     background-color: grey !important;
 }
 
-.dataTable > thead > tr > th[class*="sort"] {
+#products-form .dataTable > thead > tr > th[class*="sort"] {
     padding-right: 0.3rem !important;
 }
 
-.dataTable > thead > tr > th[class*="sort"]:after,
-.dataTable > thead > tr > th[class*="sort"]:before {
+#products-form .dataTable > thead > tr > th[class*="sort"]:after,
+#products-form .dataTable > thead > tr > th[class*="sort"]:before {
     content: "" !important;
 }
 
 /*Override bootstrap classes*/
-.btn {
+#products-form .btn {
     font-size: 17px;
 }
 
-.form-control, label {
+#products-form .form-control,
+#products-form label {
     text-align: center;
     font-size: 14px;
 }
 
-.form-control, .btn {
+#products-form .form-control,
+#products-form .btn {
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.border, .table-bordered {
+#products-form .border,
+#products-form .table-bordered {
     border-color: rgba(0, 0, 0, 0.125) !important;
 }
 
 /*Override icheck class*/
-.icheckbox_square-red {
+#products-form .icheckbox_square-red {
     display: table;
     margin: 0 auto;
 }
 
-/* Override easyautocomplete class css properties */
-.easy-autocomplete-container {
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
 /* Hide arrows for number input fields*/
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+#products-form input[type=number]::-webkit-inner-spin-button,
+#products-form input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

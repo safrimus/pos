@@ -1,31 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<div id="products-form" class="container-fluid top-level-form h-100">
     <link rel="stylesheet" href="css/products.css">
     <script type="text/javascript" src="js/products.js"></script>
-</head>
 
-<body>
-
-<div class="container-fluid h-100">
-    <div id="dialog">
-        <input id="dialog-input">
+    <div id="products-dialog">
+        <input id="products-dialog-input">
     </div>
 
     <div class="row top-formatting">
         <div class="col-sm-6 pt-1">
             <div class="row justify-content-center">
                 <div class="col-sm-5 pt-2 form-inline">
-                    <label for="products-search" class="pr-2">Search</label>
-                    <input id="products-search" class="form-control form-control-sm">
+                    <label for="products-products-search" class="pr-2">Search</label>
+                    <input id="products-products-search" class="form-control form-control-sm">
                 </div>
 
                 <!-- Force next row to break into a new line -->
                 <div class="w-100"></div>
 
                 <div class="col-sm-12 text-center h-100">
-                    <table id="products-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                    <table id="products-products-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -42,60 +35,60 @@
         <div class="col-sm-6 my-auto pt-1">
             <div class="row justify-content-center pb-4">
                 <div class="col-sm-2 pt-1 pb-2 text-center border rounded">
-                    <label for="product-id">ID</label>
-                    <input class="form-control form-control-sm" id="product-id" readonly tabindex="-1">
+                    <label for="products-product-id">ID</label>
+                    <input class="form-control form-control-sm" id="products-product-id" readonly tabindex="-1">
                 </div>
                 <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="product-created">Date Product Created</label>
-                    <input class="form-control form-control-sm" id="product-created" readonly tabindex="-1">
+                    <label for="products-product-created">Date Product Created</label>
+                    <input class="form-control form-control-sm" id="products-product-created" readonly tabindex="-1">
                 </div>
                 <div class="col-sm-2 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="checkbox-hide-product" class="pb-1">Hide Product</label>
-                    <input class="align-self-center" id="checkbox-hide-product" type="checkbox" tabindex="-1">
+                    <label for="products-checkbox-hide-product" class="pb-1">Hide Product</label>
+                    <input class="align-self-center" id="products-checkbox-hide-product" type="checkbox" tabindex="-1">
                 </div>
             </div>
             <div class="row justify-content-center pb-4">
                 <div class="col-sm-3 pt-1 pb-2 text-center border rounded">
-                    <label for="product-name">Name</label>
-                    <input class="form-control form-control-sm editable" id="product-name">
+                    <label for="products-product-name">Name</label>
+                    <input class="form-control form-control-sm editable" id="products-product-name">
                 </div>
                 <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="product-description">Description</label>
-                    <input class="form-control form-control-sm editable" id="product-description">
+                    <label for="products-product-description">Description</label>
+                    <input class="form-control form-control-sm editable" id="products-product-description">
                 </div>
                 <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="product-size">Size</label>
-                    <input class="form-control form-control-sm editable" id="product-size">
-                </div>
-            </div>
-
-            <div class="row justify-content-center pb-4">
-                <div class="col-sm-3 pt-1 pb-2 text-center border rounded">
-                    <label for="supplier-autocomplete">Supplier</label>
-                    <input class="form-control form-control-sm autocomplete" id="supplier-autocomplete">
-                </div>
-                <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="source-autocomplete">Source</label>
-                    <input class="form-control form-control-sm autocomplete" id="source-autocomplete">
-                </div>
-                <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="category-autocomplete">Category</label>
-                    <input class="form-control form-control-sm autocomplete" id="category-autocomplete">
+                    <label for="products-product-size">Size</label>
+                    <input class="form-control form-control-sm editable" id="products-product-size">
                 </div>
             </div>
 
             <div class="row justify-content-center pb-4">
                 <div class="col-sm-3 pt-1 pb-2 text-center border rounded">
-                    <label for="product-cost">Cost Price</label>
-                    <input class="form-control form-control-sm editable" type="number" id="product-cost">
+                    <label for="products-supplier-autocomplete">Supplier</label>
+                    <input class="form-control form-control-sm" id="products-supplier-autocomplete">
                 </div>
                 <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="product-sell">Sell Price</label>
-                    <input class="form-control form-control-sm editable" type="number" id="product-sell">
+                    <label for="products-source-autocomplete">Source</label>
+                    <input class="form-control form-control-sm" id="products-source-autocomplete">
                 </div>
                 <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="product-stock">Stock</label>
-                    <input class="form-control form-control-sm editable" type="number" id="product-stock">
+                    <label for="products-category-autocomplete">Category</label>
+                    <input class="form-control form-control-sm" id="products-category-autocomplete">
+                </div>
+            </div>
+
+            <div class="row justify-content-center pb-4">
+                <div class="col-sm-3 pt-1 pb-2 text-center border rounded">
+                    <label for="products-product-cost">Cost Price</label>
+                    <input class="form-control form-control-sm editable" type="number" id="products-product-cost">
+                </div>
+                <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
+                    <label for="products-product-sell">Sell Price</label>
+                    <input class="form-control form-control-sm editable" type="number" id="products-product-sell">
+                </div>
+                <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
+                    <label for="products-product-stock">Stock</label>
+                    <input class="form-control form-control-sm editable" type="number" id="products-product-stock">
                 </div>
             </div>
         </div>
@@ -115,9 +108,7 @@
             <button id="new-product-button" type="button" class="btn btn-lg btn-warning">New Product</button>
         </div>
         <div class="col-sm-2 text-center">
-            <button id="cancel-save-button" type="button" class="btn btn-lg btn-warning" disabled>Cancel Changes</button>
+            <button id="products-cancel-save-button" type="button" class="btn btn-lg btn-warning" disabled>Cancel Changes</button>
         </div>
     </div>
 </div>
-</body> 
-</html>

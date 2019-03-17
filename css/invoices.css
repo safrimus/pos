@@ -1,62 +1,62 @@
-.h-63 {
+#search-invoices-form .h-63 {
     height: 63%;
 }
 
-.h-37 {
+#search-invoices-form .h-37 {
     height: 37%;
 }
 
-.w-70 {
+#search-invoices-form .w-70 {
     width: 70%;
 }
 
-.right-border {
+#search-invoices-form .search-invoices-right-border {
     border-right: 1px solid #FECB00;
 }
 
-label {
+#search-invoices-form .search-invoices-label {
     font-size: 14px;
 }
 
-.success-text {
+#search-invoices-form .success-text {
     color: green;
     font-style: italic;
 }
 
-.edit-input-error {
+#search-invoices-form .edit-input-error {
     border-color: red;
 }
 
 /*-----------------------------------------------------*/
 /* CSS formatting DataTable*/
 /*-----------------------------------------------------*/
-.dataTables_wrapper {
+#search-invoices-form .dataTables_wrapper {
     font-size: 14px;
     text-align: center !important;
 }
 
-.dataTables_scrollBody {
+#search-invoices-form .dataTables_scrollBody {
     overflow-y: scroll !important;
 }
 
-#payments-table tbody tr.selected,
-#products-table tbody tr.selected,
-#invoices-table tbody tr.selected {
+#search-invoices-payments-table tbody tr.selected,
+#search-invoices-products-table tbody tr.selected,
+#search-invoices-invoices-table tbody tr.selected {
     background-color: grey;
 }
 
-.dataTable > thead > tr > th[class*="sort"] {
+#search-invoices-form .dataTable > thead > tr > th[class*="sort"] {
     padding-right: 0.3rem !important;
 }
 
-.dataTable > thead > tr > th[class*="sort"]:after,
-.dataTable > thead > tr > th[class*="sort"]:before {
+#search-invoices-form .dataTable > thead > tr > th[class*="sort"]:after,
+#search-invoices-form .dataTable > thead > tr > th[class*="sort"]:before {
     content: "" !important;
 }
 
 /*-----------------------------------------------------*/
 /* CSS formatting Bootstrap 4 classes*/
 /*-----------------------------------------------------*/
-.table-hover tbody tr:hover {
+#search-invoices-form .table-hover tbody tr:hover {
     background-color: #D2D2D2;
 }

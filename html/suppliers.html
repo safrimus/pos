@@ -1,26 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<div id="suppliers-form" class="container-fluid top-level-form h-100">
     <link rel="stylesheet" href="css/suppliers.css">
     <script type="text/javascript" src="js/suppliers.js"></script>
-</head>
 
-<body>
-<div class="container-fluid h-100">
     <div class="row top-formatting">
         <div class="col-sm-6 pt-1">
             <div class="row justify-content-center">
                 <div class="col-sm-5 pt-2 form-inline">
-                    <label for="suppliers-search" class="pr-2">Search</label>
-                    <input id="suppliers-search" class="form-control form-control-sm">
+                    <label for="suppliers-suppliers-search" class="pr-2">Search</label>
+                    <input id="suppliers-suppliers-search" class="form-control form-control-sm">
                 </div>
 
                 <!-- Force next row to break into a new line -->
                 <div class="w-100"></div>
 
                 <div class="col-sm-12 text-center h-100">
-                    <table id="suppliers-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                    <table id="suppliers-suppliers-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Company</th>
@@ -36,35 +30,35 @@
         <div class="col-sm-6 my-auto pt-1">
             <div class="row justify-content-center pb-4">
                 <div class="col-sm-2 pt-1 pb-2 text-center border rounded">
-                    <label for="supplier-id">ID</label>
-                    <input class="form-control form-control-sm" id="supplier-id" readonly tabindex="-1">
+                    <label for="suppliers-supplier-id">ID</label>
+                    <input class="form-control form-control-sm" id="suppliers-supplier-id" readonly tabindex="-1">
                 </div>
                 <div class="col-sm-4 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="supplier-company" class="pb-1">Company</label>
-                    <input class="form-control form-control-sm editable" id="supplier-company">
+                    <label for="suppliers-supplier-company" class="pb-1">Company</label>
+                    <input class="form-control form-control-sm editable" id="suppliers-supplier-company">
                 </div>
                 <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="supplier-agent" class="pb-1">Agent</label>
-                    <input class="form-control form-control-sm editable" id="supplier-agent"">
+                    <label for="suppliers-supplier-agent" class="pb-1">Agent</label>
+                    <input class="form-control form-control-sm editable" id="suppliers-supplier-agent"">
                 </div>
             </div>
             <div class="row justify-content-center pb-4">
                 <div class="col-sm-3 pt-1 pb-2 text-center border rounded">
-                    <label for="supplier-email">Email ID</label>
-                    <input class="form-control form-control-sm editable" id="supplier-email" type="email">
+                    <label for="suppliers-supplier-email">Email ID</label>
+                    <input class="form-control form-control-sm editable" id="suppliers-supplier-email" type="email">
                 </div>
                 <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="supplier-phone">Phone Number</label>
-                    <input class="form-control form-control-sm editable" id="supplier-phone" type="tel">
+                    <label for="suppliers-supplier-phone">Phone Number</label>
+                    <input class="form-control form-control-sm editable" id="suppliers-supplier-phone" type="tel">
                 </div>
                 <div class="col-sm-3 offset-sm-1 pt-1 pb-2 text-center border rounded">
-                    <label for="supplier-address">Address</label>
-                    <input class="form-control form-control-sm editable" id="supplier-address">
+                    <label for="suppliers-supplier-address">Address</label>
+                    <input class="form-control form-control-sm editable" id="suppliers-supplier-address">
                 </div>
             </div>
             <div class="row justify-content-center pb-2">
                 <div class="col-sm-12 text-center">
-                    <table id="products-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
+                    <table id="suppliers-products-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -84,15 +78,13 @@
 
     <div class="row align-items-center justify-content-center button-row-formatting">
         <div class="col-sm-2 text-center">
-            <button id="save-supplier-button" type="button" class="btn btn-lg btn-warning" disabled>Save Supplier</button>
+            <button id="suppliers-save-supplier-button" type="button" class="btn btn-lg btn-warning" disabled>Save Supplier</button>
         </div>
         <div class="col-sm-2 text-center">
-            <button id="new-supplier-button" type="button" class="btn btn-lg btn-warning">New Supplier</button>
+            <button id="suppliers-new-supplier-button" type="button" class="btn btn-lg btn-warning">New Supplier</button>
         </div>
         <div class="col-sm-2 text-center">
-            <button id="cancel-save-button" type="button" class="btn btn-lg btn-warning" disabled>Cancel Changes</button>
+            <button id="suppliers-cancel-save-button" type="button" class="btn btn-lg btn-warning" disabled>Cancel Changes</button>
         </div>
     </div>
 </div>
-</body>
-</html>

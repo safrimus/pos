@@ -1,0 +1,6 @@
+/*-----------------------------------------------------*/
+/* CSS formatting Jquery dialog modal classes*/
+/*-----------------------------------------------------*/
+.ui-widget-overlay {
+    z-index: 1035 !important;
+}

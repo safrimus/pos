@@ -1,17 +1,21 @@
-.h-legend {
+#category-sales-graph .h-legend,
+#source-sales-graph .h-legend {
   height: 10% !important;
 }
 
-.h-graph {
+#category-sales-graph .h-graph,
+#source-sales-graph .h-graph {
   height: 90% !important;
 }
 
-.custom-legend {
+#category-sales-graph .custom-legend,
+#source-sales-graph .custom-legend {
   margin: 0;
   margin-top: 0.5%;
   text-align: center;
 }
 
-.disable {
+#category-sales-graph .disable,
+#source-sales-graph .disable {
   opacity: 0.65;
 }

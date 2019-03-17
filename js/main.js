@@ -1,86 +1,92 @@
-$(document).ready(function(){
-    $(".submenu").hide();
+(function(window, document) {
+    function loadPage(domID, fileName, refreshPage)
+    {
+        $(".top-level-form").hide();
 
-    $("#home").on('click', function(event, params) {
-        $(".submenu").hide("fast");
-        $("#main-menu").delay(50).show("fast");
-    });
+        if ($("#" + domID).is(':hidden')) {
+            refreshPage();
+            $("#" + domID).show();
+        } else {
+            $.get("html/" + fileName, function(data) {
+                $("#active-form").append(data);
+            })
+        }
+    }
 
-    // Invoice submenu
-    $("#invoice").on('click', function(event, params) {
-        $("#main-menu").hide("fast");
-        $("#invoice-menu").delay(50).show("fast");
-    });
+    $(document).ready(function(){
+        $(".submenu").hide();
 
-    // Sales stats submenu
-    $("#sales-stats").on('click', function(event, params) {
-        $("#main-menu").hide("fast");
-        $("#sales-stats-menu").delay(50).show("fast");
-    });
+        $("#home").on('click', function(event, params) {
+            $(".submenu").hide("fast");
+            $("#main-menu").delay(50).show("fast");
+        });
 
-    // Graphs submenu
-    $("#graphs").on('click', function(event, params) {
-        $("#sales-stats-menu").hide("fast");
-        $("#sales-graphs-menu").delay(50).show("fast");
-    });
+        // Invoice submenu
+        $("#invoice").on('click', function(event, params) {
+            $("#main-menu").hide("fast");
+            $("#invoice-menu").delay(50).show("fast");
+        });
 
-    // Load new_invoices
-    $("#new-invoice").on('click', function(event, params) {
-        $("#active-form").empty();
-        $("#active-form").load("html/new_invoice.html");
-    });
+        // Sales stats submenu
+        $("#sales-stats").on('click', function(event, params) {
+            $("#main-menu").hide("fast");
+            $("#sales-stats-menu").delay(50).show("fast");
+        });
 
-    // Load products
-    $("#products").on('click', function(event, params) {
-        $("#active-form").empty();
-        $("#active-form").load("html/products.html");
-    });
+        // Graphs submenu
+        $("#graphs").on('click', function(event, params) {
+            $("#sales-stats-menu").hide("fast");
+            $("#sales-graphs-menu").delay(50).show("fast");
+        });
 
-    // Load invoices
-    $("#invoices").on('click', function(event, params) {
-        $("#active-form").empty();
-        $("#active-form").load("html/invoices.html");
-    });
+        // Load new_invoices
+        $("#new-invoice").on('click', function(event, params) {
+            loadPage("new-invoice-form", "new_invoice.html", window.refreshNewInvoicePage);
+        });
 
-    // Load suppliers
-    $("#suppliers").on('click', function(event, params) {
-        $("#active-form").empty();
-        $("#active-form").load("html/suppliers.html");
-    });
+        // Load products
+        $("#products").on('click', function(event, params) {
+            loadPage("products-form", "products.html", window.refreshProductsPage);
+        });
 
-    // Load customers
-    $("#customers").on('click', function(event, params) {
-        $("#active-form").empty();
-        $("#active-form").load("html/customers.html");
-    });
+        // Load invoices
+        $("#invoices").on('click', function(event, params) {
+            loadPage("search-invoices-form", "invoices.html", window.refreshSearchInvoicesPage);
+        });
 
-    // Load stock details
-    $("#stock").on('click', function(event, params) {
-        $("#active-form").empty();
-        $("#active-form").load("html/stock.html");
-    });
+        // Load suppliers
+        $("#suppliers").on('click', function(event, params) {
+            loadPage("suppliers-form", "suppliers.html", window.refreshSuppliersPage);
+        });
 
-    // Load graphs
-    $("#total-graph").on('click', function(event, params) {
-        $("#active-form").empty();
-        $("#active-form").load("html/total_graph.html");
-    });
+        // Load customers
+        $("#customers").on('click', function(event, params) {
+            loadPage("customers-form", "customers.html", window.refreshCustomersPage);
+        });
 
-    $("#category-graph").on('click', function(event, params) {
-        $("#active-form").empty();
-        $("#active-form").prop("graph", "category");
-        $("#active-form").load("html/category_source_graph.html");
-    });
+        // Load stock details
+        $("#stock").on('click', function(event, params) {
+            loadPage("stock-form", "stock.html", window.refreshStockPage);
+        });
 
-    $("#source-graph").on('click', function(event, params) {
-        $("#active-form").empty();
-        $("#active-form").prop("graph", "source");
-        $("#active-form").load("html/category_source_graph.html");
-    });
+        // Load graphs
+        $("#total-graph").on('click', function(event, params) {
+            loadPage("total-sales-profit-graph", "total_graph.html", window.refreshTotalGraphPage);
+        });
 
-    // Load unpaid invoices
-    $("#unpaid-invoices").on('click', function(event, params) {
-        $("#active-form").empty();
-        $("#active-form").load("html/unpaid_invoices.html");
+        $("#category-graph").on('click', function(event, params) {
+            $("#active-form").prop("graph", "category");
+            loadPage("category-sales-graph", "category_sales_graph.html", window.refreshCategoryGraphPage);
+        });
+
+        $("#source-graph").on('click', function(event, params) {
+            $("#active-form").prop("graph", "source");
+            loadPage("source-sales-graph", "source_sales_graph.html", window.refreshSourceGraphPage);
+        });
+
+        // Load unpaid invoices
+        $("#unpaid-invoices").on('click', function(event, params) {
+            loadPage("unpaid-invoices-form", "unpaid_invoices.html", window.refreshUnpaidInvoices);
+        });
     });
-});
+})(window, document);

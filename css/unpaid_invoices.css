@@ -1,4 +1,4 @@
-.table-hover tbody tr:hover {
+#unpaid-invoices-form .table-hover tbody tr:hover {
     background-color: #D2D2D2;
 }
 
@@ -8,29 +8,30 @@
 }
 
 /*Override DataTables classes*/
-.dataTables_filter {
+#unpaid-invoices-form .dataTables_filter {
     text-align: center !important;
 }
 
-.dataTables_wrapper {
+#unpaid-invoices-form .dataTables_wrapper {
     font-size: 14px;
     height: 100%;
 }
 
-.dataTables_scrollBody {
+#unpaid-invoices-form .dataTables_scrollBody {
     overflow-y: scroll !important;
 }
 
-.dataTable > thead > tr > th[class*="sort"] {
+#unpaid-invoices-form .dataTable > thead > tr > th[class*="sort"] {
     padding-right: 0.3rem !important;
 }
 
-.dataTable > thead > tr > th[class*="sort"]:after,
-.dataTable > thead > tr > th[class*="sort"]:before {
+#unpaid-invoices-form .dataTable > thead > tr > th[class*="sort"]:after,
+#unpaid-invoices-form .dataTable > thead > tr > th[class*="sort"]:before {
     content: "" !important;
 }
 
 /*Override bootstrap classes*/
-.border, .table-bordered {
+#unpaid-invoices-form .border,
+#unpaid-invoices-form .table-bordered {
     border-color: rgba(0, 0, 0, 0.125) !important;
 }

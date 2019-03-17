@@ -1,70 +1,73 @@
-.top-formatting {
+#suppliers-form .top-formatting {
     height: 87%;
 }
 
-.button-row-formatting {
+#suppliers-form .button-row-formatting {
     height: 13%;
     border-top: 2px solid #FECB00;
 }
 
-.table-hover tbody tr:hover {
+#suppliers-form .table-hover tbody tr:hover {
     background-color: #D2D2D2;
 }
 
-.tab-focus {
+#suppliers-form .tab-focus {
     outline: 1px solid darkred;
     background-color: #D2D2D2;
 }
 
 /*Override DataTables classes*/
-.dataTables_filter {
+#suppliers-form .dataTables_filter {
     text-align: center !important;
 }
 
-.dataTables_wrapper {
+#suppliers-form .dataTables_wrapper {
     font-size: 14px;
     height: 100%;
 }
 
-.dataTables_scrollBody {
+#suppliers-form .dataTables_scrollBody {
     overflow-y: scroll !important;
 }
 
-#suppliers-table tbody tr.selected {
+#suppliers-suppliers-table tbody tr.selected {
     background-color: grey !important;
 }
 
-.dataTable > thead > tr > th[class*="sort"] {
+#suppliers-form .dataTable > thead > tr > th[class*="sort"] {
     padding-right: 0.3rem !important;
 }
 
-.dataTable > thead > tr > th[class*="sort"]:after,
-.dataTable > thead > tr > th[class*="sort"]:before {
+#suppliers-form .dataTable > thead > tr > th[class*="sort"]:after,
+#suppliers-form .dataTable > thead > tr > th[class*="sort"]:before {
     content: "" !important;
 }
 
 /*Override bootstrap classes*/
-.btn {
+#suppliers-form .btn {
     font-size: 17px;
 }
 
-.form-control, label {
+#suppliers-form .form-control,
+#suppliers-form label {
     text-align: center;
     font-size: 14px;
 }
 
-.form-control, .btn {
+#suppliers-form .form-control,
+#suppliers-form .btn {
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.border, .table-bordered {
+#suppliers-form .border,
+#suppliers-form .table-bordered {
     border-color: rgba(0, 0, 0, 0.125) !important;
 }
 
 /* Hide arrows for number input fields*/
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+#suppliers-form input[type=number]::-webkit-inner-spin-button,
+#suppliers-form input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
