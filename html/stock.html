@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="css/stock.css">
     <script type="text/javascript" src="js/stock.js"></script>
 
-    <div class="row">
+    <div class="row top-formatting">
         <div class="col-sm-6 pt-1">
             <div class="row justify-content-center">
                 <div class="col-sm-8 text-center">
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="col-sm-6 my-auto pt-1">
+        <div class="col-sm-6 pt-1">
             <div class="row justify-content-center">
                 <div class="col-sm-8 text-center">
                     <table id="stock-categories-table" class="table table-bordered table-sm table-responsive-sm table-hover" cellspacing="0">
@@ -39,6 +39,12 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="row align-items-center justify-content-center button-row-formatting">
+        <div class="col-sm-2 text-center">
+            <a class="btn btn-lg btn-warning" href="http://127.0.0.1:80/api/v1/export/stock/?hide_product=False">Export Stock Data</a>
         </div>
     </div>
 </div>

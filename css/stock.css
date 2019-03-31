@@ -2,6 +2,15 @@
     background-color: #D2D2D2;
 }
 
+#stock-form .top-formatting {
+    height: 87%;
+}
+
+#stock-form .button-row-formatting {
+    height: 13%;
+    border-top: 2px solid #FECB00;
+}
+
 /*Override DataTables classes*/
 #stock-form .dataTables_filter {
     text-align: center !important;
@@ -29,4 +38,8 @@
 #stock-form .border,
 #stock-form .table-bordered {
     border-color: rgba(0, 0, 0, 0.125) !important;
+}
+
+#stock-form .btn {
+    font-size: 17px;
 }

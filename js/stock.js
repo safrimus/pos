@@ -1,6 +1,7 @@
 (function(window, document) {
     var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/?fields=id,name,total_value";
     var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/?fields=id,name,total_value";
+    var EXPORT_STOCK_URL = "http://127.0.0.1:80/api/v1/export/stock/?hide_product=False";
 
 
     function format_number(n) {
@@ -52,7 +53,7 @@
             rowId: 'id',
             dom: 't',
             paging: false,
-            scrollY: '85vh',
+            scrollY: '70vh',
             scrollCollapse: true,
             autoWidth: true,
         });
@@ -96,7 +97,7 @@
             rowId: 'id',
             dom: 't',
             paging: false,
-            scrollY: '85vh',
+            scrollY: '70vh',
             scrollCollapse: true,
             autoWidth: true,
         });

@@ -453,15 +453,15 @@
         // New source button clicked
         $("#new-source-button").on('click', function(event, params) {
             $("#products-dialog").dialog("option", "title", "New Source")
-                        .data("type", "source")
-                        .dialog("open");
+                                 .data("type", "source")
+                                 .dialog("open");
         });
 
         // New category button clicked
         $("#new-category-button").on('click', function(event, params) {
             $("#products-dialog").dialog("option", "title", "New Category")
-                        .data("type", "category")
-                        .dialog("open");
+                                 .data("type", "category")
+                                 .dialog("open");
         });
     }
 
