@@ -1,7 +1,7 @@
 (function(window, document) {
     var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/?fields=id,name,total_value";
     var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/?fields=id,name,total_value";
-    var EXPORT_STOCK_URL = "http://127.0.0.1:80/api/v1/export/stock/?hide_product=False";
+    var EXTERNAL_STOCK_URL = "http://127.0.0.1:80/api/v1/external/stock/";
 
 
     function format_number(n) {
@@ -13,7 +13,37 @@
         $("#stock-categories-table").DataTable().ajax.reload();
     }
 
+    function setupEventTriggers() {
+        $("#stock-import-xls").on("change", function() {
+            var data = new FormData();
+            data.append('file', this.files[0]);
+
+            $.ajax({
+                url: EXTERNAL_STOCK_URL,
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    alert("Stock data upload successful");
+                    window.refreshStockPage();
+                },
+                error: function() {
+                    alert("Failed to upload file");
+                },
+            })
+        });
+
+        // Reset selected file on click
+        $("#stock-import-xls").on("click", function() {
+            this.value = null;
+        });
+    }
+
     $(document).ready(function() {
+        setupEventTriggers();
+
         $("#stock-sources-table").DataTable({
             ajax: {
                 url: SOURCES_URL,
