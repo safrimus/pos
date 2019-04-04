@@ -15,24 +15,12 @@
 
     function setupEventTriggers() {
         $("#stock-import-xls").on("change", function() {
-            var data = new FormData();
-            data.append('file', this.files[0]);
+            if ($(this).val().split('.').pop() != 'xls') {
+                alert("Import file must of type 'xls'");
+                return;
+            }
 
-            $.ajax({
-                url: EXTERNAL_STOCK_URL,
-                type: 'POST',
-                data: data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    alert("Stock data upload successful");
-                    window.refreshStockPage();
-                },
-                error: function() {
-                    alert("Failed to upload file");
-                },
-            })
+            $("#stock-import-confirmation-dialog").dialog("open");
         });
 
         // Reset selected file on click
@@ -43,6 +31,73 @@
 
     $(document).ready(function() {
         setupEventTriggers();
+
+        // Setup dialogs
+        $("#stock-import-result-dialog").dialog({
+            autoOpen: false,
+            closeOpEscape: false,
+            draggable: false,
+            modal: true,
+            resizable: false,
+            title: "Data Import",
+            buttons: [
+                {
+                    id: "stock-import-result-ok-button",
+                    text: "OK",
+                    click: function() {
+                        $(this).dialog("close");
+                    }
+                },
+            ],
+        });
+
+        $("#stock-import-confirmation-dialog").dialog({
+            autoOpen: false,
+            closeOpEscape: false,
+            draggable: false,
+            modal: true,
+            resizable: false,
+            title: "Data Import",
+            buttons: [
+                {
+                    text: "Upload",
+                    click: function() {
+                        $(this).dialog("close");
+
+                        var data = new FormData();
+                        data.append('file', document.getElementById("stock-import-xls").files[0]);
+
+                        $("#stock-import-result-dialog").text("Please Wait...")
+                        $("#stock-import-result-ok-button").prop("disabled", true).addClass("ui-state-disabled");
+                        $("#stock-import-result-dialog").dialog("open");
+
+                        $.ajax({
+                            url: EXTERNAL_STOCK_URL,
+                            type: 'POST',
+                            data: data,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function(data) {
+                                $("#stock-import-result-ok-button").prop("disabled", false).removeClass("ui-state-disabled");
+                                $("#stock-import-result-dialog").text("Success!")
+                                window.refreshStockPage();
+                            },
+                            error: function() {
+                                $("#stock-import-result-ok-button").prop("disabled", false).removeClass("ui-state-disabled");
+                                $("#stock-import-result-dialog").text("Failed to upload file")
+                            },
+                        })
+                    }
+                },
+                {
+                    text: "Cancel",
+                    click: function() {
+                        $(this).dialog("close");
+                    }
+                }
+            ],
+        });
 
         $("#stock-sources-table").DataTable({
             ajax: {
