@@ -15,6 +15,7 @@
     var selectedCustomer = -1;
     var creditInvoice = false;
     var productsInInvoice = {};
+    var lastInvoiceID = 0;
 
 
     // Overrides the default autocomplete filter function to search only from the beginning of the string
@@ -401,6 +402,62 @@
     $(document).ready(function() {
         refreshNewInvoicePage(false, false);
 
+        // Get the last invoice. Only need to do this here as the ID is only
+        // needed on first page load
+        $.get(INVOICE_URL + "?last_invoice_only=true")
+            .done (function(invoice) {
+                lastInvoiceID = invoice[0].id;
+            })
+            .fail(function() {
+                console.log("Failed to get last invoice ID.");
+            });
+
+        // Setup dialog
+        $("#invoice-confirm-dialog").dialog({
+            autoOpen: false,
+            closeOpEscape: false,
+            draggable: false,
+            modal: true,
+            resizable: false,
+            buttons: [
+                {
+                    text: "Save",
+                    click: function() {
+                        var data = {};
+                        data["credit"] = creditInvoice;
+                        data["products"] = $(this).data("post_products");
+                        data["customer"] = selectedCustomer;
+                        data["date_of_sale"] = $("#new-invoice-invoice-date").datepicker("getDate");
+
+                        $.ajax({
+                            url: INVOICE_URL,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function(response) {
+                                lastInvoiceID = response.id;
+                                resetNewInvoicePage();
+                            },
+                            error: function(response) {
+                                alert("Failed to save invoice. " + JSON.stringify(response));
+                            }
+                        });
+
+                        $(this).data("post_products", []);
+                        $(this).dialog("close");
+                    }
+                },
+                {
+                    text: "Cancel",
+                    click: function() {
+                        $(this).dialog("close");
+                    }
+
+                }
+            ],
+        });
+
         // Populate the customers drop-down field
         $.get(CUSTOMERS_URL)
             .done(function(customers) {
@@ -482,7 +539,6 @@
 
         // Finalize invoice button
         $("#finalize-invoice-button").on('click', function(event, params) {
-            var data = {};
             var post = true;
             var products = [];
 
@@ -515,7 +571,7 @@
 
                 if ($(this).find(".quantity").text() == 0 || parseFloat($(this).find(".price").text()) == 0.0) {
                     alert("Product: '" + $(this).find(".name").text() + "' has zero quantity or zero sell price.");
-                    // Return false here only exits each loop
+                    // Return false here only exits for each loop
                     post = false;
                     return false;
                 }
@@ -528,25 +584,10 @@
             });
 
             if (post) {
-                data["credit"] = creditInvoice;
-                data["products"] = products;
-                data["customer"] = selectedCustomer;
-                data["date_of_sale"] = $("#new-invoice-invoice-date").datepicker("getDate");
-
-                $.ajax({
-                    url: INVOICE_URL,
-                    type: "POST",
-                    data: JSON.stringify(data),
-                    dataType: "json",
-                    contentType: "application/json",
-                    success: function(response) {
-                        alert("Success. New invoice ID is: " + response.id);
-                        resetNewInvoicePage();
-                    },
-                    error: function(response) {
-                        alert("Failed to save invoice. " + JSON.stringify(response));
-                    }
-                });
+                newInvoiceID = lastInvoiceID + 1;
+                $("#invoice-confirm-dialog").data("post_products", products);
+                $("#invoice-confirm-dialog-text").text("Save Invoice " + newInvoiceID + "?");
+                $("#invoice-confirm-dialog").dialog("open");
             }
         });
 

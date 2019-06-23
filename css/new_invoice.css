@@ -10,6 +10,13 @@
 }
 
 /*----------------------------------------------------*/
+/* CSS formatting the confirm save dialog*/
+/*----------------------------------------------------*/
+#invoice-confirm-dialog-text {
+    margin: 0px;
+}
+
+/*----------------------------------------------------*/
 /* CSS formatting the rows in the main product table*/
 /*----------------------------------------------------*/
 #new-invoice-form .product-total {

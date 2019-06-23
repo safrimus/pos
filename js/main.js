@@ -25,6 +25,7 @@
         $("#invoice").on('click', function(event, params) {
             $("#main-menu").hide("fast");
             $("#invoice-menu").delay(50).show("fast");
+            loadPage("new-invoice-form", "new_invoice.html", window.refreshNewInvoicePage);
         });
 
         // Sales stats submenu
@@ -37,6 +38,7 @@
         $("#graphs").on('click', function(event, params) {
             $("#sales-stats-menu").hide("fast");
             $("#sales-graphs-menu").delay(50).show("fast");
+            loadPage("total-sales-profit-graph", "total_graph.html", window.refreshTotalGraphPage);
         });
 
         // Load new_invoices
