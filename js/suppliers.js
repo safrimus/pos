@@ -228,6 +228,7 @@
                 {data: 'name', type: 'natural-ci'},
                 {data: 'description', type: 'natural-ci'},
                 {data: 'size', type: 'natural-ci'},
+                {data: 'stock', orderable: false},
             ],
             order: [[0, 'asc'], [1, 'asc'], [2, 'asc']],
             select: {
@@ -240,7 +241,7 @@
                     total += 1;
                 });
 
-                $(this.api().column(2).footer()).html(total);
+                $(this.api().column(3).footer()).html(total);
             },
             dom: 't',
             rowId: 'id',

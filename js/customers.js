@@ -26,6 +26,7 @@
         $("#customers-form :input").val('');
 
         $("#customers-cancel-save-button").prop('disabled', true);
+        $("#customers-delete-button").prop('disabled', true);
         $("#save-customer-button").prop('disabled', true);
 
         customerTable.ajax.reload( function(json) {
@@ -171,11 +172,27 @@
             $(".editable").val("").trigger("change");
 
             $("#customers-cancel-save-button").prop('disabled', false);
+            $("#customers-delete-button").prop('disabled', true);
 
             customerTable.select.style("api");
             customerTable.rows(".selected").deselect();
 
             $("#customers-customer-name").focus();
+        });
+
+        // Delete customer button clicked
+        $("#customers-delete-button").on('click', function(event, params) {
+            $.ajax({
+                url: CUSTOMERS_URL + selectedCustomer + "/",
+                type: "DELETE",
+                success: function(response) {
+                    alert("Successfully deleted " + $("#customers-customer-name").val() + ".");
+                    resetCustomersPage();
+                },
+                error: function(response) {
+                    alert("Failed to delete customer.");
+                }
+            });
         });
     }
 
@@ -249,6 +266,7 @@
                 },
                 {
                     searchable: false,
+                    orderable: false,
                     type: 'num',
                     render: function(data, type, row) {
                                 var total = row['invoice_total'] || 0;
@@ -257,7 +275,7 @@
                             },
                 }
             ],
-            order: [[4, 'desc'], [0, 'asc']],
+            order: [[0, 'desc']],
             select: {
                 style: 'api',
             },
@@ -271,6 +289,14 @@
                 $(this.api().column(4).footer()).html(
                     "KD " + format_number(credit_owed)
                 );
+
+                // Have to put this here as initComplete for this table does not trigger for some reason
+                if ($("#customers-invoices-table").DataTable().data().count() == 0) {
+                    $("#customers-delete-button").prop('disabled', false);
+                } else {
+                    $("#customers-delete-button").prop('disabled', true);
+                }
+
             },
             rowId: 'id',
             dom: 't',
