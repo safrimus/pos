@@ -2,6 +2,7 @@
     var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/?fields=id,name,total_value";
     var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/?fields=id,name,total_value";
     var EXTERNAL_STOCK_URL = "http://127.0.0.1:80/api/v1/external/stock/";
+    var EXTERNAL_BACKUP_URL = "http://127.0.0.1:80/api/v1/external/backup_db/";
 
 
     function format_number(n) {
@@ -35,7 +36,7 @@
         // Setup dialogs
         $("#stock-import-result-dialog").dialog({
             autoOpen: false,
-            closeOpEscape: false,
+            closeOnEscape: false,
             draggable: false,
             modal: true,
             resizable: false,
@@ -53,12 +54,19 @@
 
         $("#stock-import-confirmation-dialog").dialog({
             autoOpen: false,
-            closeOpEscape: false,
+            closeOnEscape: false,
             draggable: false,
             modal: true,
             resizable: false,
+            minWidth: 350,
             title: "Data Import",
             buttons: [
+                {
+                    text: "Backup",
+                    click: function() {
+                        window.location.href = EXTERNAL_BACKUP_URL;
+                    }
+                },
                 {
                     text: "Upload",
                     click: function() {
@@ -189,4 +197,4 @@
     });
 })(window, document);
 
-//# sourceURL=stock.js 
+//# sourceURL=stock.js

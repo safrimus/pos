@@ -1,6 +1,22 @@
 /*-----------------------------------------------------*/
-/* CSS formatting Jquery dialog modal classes*/
+/* CSS formatting Jquery UI dialog classes*/
 /*-----------------------------------------------------*/
 .ui-widget-overlay {
     z-index: 1035 !important;
+}
+
+.ui-dialog .ui-dialog-content {
+    text-align: center;
+    min-height: 0 !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+    text-align:  center;
+    padding-right: 0.4em;
+    padding-bottom: 0.3em;
+    margin-top: 0;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+    float: none;
 }

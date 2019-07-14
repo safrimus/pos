@@ -1,0 +1,12 @@
+#admin-import-db {
+    display: none;
+}
+
+#admin-form .top-formatting {
+    height: 100%;
+}
+
+/*Override bootstrap classes*/
+#admin-form .btn {
+    font-size: 17px;
+}

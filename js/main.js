@@ -21,6 +21,11 @@
             $("#main-menu").delay(50).show("fast");
         });
 
+        // Admin page
+        $("#admin").on('click', function(event, params) {
+            loadPage("admin-form", "admin.html", window.refreshAdminPage);
+        });
+
         // Invoice submenu
         $("#invoice").on('click', function(event, params) {
             $("#main-menu").hide("fast");

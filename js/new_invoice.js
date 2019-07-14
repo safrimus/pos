@@ -415,7 +415,7 @@
         // Setup dialog
         $("#invoice-confirm-dialog").dialog({
             autoOpen: false,
-            closeOpEscape: false,
+            closeOnEscape: false,
             draggable: false,
             modal: true,
             resizable: false,

@@ -1,0 +1,23 @@
+<div id="admin-form" class="container-fluid top-level-form h-100">
+    <link rel="stylesheet" href="css/admin.css">
+    <script type="text/javascript" src="js/admin.js"></script>
+
+    <div id="admin-import-confirmation-dialog">
+        <p>Importing will delete all current data. Backup database first!</p>
+    </div>
+    <div id="admin-import-result-dialog">
+        <div id="admin-import-result-dialog-text"></div>
+    </div>
+
+    <div class="row top-formatting align-items-center justify-content-center">
+        <div class="col-sm-2 text-center">
+            <a class="btn btn-lg btn-warning" href="http://127.0.0.1:80/api/v1/external/backup_db/">Backup Database</a>
+        </div>
+
+        <div class="col-sm-2 text-center">
+            <label for="admin-import-db" class="btn btn-lg btn-warning my-0">Restore Database</label>
+            <input id="admin-import-db" type="file">
+        </div>
+
+    </div>
+</div>
