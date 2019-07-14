@@ -37,6 +37,7 @@
                     text: "OK",
                     click: function() {
                         $(this).dialog("close");
+                        $("#admin-import-result-dialog").dialog("option", "width", "300");
                     }
                 },
             ],
@@ -58,7 +59,7 @@
                         var data = new FormData();
                         data.append('file', document.getElementById("admin-import-db").files[0]);
 
-                        $("#admin-import-result-dialog").text("Please Wait...")
+                        $("#admin-import-result-dialog-text").text("Please Wait...")
                         $("#admin-import-result-ok-button").prop("disabled", true).addClass("ui-state-disabled");
                         $("#admin-import-result-dialog").dialog("open");
 
@@ -70,13 +71,13 @@
                             contentType: false,
                             processData: false,
                             success: function(data) {
+                                $("#admin-import-result-dialog").dialog("option", "width", "auto");
                                 $("#admin-import-result-ok-button").prop("disabled", false).removeClass("ui-state-disabled");
-                                $("#admin-import-result-dialog").text("Success!")
-                                window.refreshAdminPage();
+                                $("#admin-import-result-dialog-text").text("Success!\n" + data)
                             },
                             error: function() {
                                 $("#admin-import-result-ok-button").prop("disabled", false).removeClass("ui-state-disabled");
-                                $("#admin-import-result-dialog").text("Failed to upload file")
+                                $("#admin-import-result-dialog-text").text("Failed to upload file")
                             },
                         })
                     }

@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+#admin-import-result-dialog-text {
+	white-space: pre-line;
+}
+
 /*Override bootstrap classes*/
 #admin-form .btn {
     font-size: 17px;
