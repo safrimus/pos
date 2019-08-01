@@ -7,11 +7,9 @@
 	background-color: darkred;
 }
 
-/*Override DataTables classes*/
-#unpaid-invoices-form .dataTables_filter {
-    text-align: center !important;
-}
-
+/*-----------------------------------------------------*/
+/* Override DataTables classes*/
+/*-----------------------------------------------------*/
 #unpaid-invoices-form .dataTables_wrapper {
     font-size: 14px;
     height: 100%;
@@ -30,7 +28,9 @@
     content: "" !important;
 }
 
-/*Override bootstrap classes*/
+/*-----------------------------------------------------*/
+/* Override Bootstrap classes*/
+/*-----------------------------------------------------*/
 #unpaid-invoices-form .border,
 #unpaid-invoices-form .table-bordered {
     border-color: rgba(0, 0, 0, 0.125) !important;

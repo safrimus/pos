@@ -12,14 +12,12 @@
 
 #stock-form .button-row-formatting {
     height: 13%;
-    border-top: 2px solid #FECB00;
+    border-top: 2px solid #e8b009;
 }
 
-/*Override DataTables classes*/
-#stock-form .dataTables_filter {
-    text-align: center !important;
-}
-
+/*-----------------------------------------------------*/
+/* Override DataTables classes*/
+/*-----------------------------------------------------*/
 #stock-form .dataTables_wrapper {
     font-size: 14px;
     height: 100%;
@@ -38,7 +36,9 @@
     content: "" !important;
 }
 
-/*Override bootstrap classes*/
+/*-----------------------------------------------------*/
+/* Override Bootstrap classes*/
+/*-----------------------------------------------------*/
 #stock-form .border,
 #stock-form .table-bordered {
     border-color: rgba(0, 0, 0, 0.125) !important;

@@ -298,7 +298,7 @@
                 {
                     data: 'id',
                     searchable: false,
-                    type: 'natural-ci',
+                    type: 'num',
                 },
                 {
                     data: 'date_of_sale',
@@ -321,7 +321,7 @@
                                 return customerList[data];
                             },
                 },
-                {data: 'credit', searchable: false, type: 'natural-ci'},
+                {data: 'credit', searchable: false},
             ],
             select: {
                 style: 'single',

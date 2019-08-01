@@ -4,11 +4,11 @@
 
 #products-form .button-row-formatting {
     height: 13%;
-    border-top: 2px solid #FECB00;
+    border-top: 2px solid #e8b009;
 }
 
 #products-form .divider {
-   border-right: 2px solid #FECB00;
+   border-right: 2px solid #e8b009;
 }
 
 #products-form .table-hover tbody tr:hover {
@@ -20,11 +20,9 @@
     background-color: #D2D2D2;
 }
 
-/*Override DataTables classes*/
-#products-form .dataTables_filter {
-    text-align: center !important;
-}
-
+/*-----------------------------------------------------*/
+/* Override DataTables classes*/
+/*-----------------------------------------------------*/
 #products-form .dataTables_wrapper {
     font-size: 14px;
     height: 100%;
@@ -47,7 +45,9 @@
     content: "" !important;
 }
 
-/*Override bootstrap classes*/
+/*-----------------------------------------------------*/
+/* Override bootstrap classes*/
+/*-----------------------------------------------------*/
 #products-form .btn {
     font-size: 17px;
 }
@@ -69,17 +69,10 @@
     border-color: rgba(0, 0, 0, 0.125) !important;
 }
 
-/*Override icheck class*/
+/*-----------------------------------------------------*/
+/* Override icheck class*/
+/*-----------------------------------------------------*/
 #products-form .icheckbox_square-red {
     display: table;
     margin: 0 auto;
-}
-
-/* Hide arrows for number input fields*/
-#products-form input[type=number]::-webkit-inner-spin-button,
-#products-form input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 0;
 }

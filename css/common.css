@@ -1,5 +1,19 @@
+/* Hide arrows for number input fields*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+input:focus {
+  border-color: #e8b009 !important;
+  box-shadow: none !important;
+}
+
 /*-----------------------------------------------------*/
-/* CSS formatting Jquery UI dialog classes*/
+/* Override Jquery UI dialog classes*/
 /*-----------------------------------------------------*/
 .ui-widget-overlay {
     z-index: 1035 !important;
@@ -19,4 +33,41 @@
 
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
     float: none;
+}
+
+/*-----------------------------------------------------*/
+/* Make placeholder text in input italics*/
+/*-----------------------------------------------------*/
+::-webkit-input-placeholder {
+   font-style: italic;
+}
+
+/*-----------------------------------------------------*/
+/* Override DateRangePicker classes*/
+/*-----------------------------------------------------*/
+.ranges li {
+    border-radius: 0 !important;
+    border-color: white;
+    background-color: white;
+    color: black;
+}
+
+.ranges li.active {
+    border-radius: 0 !important;
+    border-color: white;
+    background-color: grey;
+}
+
+.daterangepicker td.active {
+  background-color: grey !important;
+}
+
+.daterangepicker td.in-range {
+  background-color: lightgrey;
+}
+
+.daterangepicker .applyBtn {
+  background-color: #e8b009;
+  border-color: #e8b009;
+  color: black;
 }

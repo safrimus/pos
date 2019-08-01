@@ -161,6 +161,38 @@
         }
     }
 
+    // Unused right now but still keep this in here for future print invoice feature
+    function openPrintDialogue() {
+        // Convert table into html
+        var printHTML = "<div style='height: 100px'></div><table>";
+
+        $("#product-list-table tbody tr").each(function() {
+            printHTML += "<tr>"
+                         + "<td><label>" + $(this).data("product-id") + "</label></td>"
+                         + "<td><label>" + $(this).find(".name").text() + "</label></td>"
+                         + "<td><label>" + $(this).find(".quantity").text() + "</label></td>"
+                         + "<td><label>" + $(this).find(".price").text() + "</label></td>"
+                         + "<td><label>" + $(this).find(".product-total").text() + "</label></td>"
+                         + "</tr>";
+        });
+
+        printHTML += "</table>";
+
+        // Create iframe to print
+        $('<iframe>', {
+            name: 'printFrame',
+            class: 'printFrame'
+        })
+        .appendTo('body')
+        .contents().find('body')
+        .append(printHTML);
+
+        window.frames['printFrame'].focus();
+        window.frames['printFrame'].print();
+
+        setTimeout(() => { $(".printFrame").remove(); }, 1000);
+    }
+
     function setupEventTriggers() {
         // new-invoice-form event triggers
         $('#new-invoice-form').on('focusin', ':input', function() {
@@ -210,7 +242,7 @@
             }
 
             var closeIcon = "<td class=\"delete-button\"><button type=\"button\" class=\"close\" tabindex=\"-1\"><span>&times;</span></button></td>";
-            var name = "<td><label class=\"name\">" + productString + "</td>";
+            var name = "<td><label class=\"name\">" + productString + "</label></td>";
             var quantity = "<td><label class=\"quantity\" tabindex=\"99\">0</label><input class=\"edit-input\"/></td>";
             var price = "<td><label class=\"price\" tabindex=\"99\">" + productData.sell_price + "</label><input class=\"edit-input\"/></td>";
             var productTotal = "<td><label class=\"product-total\" tabindex=\"99\">0.000</label><input class=\"edit-input\"/></td>";

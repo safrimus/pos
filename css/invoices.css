@@ -11,7 +11,7 @@
 }
 
 #search-invoices-form .search-invoices-right-border {
-    border-right: 1px solid #FECB00;
+    border-right: 1px solid #e8b009;
 }
 
 #search-invoices-form .search-invoices-label {
@@ -32,7 +32,6 @@
 /*-----------------------------------------------------*/
 #search-invoices-form .dataTables_wrapper {
     font-size: 14px;
-    text-align: center !important;
 }
 
 #search-invoices-form .dataTables_scrollBody {

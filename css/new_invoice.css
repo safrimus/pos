@@ -59,7 +59,7 @@
     height: 67vh;
 }
 
-#new-invoice-form .new-invoice-all-products-table {
+#new-invoice-all-products-table {
     background-color: lightgrey;
     border-left: 1px solid black;
 }
@@ -126,23 +126,12 @@
     color: red !important;
 }
 
-/* Override bootstrap classes*/
-#new-invoice-form .inline {
-    display: flex;
-    align-items: center;
-}
-
 /*-----------------------------------------------------*/
-/* CSS formatting the products list datatable*/
+/* Override DataTables classes*/
 /*-----------------------------------------------------*/
-#new-invoice-form .dataTables_filter {
-    text-align: center !important;
-}
-
 #new-invoice-form .dataTables_wrapper {
     font-size: 14px;
     height: 100%;
-    text-align: center !important;
 }
 
 #new-invoice-form .dataTables_scrollBody {
@@ -190,7 +179,9 @@
     height: 45% !important;
 }
 
-/* Override bootstrap classes*/
+/*-----------------------------------------------------*/
+/* Override Bootstrap classes*/
+/*-----------------------------------------------------*/
 #new-invoice-form .form-control {
     text-align: center;
 }
@@ -210,7 +201,7 @@
 
 #new-invoice-form .btn-secondary:not(:disabled):not(.disabled).active {
     color: black;
-    background: #ffc107;
+    background: #e8b009;
     border-color: transparent;
 }
 

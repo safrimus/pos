@@ -1,0 +1,81 @@
+#product-sales-report .left-formatting {
+    border-right: 1px solid #e8b009;
+}
+
+#product-sales-report .right-formatting {
+    height: 50%;
+}
+
+#product-sales-report .top-left-formatting {
+    height: 67vh;
+}
+
+#product-sales-report .bottom-left-formatting {
+    height: 12vh;
+}
+
+#product-sales-report label {
+    font-size: 14px;
+}
+
+#product-sales-report .hide {
+    display: none;
+}
+
+#product-sales-report .w-35 {
+    width: 35%;
+}
+
+#product-sales-report .w-65 {
+    width: 65%;
+}
+
+/*-----------------------------------------------------*/
+/* Override Bootstrap classes*/
+/*-----------------------------------------------------*/
+#product-sales-report .form-control {
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+#product-sales-report .btn-secondary:not(:disabled):not(.disabled).active {
+    color: black;
+    background: #e8b009;
+    border-color: transparent;
+}
+
+#product-sales-report .btn-secondary.focus {
+    outline: none;
+    box-shadow: none !important;
+}
+
+/*-----------------------------------------------------*/
+/* Override DataTables classes*/
+/*-----------------------------------------------------*/
+#product-sales-report .dataTables_wrapper {
+    font-size: 14px;
+    height: 100%;
+}
+
+#product-sales-report .dataTables_scrollBody {
+    overflow-y: scroll !important;
+}
+
+#product-sales-report-products-table tbody tr.selected {
+    background-color: grey !important;
+}
+
+#product-sales-report .tab-focus {
+    outline: 1px solid darkred;
+    background-color: #D2D2D2;
+}
+
+#product-sales-report .dataTable > thead > tr > th[class*="sort"] {
+    padding-right: 0.3rem !important;
+}
+
+#product-sales-report .dataTable > thead > tr > th[class*="sort"]:after,
+#product-sales-report .dataTable > thead > tr > th[class*="sort"]:before {
+    content: "" !important;
+}

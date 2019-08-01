@@ -119,7 +119,7 @@
             rowId: 'id',
             dom: 't',
             paging: false,
-            scrollY: '75vh',
+            scrollY: '70vh',
             scrollCollapse: true,
             autoWidth: true,
         });

@@ -4,7 +4,7 @@
 
 #customers-form .button-row-formatting {
     height: 13%;
-    border-top: 2px solid #FECB00;
+    border-top: 2px solid #e8b009;
 }
 
 #customers-form .table-hover tbody tr:hover {
@@ -16,11 +16,9 @@
     background-color: #D2D2D2;
 }
 
-/*Override DataTables classes*/
-#customers-form .dataTables_filter {
-    text-align: center !important;
-}
-
+/*-----------------------------------------------------*/
+/* Override DataTables classes*/
+/*-----------------------------------------------------*/
 #customers-form .dataTables_wrapper {
     font-size: 14px;
     height: 100%;
@@ -43,7 +41,9 @@
     content: "" !important;
 }
 
-/*Override bootstrap classes*/
+/*-----------------------------------------------------*/
+/* Override Bootstrap classes*/
+/*-----------------------------------------------------*/
 #customers-form .btn {
     font-size: 17px;
 }
@@ -63,13 +63,4 @@
 #customers-form .border,
 #customers-form .table-bordered {
     border-color: rgba(0, 0, 0, 0.125) !important;
-}
-
-/* Hide arrows for number input fields*/
-#customers-form input[type=number]::-webkit-inner-spin-button,
-#customers-form input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 0;
 }

@@ -46,6 +46,13 @@
             loadPage("total-sales-profit-graph", "total_graph.html", window.refreshTotalGraphPage);
         });
 
+        // Reports submenu
+        $("#reports").on('click', function(event, params) {
+            $("#sales-stats-menu").hide("fast");
+            $("#sales-reports-menu").delay(50).show("fast");
+            loadPage("product-sales-report", "product_sales_report.html", window.refreshProductSalesReportPage);
+        });
+
         // Load new_invoices
         $("#new-invoice").on('click', function(event, params) {
             loadPage("new-invoice-form", "new_invoice.html", window.refreshNewInvoicePage);
@@ -89,6 +96,11 @@
         $("#source-graph").on('click', function(event, params) {
             $("#active-form").prop("graph", "source");
             loadPage("source-sales-graph", "source_sales_graph.html", window.refreshSourceGraphPage);
+        });
+
+        // Load reports
+        $("#product-report").on('click', function(event, params) {
+            loadPage("product-sales-report", "product_sales_report.html", window.refreshProductSalesReportPage);
         });
 
         // Load unpaid invoices
