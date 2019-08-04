@@ -4,7 +4,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-4 pt-2 left-formatting">
+            <div class="col-sm-5 pt-2 left-formatting">
                 <div class="row justify-content-center top-left-formatting">
                     <div class="col-sm-8 justify-content-center form-inline pb-2">
                         <label for="product-sales-report-products-search" class="pr-2">Search</label>
@@ -18,6 +18,7 @@
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Size</th>
+                                    <th>Supplier</th>
                                 </tr>
                             </thead>
                             <tfoot></tfoot>
@@ -27,59 +28,59 @@
                 <div class="row justify-content-center align-items-center bottom-left-formatting">
                     <div class="col-sm-10 text-center">
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-lg btn-secondary" hidden>
-                                <input type="radio" id="product-sales-report-by-date-btn" autocomplete="off" tabindex="-1"> Date
+                            <label class="btn btn-lg btn-secondary active">
+                                <input type="radio" id="product-sales-report-by-date-btn" autocomplete="off" tabindex="-1" checked> Date
                             </label>
                             <label class="btn btn-lg btn-secondary">
                                 <input type="radio" id="product-sales-report-by-month-btn" autocomplete="off" tabindex="-1"> Month
                             </label>
-                            <label class="btn btn-lg btn-secondary active">
-                                <input type="radio" id="product-sales-report-by-year-btn" autocomplete="off" tabindex="-1" checked> Year
+                            <label class="btn btn-lg btn-secondary">
+                                <input type="radio" id="product-sales-report-by-year-btn" autocomplete="off" tabindex="-1"> Year
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center align-items-start bottom-left-formatting">
-                    <div id="product-sales-report-by-date" class="col-sm-7 text-center hide">
+                    <div id="product-sales-report-by-date" class="col-sm-5 text-center">
                         <input id="product-sales-report-by-date-input" class="form-control form-control-sm text-center" placeholder="Select date">
                     </div>
                     <div id="product-sales-report-by-month" class="col-sm-12 hide">
                         <div class="row justify-content-center">
-                            <div class="col-sm-4 text-center form-inline">
+                            <div class="col-sm-3 text-center form-inline">
                                 <input id="product-sales-report-by-month-input-year" class="form-control form-control-sm text-center" placeholder="Enter year">
                             </div>
-                            <div class="col-sm-4 text-center form-inline">
+                            <div class="col-sm-3 text-center form-inline">
                                 <input id="product-sales-report-by-month-input-month" class="form-control form-control-sm text-center" placeholder="Enter month">
                             </div>
                         </div>
                     </div>
-                    <div id="product-sales-report-by-year" class="col-sm-5 text-center">
+                    <div id="product-sales-report-by-year" class="col-sm-3 text-center hide">
                         <input id="product-sales-report-by-year-input" class="form-control form-control-sm text-center" placeholder="Enter year">
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-8 pt-2">
+            <div class="col-sm-7 pt-2">
                 <div class="row align-items-center right-formatting">
                     <div class="col-sm-4">
                         <div class="form-inline text-center border rounded p-2 mb-3">
-                            <label for="product-sales-report-total-sales" class="w-35">Total Sales</label>
-                            <input id="product-sales-report-total-sales" class="form-control form-control-sm w-65" readonly="readonly" tabindex="-1">
+                            <label for="product-sales-report-total-sales" class="w-39">Total Sales</label>
+                            <input id="product-sales-report-total-sales" class="form-control form-control-sm w-61" readonly="readonly" tabindex="-1">
                         </div>
 
                         <div class="form-inline text-center border rounded p-2 mt-2 mb-3">
-                            <label for="product-sales-report-total-profit" class="w-35">Total Profit</label>
-                            <input id="product-sales-report-total-profit" class="form-control form-control-sm w-65" readonly="readonly" tabindex="-1">
+                            <label for="product-sales-report-total-profit" class="w-39">Total Profit</label>
+                            <input id="product-sales-report-total-profit" class="form-control form-control-sm w-61" readonly="readonly" tabindex="-1">
                         </div>
 
                         <div class="form-inline text-center border rounded p-2 mt-2 mb-3">
-                            <label for="product-sales-report-profit-margin" class="w-35">Profit Margin</label>
-                            <input id="product-sales-report-profit-margin" class="form-control form-control-sm w-65" readonly="readonly" tabindex="-1">
+                            <label for="product-sales-report-profit-margin" class="w-39">Profit Margin</label>
+                            <input id="product-sales-report-profit-margin" class="form-control form-control-sm w-61" readonly="readonly" tabindex="-1">
                         </div>
 
                         <div class="form-inline text-center border rounded p-2 mt-2">
-                            <label for="product-sales-report-total-units" class="w-35">Units Sold</label>
-                            <input id="product-sales-report-total-units" class="form-control form-control-sm w-65" readonly="readonly" tabindex="-1">
+                            <label for="product-sales-report-total-units" class="w-39">Units Sold</label>
+                            <input id="product-sales-report-total-units" class="form-control form-control-sm w-61" readonly="readonly" tabindex="-1">
                         </div>
                     </div>
                     <div class="col-sm-8 text-center">

@@ -309,14 +309,14 @@
                 },
                 {
                     data: 'created',
-                    searchable: true,
+                    searchable: false,
                     render: function(data, type, row) {
                                 return $.datepicker.formatDate("D, d M yy", new Date(data));
                             },
                 },
                 {
                     data: 'customer',
-                    searchable: true,
+                    searchable: false,
                     render: function(data, type, row) {
                                 return customerList[data];
                             },

@@ -1,25 +1,18 @@
 (function(window, document) {
 	var SALES_URL = "http://127.0.0.1:80/api/v1/sales/products/";
     var CUSTOMERS_URL = "http://127.0.0.1:80/api/v1/customers/?fields=id,name";
+    var SUPPLIERS_URL = "http://127.0.0.1:80/api/v1/suppliers/?fields=id,company";
     var PRODUCTS_URL = "http://127.0.0.1:80/api/v1/products/?ordering=name_sort,description_sort,size_sort";
 
+    var supplierList = {};
     var customerList  = {};
-    var dateFilterBy = "year"
+    var dateFilterBy = "dates"
 	var productsTable = null;
     var customersTable = null;
 
     window.refreshProductSalesReportPage = function() {
-        $.get(CUSTOMERS_URL)
-            .done (function(customers) {
-                for (i in customers) {
-                    customerList[customers[i].id] = customers[i].name;
-                }
-
-                productsTable.ajax.reload();
-            })
-            .fail(function() {
-                console.log("Failed to get customers.");
-            });
+        loadInitialData();
+        productsTable.ajax.reload();
     }
 
     function format_number(n) {
@@ -32,6 +25,33 @@
 
     function format_stock(n) {
         return n.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    }
+
+    function loadInitialData() {
+        $.get(CUSTOMERS_URL)
+            .done (function(customers) {
+                for (i in customers) {
+                    customerList[customers[i].id] = customers[i].name;
+                }
+            })
+            .fail(function() {
+                console.log("Failed to get customers.");
+            });
+
+        $.get(SUPPLIERS_URL)
+            .done (function(suppliers) {
+                for (i in suppliers) {
+                    supplierList[suppliers[i].id] = suppliers[i].company;
+                }
+            })
+            .fail(function() {
+                console.log("Failed to get suppliers.");
+            });
+
+        currentDate = new Date();
+        $("#product-sales-report-by-year-input").val(currentDate.getFullYear());
+        $("#product-sales-report-by-month-input-year").val(currentDate.getFullYear());
+        $("#product-sales-report-by-month-input-month").val(currentDate.getMonth());
     }
 
     function setupEventTriggers() {
@@ -51,6 +71,12 @@
                 filterURL = "month=" + month + "&year=" + year;
             } else if (dateFilterBy == "year") {
                 filterURL = "year=" + $("#product-sales-report-by-year-input").val();
+            } else {  // filter by custom dates
+                startDate = $("#product-sales-report-by-date-input").data('daterangepicker')
+                                                                    .startDate.format("YYYY-MM-DD") + "+00:00:00";
+                endDate = $("#product-sales-report-by-date-input").data('daterangepicker')
+                                                                  .endDate.format("YYYY-MM-DD") + "+23:59:59";
+                filterURL = "date_start=" + startDate + "&date_end=" + endDate;
             }
 
             url = SALES_URL + "?id=" + productID + "&" + filterURL;
@@ -74,12 +100,13 @@
                     console.log("Failed to get sales data per product.");
                 });
 
-            url = SALES_URL + "?id=" + productID + "&customers=true" + "&" + filterURL;
+            url = SALES_URL + "?id=" + productID + "&group_by=customer" + "&" + filterURL;
             $.get(url)
                 .done(function(sales) {
                     for (i in sales) {
                         sales[i].customer = customerList[sales[i].customer];
-                        sales[i].margin = format_percentage((sales[i].profit / sales[i].sales) * 100);
+                        sales[i].margin = (sales[i].sales > 0.0) ?
+                                            format_percentage((sales[i].profit / sales[i].sales) * 100) : "0.0%";
                         sales[i].sales = format_number(sales[i].sales);
                         sales[i].profit = format_number(sales[i].profit);
                         sales[i].units = format_stock(sales[i].units)
@@ -108,8 +135,8 @@
             $("#product-sales-report-by-year").addClass("hide");
 
             dateFilterBy = "month";
-            $("#product-sales-report-by-month-input-month").focus();
             productsTable.row(productsTable.rows('.selected')).select();
+            $("#product-sales-report-by-month-input-month").focus();
         });
 
         $("#product-sales-report-by-year-btn").on('change', function(event, params) {
@@ -118,27 +145,27 @@
             $("#product-sales-report-by-year").removeClass("hide");
 
             dateFilterBy = "year";
+            productsTable.row(productsTable.rows('.selected')).select();
             $("#product-sales-report-by-year-input").focus();
+        });
+
+        $("#product-sales-report-by-date-btn").on('change', function(event, params) {
+            $("#product-sales-report-by-month").addClass("hide");
+            $("#product-sales-report-by-date").removeClass("hide");
+            $("#product-sales-report-by-year").addClass("hide");
+
+            dateFilterBy = "dates";
+            productsTable.row(productsTable.rows('.selected')).select();
+        });
+
+        // Daterangepicker date selection change
+        $("#product-sales-report-by-date-input").on('apply.daterangepicker', function(event, picker) {
             productsTable.row(productsTable.rows('.selected')).select();
         });
     }
 
 	$(document).ready(function() {
-        // HACK REMOVE
-        // 
-        // REMOVE
-        $("#product-sales-report-by-year-input").val("2019");
-        $("#product-sales-report-by-month-input-year").val("2019");
-
-        $.get(CUSTOMERS_URL)
-            .done (function(customers) {
-                for (i in customers) {
-                    customerList[customers[i].id] = customers[i].name;
-                }
-            })
-            .fail(function() {
-                console.log("Failed to get customers.");
-            });
+        loadInitialData();
 
         // Customers table
         customersTable = $("#product-sales-report-customer-table").DataTable({
@@ -171,6 +198,13 @@
                 {data: 'name', searchable: true},
                 {data: 'description', searchable: false},
                 {data: 'size', searchable: false},
+                {
+                    data: 'supplier',
+                    searchable: false,
+                    render: function(data, type, row) {
+                        return supplierList[data];
+                    },
+                },
             ],
             select: {
                 style: 'single',
