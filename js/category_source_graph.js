@@ -199,7 +199,7 @@
     function loadChart(firstLoad=false) {
         // Get graph type and create year filter
         $.get(dataURL)
-            .done (function(data) {
+            .done(function(data) {
                 for (i in data) {
                     requestedTypeList[data[i].id] = data[i].name;
                 }
@@ -209,7 +209,7 @@
             });
 
         $.get(salesURL + yearFilter)
-            .done (function(sales) {
+            .done(function(sales) {
                 // Data
                 chartData = populateChartData(sales, firstLoad);
 
@@ -325,10 +325,9 @@
                     chart.update();
                 }
             })
-        .fail(function() {
-            console.log("Failed to get sales data.");
-        });
-
+            .fail(function() {
+                console.log("Failed to get sales data.");
+            });
     }
 
     $(document).ready(function() {

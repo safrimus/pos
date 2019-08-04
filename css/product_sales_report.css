@@ -2,10 +2,6 @@
     border-right: 1px solid #e8b009;
 }
 
-#product-sales-report .right-formatting {
-    height: 50%;
-}
-
 #product-sales-report .top-left-formatting {
     height: 67vh;
 }
@@ -22,12 +18,20 @@
     display: none;
 }
 
-#product-sales-report .w-39 {
-    width: 39%;
+#product-sales-report .w-40 {
+    width: 40%;
 }
 
-#product-sales-report .w-61 {
-    width: 61%;
+#product-sales-report .w-60 {
+    width: 60%;
+}
+
+#product-sales-report .h-40 {
+    height: 40vh;
+}
+
+#product-sales-report .h-60 {
+    height: 51vh;
 }
 
 /*-----------------------------------------------------*/

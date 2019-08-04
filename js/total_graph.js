@@ -62,7 +62,7 @@
         }
 
         $.get(SALES_TOTAL_URL + yearFilter)
-            .done (function(sales) {
+            .done(function(sales) {
                 var salesHidden = false;
                 var profitHidden = false;
 
@@ -156,9 +156,9 @@
                     chart.update();
                 }
             })
-        .fail(function() {
-            console.log("Failed to get sales/profit data.");
-        });
+            .fail(function() {
+                console.log("Failed to get sales/profit data.");
+            });
     }
 
     $(document).ready(function() {
