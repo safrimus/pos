@@ -126,16 +126,17 @@
         return {'sales': salesData, 'profit': profitData, 'unitsSold': unitsData, 'labels': labels};
     }
 
-    function loadGraph(productID, filterURL) {
+    function loadGraph(baseURL) {
         if (dateFilterBy == "year") {
             groupBy = "group_by=month";
         } else if (dateFilterBy == "month") {
             groupBy = "group_by=day";
-        } else {  // filter by custom dates
-            groupBy = "group_by=day,month";
+        } else {  // custom dates
+            clearGraphPlot();
+            return;
         }
 
-        $.get(SALES_URL + "?id=" + productID + "&" + filterURL + "&" + groupBy)
+        $.get(baseURL + "&" + groupBy)
             .done (function(sales) {
                 // Data
                 chartData = populateChartData(sales);
@@ -252,9 +253,20 @@
 
     function setupEventTriggers() {
         // Select invoice
-        productsTable.on('select', function(e, dt, type, indexes) {
-            productID = productsTable.rows(indexes).data()[0].id;
+        productsTable.on('select deselect', function(e, dt, type, indexes) {
+            baseURL = ""
+            products = []
 
+            // Get product IDs of all selected products
+            productsTable.rows('.selected').data().each(function (value, index) {
+                products.push(value.id);
+            });
+
+            if (products.length == 0) {
+                return;
+            }
+
+            // Construct filter url
             if (dateFilterBy == "month") {
                 month = $("#product-sales-report-by-month-input-month").val();
                 year = $("#product-sales-report-by-month-input-year").val();
@@ -264,44 +276,48 @@
                 }
 
                 filterURL = "month=" + month + "&year=" + year;
-                loadGraph(productID, filterURL)
             } else if (dateFilterBy == "year") {
                 filterURL = "year=" + $("#product-sales-report-by-year-input").val();
-                loadGraph(productID, filterURL)
             } else {  // filter by custom dates
                 startDate = $("#product-sales-report-by-date-input").data('daterangepicker')
                                                                     .startDate.format("YYYY-MM-DD") + "+00:00:00";
                 endDate = $("#product-sales-report-by-date-input").data('daterangepicker')
                                                                   .endDate.format("YYYY-MM-DD") + "+23:59:59";
                 filterURL = "date_start=" + startDate + "&date_end=" + endDate;
-
-                // Clear graph
-                clearGraphPlot();
             }
 
-            url = SALES_URL + "?id=" + productID + "&" + filterURL;
-            $.get(url)
-                .done(function(sales) {
-                    if (sales.length > 0) {
-                        $("#product-sales-report-total-sales").val(format_number(sales[0]["sales"])).trigger("change");
-                        $("#product-sales-report-total-profit").val(format_number(sales[0]["profit"])).trigger("change");
-                        $("#product-sales-report-total-units").val(format_stock(sales[0]["units"])).trigger("change");
+            // Construct base url
+            baseURL = SALES_URL + "?id=" + products.toString() + "&" + filterURL;
 
-                        margin = (sales[0]["sales"] > 0.0) ?
-                                    format_percentage((sales[0]["profit"] / sales[0]["sales"]) * 100) : "0.0%";
-                        $("#product-sales-report-profit-margin").val(margin).trigger("change");
-                    } else {
-                        $("#product-sales-report-total-sales").val(format_number(0)).trigger("change");
-                        $("#product-sales-report-total-profit").val(format_number(0)).trigger("change");
-                        $("#product-sales-report-total-units").val(format_stock(0)).trigger("change");
-                        $("#product-sales-report-profit-margin").val(0).trigger("change");
+            // Triggger graph update
+            loadGraph(baseURL)
+
+            // Update total stats
+            $.get(baseURL + "&group_by=product")
+                .done(function(sales) {
+                    totalSales = 0.0;
+                    totalProfit = 0.0;
+                    totalUnits = 0;
+
+                    for (i in sales) {
+                        totalSales += parseFloat(sales[i].sales);
+                        totalProfit += parseFloat(sales[i].profit);
+                        totalUnits += parseFloat(sales[i].units);
                     }
+
+                    $("#product-sales-report-total-sales").val(format_number(totalSales)).trigger("change");
+                    $("#product-sales-report-total-profit").val(format_number(totalProfit)).trigger("change");
+                    $("#product-sales-report-total-units").val(format_stock(totalUnits)).trigger("change");
+
+                    margin = (totalSales > 0.0) ? format_percentage((totalProfit / totalSales) * 100) : "0.0%";
+                    $("#product-sales-report-profit-margin").val(margin).trigger("change");
                 })
                 .fail(function() {
                     console.log("Failed to get sales data per product.");
                 });
 
-            url = SALES_URL + "?id=" + productID + "&group_by=customer" + "&" + filterURL;
+            // Update per customer stats
+            url = baseURL + "&group_by=customer";
             $.get(url)
                 .done(function(sales) {
                     for (i in sales) {
@@ -326,7 +342,7 @@
         $("#product-sales-report-by-month-input-month,\
            #product-sales-report-by-month-input-year,\
            #product-sales-report-by-year-input").on('change', function(event, params) {
-            productsTable.row(productsTable.rows('.selected')).select();
+            productsTable.row(productsTable.rows('.selected')[0]).select();
         });
 
         // Date checkboxes
@@ -336,7 +352,7 @@
             $("#product-sales-report-by-year").addClass("hide");
 
             dateFilterBy = "month";
-            productsTable.row(productsTable.rows('.selected')).select();
+            productsTable.row(productsTable.rows('.selected')[0]).select();
             $("#product-sales-report-by-month-input-month").focus();
         });
 
@@ -346,7 +362,7 @@
             $("#product-sales-report-by-year").removeClass("hide");
 
             dateFilterBy = "year";
-            productsTable.row(productsTable.rows('.selected')).select();
+            productsTable.row(productsTable.rows('.selected')[0]).select();
             $("#product-sales-report-by-year-input").focus();
         });
 
@@ -355,13 +371,13 @@
             $("#product-sales-report-by-date").removeClass("hide");
             $("#product-sales-report-by-year").addClass("hide");
 
-            dateFilterBy = "dates";
-            productsTable.row(productsTable.rows('.selected')).select();
+            dateFilterBy = "day";
+            productsTable.row(productsTable.rows('.selected')[0]).select();
         });
 
         // Daterangepicker date selection change
         $("#product-sales-report-by-date-input").on('apply.daterangepicker', function(event, picker) {
-            productsTable.row(productsTable.rows('.selected')).select();
+            productsTable.row(productsTable.rows('.selected')[0]).select();
         });
     }
 
@@ -408,11 +424,8 @@
                 },
             ],
             select: {
-                style: 'single',
+                style: 'multi',
                 items: 'row',
-            },
-            initComplete: function(settings, json) {
-                $("#product-sales-report-products-table").DataTable().row(':eq(0)').select();
             },
             scroller: {
                 displayBuffer: 2
@@ -447,6 +460,9 @@
         $("#product-sales-report-by-date-input").daterangepicker({
             showDropdowns: true,
             drops: 'up',
+            dateLimit: {
+                months: 11
+            },
             ranges: {
                 'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
                 'Last 7 Days': [moment().subtract(6, 'days'), moment()],
