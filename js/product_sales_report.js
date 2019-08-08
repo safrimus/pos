@@ -460,9 +460,6 @@
         $("#product-sales-report-by-date-input").daterangepicker({
             showDropdowns: true,
             drops: 'up',
-            dateLimit: {
-                months: 11
-            },
             ranges: {
                 'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
                 'Last 7 Days': [moment().subtract(6, 'days'), moment()],

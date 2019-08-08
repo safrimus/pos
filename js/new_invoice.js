@@ -459,7 +459,10 @@
                         data["credit"] = creditInvoice;
                         data["products"] = $(this).data("post_products");
                         data["customer"] = selectedCustomer;
-                        data["date_of_sale"] = $("#new-invoice-invoice-date").datepicker("getDate");
+
+                        var date = moment($("#new-invoice-invoice-date").datepicker("getDate")).format('YYYY-MM-DD');
+                        date = date + "T12:00:00";
+                        data["date_of_sale"] = date
 
                         $.ajax({
                             url: INVOICE_URL,
