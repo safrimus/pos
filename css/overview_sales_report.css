@@ -1,0 +1,73 @@
+#overview-sales-report .hide {
+    display: none !important;
+}
+
+#overview-sales-report .first-row-formatting {
+    border-top: 1px solid #e8b009;
+    border-bottom: 1px solid #e8b009;
+}
+
+#overview-sales-report .right-border {
+    border-right: 1px solid #e8b009;
+}
+
+#overview-sales-report .h-8 {
+    height: 8%;
+}
+
+#overview-sales-report .h-92 {
+    height: 92%;
+}
+
+#overview-sales-report .w-50 {
+    width: 50%;
+}
+
+#overview-sales-report label {
+    font-size: 14px;
+}
+
+/*-----------------------------------------------------*/
+/* Override Bootstrap classes*/
+/*-----------------------------------------------------*/
+#overview-sales-report .form-control {
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+#overview-sales-report .btn-secondary:not(:disabled):not(.disabled).active {
+    color: black;
+    background: #e8b009;
+    border-color: transparent;
+}
+
+#overview-sales-report .btn-secondary.focus {
+    outline: none;
+    box-shadow: none !important;
+}
+
+/*-----------------------------------------------------*/
+/* Override DataTables classes*/
+/*-----------------------------------------------------*/
+#overview-sales-report .dataTables_wrapper {
+    font-size: 14px;
+    height: 100%;
+}
+
+#overview-sales-report .dataTables_scrollBody {
+    overflow-y: scroll !important;
+}
+
+#overview-sales-report-overviews-table tbody tr.selected {
+    background-color: grey !important;
+}
+
+#overview-sales-report .dataTable > thead > tr > th[class*="sort"] {
+    padding-right: 0.3rem !important;
+}
+
+#overview-sales-report .dataTable > thead > tr > th[class*="sort"]:after,
+#overview-sales-report .dataTable > thead > tr > th[class*="sort"]:before {
+    content: "" !important;
+}

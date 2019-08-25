@@ -1,7 +1,7 @@
 (function(window, document) {
-    var SALES_TOTAL_URL = "http://127.0.0.1:80/api/v1/sales/total/";
+    var SALES_TOTAL_URL = "http://127.0.0.1:80/api/v1/sales/total/?group_by=month,year";
 
-    var CURRENT_DATE = new Date();
+    var CURRENT_DATE = moment();
     var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     var chart = null;
@@ -18,15 +18,10 @@
         var salesDict = {}
         var profitsDict = {}
 
-        var currentMonth = CURRENT_DATE.getMonth() + 1;  // Adding one as jan is zero
-        var currentYear = parseInt(CURRENT_DATE.getFullYear().toString().substr(-2));  // Get last two digits of year
+        var currentMonth = CURRENT_DATE.month() + 1;  // Adding one as jan is zero
+        var currentYear = parseInt(CURRENT_DATE.format("YY"));  // Get last two digits of year
 
         for (i in sales) {
-            // This is to ensure we have the latest sale value for each month when looking at multiple years.
-            if (sales[i].year < CURRENT_DATE.getFullYear() && sales[i].month <= currentMonth) {
-                continue;
-            }
-
             salesDict[sales[i].month] = sales[i].sales;
             profitsDict[sales[i].month] = sales[i].profit;
         }
@@ -55,13 +50,12 @@
     }
 
     function loadChart(firstLoad=false) {
-        var yearFilter = "?year=" + CURRENT_DATE.getFullYear();
+        var momentDate = moment()
+        var endDate = momentDate.endOf('month').format("YYYY-MM-DD") + "+23:59:59";
+        var startDate = momentDate.subtract(11, 'months').startOf('month').format("YYYY-MM-DD") + "+00:00:00";
+        urlFilter = "&date_start=" + startDate + "&date_end=" + endDate;
 
-        if (CURRENT_DATE.getMonth() != 12) {
-            yearFilter = yearFilter + "," + (CURRENT_DATE.getFullYear() - 1);
-        }
-
-        $.get(SALES_TOTAL_URL + yearFilter)
+        $.get(SALES_TOTAL_URL + urlFilter)
             .done(function(sales) {
                 var salesHidden = false;
                 var profitHidden = false;

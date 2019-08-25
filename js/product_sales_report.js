@@ -398,7 +398,6 @@
                 style: 'api',
             },
             dom: 't',
-            rowId: 'id',
             scroller: true,
             autoWidth: true,
             scrollY: '20vh',

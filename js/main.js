@@ -50,7 +50,7 @@
         $("#reports").on('click', function(event, params) {
             $("#sales-stats-menu").hide("fast");
             $("#sales-reports-menu").delay(50).show("fast");
-            loadPage("product-sales-report", "product_sales_report.html", window.refreshProductSalesReportPage);
+            loadPage("overview-sales-report", "overview_sales_report.html", window.refreshOverviewSalesReportPage);
         });
 
         // Load new_invoices
@@ -99,6 +99,9 @@
         });
 
         // Load reports
+        $("#overview-report").on('click', function(event, params) {
+            loadPage("overview-sales-report", "overview_sales_report.html", window.refreshOverviewSalesReportPage);
+        });
         $("#product-report").on('click', function(event, params) {
             loadPage("product-sales-report", "product_sales_report.html", window.refreshProductSalesReportPage);
         });

@@ -1,17 +1,17 @@
 (function(window, document) {
     var SOURCES_URL = "http://127.0.0.1:80/api/v1/sources/";
     var CATEGORIES_URL = "http://127.0.0.1:80/api/v1/categories/";
-    var SALES_URL = "http://127.0.0.1:80/api/v1/sales/category_source/";
+    var SALES_URL = "http://127.0.0.1:80/api/v1/sales/category_source/?group_by=month,year,requested_type";
 
-    var CURRENT_DATE = new Date();
-    var CURRENT_MONTH = CURRENT_DATE.getMonth() + 1;  // Adding one as jan is zero
+    var CURRENT_DATE = moment();
+    var CURRENT_MONTH = CURRENT_DATE.month() + 1;  // Adding one as jan is zero
     var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     var chart = null;
     var canvas = null;
     var dataURL = null;
     var salesURL = null;
-    var yearFilter = null;
+    var urlFilter = null;
     var requestedTypeList = {};
     var myLegendContainer = null;
 
@@ -36,11 +36,6 @@
 
         // Take sales data and format it for processing
         for (i in sales) {
-            // This is to ensure we have the latest sale value for each month when looking at multiple years.
-            if (sales[i].year < CURRENT_DATE.getFullYear() && sales[i].month <= CURRENT_MONTH) {
-                continue;
-            }
-
             // Seeing this requested_type (category or source) for the first time
             if (!(sales[i].requested_type in dataDict))
             {
@@ -102,6 +97,9 @@
                     align: 'start',
                     anchor: 'start',
                     rotation: 90,
+                    font: {
+                        style: 'bold',
+                    },
                 },
                 hidden: firstLoad ? false : hiddenDict[requestedTypeList[requestedType]]["sales"][0],
                 // Keys below are not used by chartjs
@@ -120,6 +118,9 @@
                     align: 'start',
                     anchor: 'start',
                     rotation: 90,
+                    font: {
+                        style: 'bold',
+                    },
                 },
                 hidden: firstLoad ? false : hiddenDict[requestedTypeList[requestedType]]["profit"][0],
                 // Keys below are not used by chartjs
@@ -158,7 +159,7 @@
         // Add labels to enable grouping by month.
         var month;
         var currentMonth = CURRENT_MONTH;
-        var currentYear = parseInt(CURRENT_DATE.getFullYear().toString().substr(-2));  // Get last two digits of year
+        var currentYear = parseInt(CURRENT_DATE.format("YY"));  // Get last two digits of year
         for (var i = 0; i <= 11; i++) {
             if (currentMonth - i < 1) {
                 currentMonth = i + 12;
@@ -208,7 +209,7 @@
                 console.log("Failed to get data.");
             });
 
-        $.get(salesURL + yearFilter)
+        $.get(salesURL + urlFilter)
             .done(function(sales) {
                 // Data
                 chartData = populateChartData(sales, firstLoad);
@@ -333,7 +334,7 @@
     $(document).ready(function() {
         if ($("#active-form").prop("graph") == "category") {
             dataURL = CATEGORIES_URL;
-            salesURL = SALES_URL + "?type=category";
+            salesURL = SALES_URL + "&type=category";
 
             canvas = $("#sales-category");
             myLegendContainer = document.getElementById("category-sales-chart-legends");
@@ -343,7 +344,7 @@
             }
         } else {
             dataURL = SOURCES_URL;
-            salesURL = SALES_URL + "?type=source";
+            salesURL = SALES_URL + "&type=source";
 
             canvas = $("#sales-source");
             myLegendContainer = document.getElementById("source-sales-chart-legends");
@@ -353,10 +354,10 @@
             }
         }
 
-        yearFilter = "&year=" + CURRENT_DATE.getFullYear();
-        if (CURRENT_DATE.getMonth() != 12) {
-            yearFilter = yearFilter + "," + (CURRENT_DATE.getFullYear() - 1);
-        }
+        var momentDate = moment()
+        var endDate = momentDate.endOf('month').format("YYYY-MM-DD") + "+23:59:59";
+        var startDate = momentDate.subtract(11, 'months').startOf('month').format("YYYY-MM-DD") + "+00:00:00";
+        urlFilter = "&date_start=" + startDate + "&date_end=" + endDate;
 
         loadChart(firstLoad=true);
     });
