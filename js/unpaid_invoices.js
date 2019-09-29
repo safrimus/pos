@@ -63,7 +63,13 @@
                             },
                 },
 
-                {data: 'id', type: 'num', orderable: false,},
+                {
+                    data: 'id',
+                    orderable: false,
+                    render: function(data, type, row) {
+                                return "<span class=\"fake-link\">" + data + "</span>";
+                            },
+                },
                 {
                     data: 'date_of_sale',
                     searchable: false,
@@ -131,10 +137,17 @@
     }
 
     function setupEventTriggers() {
-       $('#unpaid-invoices-table tbody').on('click', 'tr.dtrg-start', function () {
+        // Collapse/expand customer when clicked
+        $('#unpaid-invoices-table tbody').on('click', 'tr.dtrg-start', function () {
             var name = $(this).data('name');
             collapsedGroups[name] = !collapsedGroups[name];
             table.draw();
+        });
+
+        // Open invoice details when id is clicked
+        $("#unpaid-invoices-table tbody").on('click', 'tr td:nth-child(1)', function() {
+            $("#invoices").data("invoice-id", this.textContent);
+            $("#invoices").trigger("click");
         });
     }
 
