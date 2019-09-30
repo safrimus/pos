@@ -251,77 +251,144 @@
     }
 
     $(document).ready(function() {
-        getCustomersAndProducts(function() {
-            // Setup dialog
-            $("#search-invoices-dialog").dialog({
-                autoOpen: false,
-                closeOnEscape: false,
-                draggable: false,
-                modal: true,
-                resizable: false,
-                buttons: [
-                    {
-                        text: "Save",
-                        click: function() {
-                            var data = {};
+        // Setup dialog
+        $("#search-invoices-dialog").dialog({
+            autoOpen: false,
+            closeOnEscape: false,
+            draggable: false,
+            modal: true,
+            resizable: false,
+            buttons: [
+                {
+                    text: "Save",
+                    click: function() {
+                        var data = {};
 
-                            data["payment"] = parseFloat($("#search-invoices-dialog-input").val()).toFixed(3);
-                            data["invoice"] = currentInvoice;
-                            data["date_of_payment"] = $("#search-invoices-dialog-date").datepicker("getDate");
+                        data["payment"] = parseFloat($("#search-invoices-dialog-input").val()).toFixed(3);
+                        data["invoice"] = currentInvoice;
+                        data["date_of_payment"] = $("#search-invoices-dialog-date").datepicker("getDate");
 
-                            $.ajax({
-                                url: PAYMENTS_URL,
-                                type: "POST",
-                                data: JSON.stringify(data),
-                                dataType: "json",
-                                contentType: "application/json",
-                                success: function(response) {
-                                    setTimeout(function() {
-                                        paymentsTable.ajax.url(
-                                            PAYMENTS_PER_INVOICE_URL + currentInvoice).load();
-                                    }, 500);
-                                },
-                                error: function(response) {
-                                    json = JSON.parse(response.responseText);
+                        $.ajax({
+                            url: PAYMENTS_URL,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function(response) {
+                                setTimeout(function() {
+                                    paymentsTable.ajax.url(
+                                        PAYMENTS_PER_INVOICE_URL + currentInvoice).load();
+                                }, 500);
+                            },
+                            error: function(response) {
+                                json = JSON.parse(response.responseText);
 
-                                    if (json.non_field_errors[0]) {
-                                        alert("Failed to save payment. " + json.non_field_errors[0]);
-                                    }
-                                    else {
-                                        alert("Failed to save payment. " + response.responseText);
-                                    }
+                                if (json.non_field_errors[0]) {
+                                    alert("Failed to save payment. " + json.non_field_errors[0]);
                                 }
-                            });
+                                else {
+                                    alert("Failed to save payment. " + response.responseText);
+                                }
+                            }
+                        });
 
-                            $(this).dialog("close");
-                        }
+                        $(this).dialog("close");
                     }
-                ],
-                open: function(event, ui) {
-                    $("#search-invoices-dialog-date").datepicker();
-                    $("#search-invoices-dialog-date").datepicker('setDate', 'today');
-                },
-                close: function(event, ui) {
-                    $("#search-invoices-dialog-input").val("");
-                    $("#search-invoices-dialog-date").datepicker("destroy");
-                },
-            });
+                }
+            ],
+            open: function(event, ui) {
+                $("#search-invoices-dialog-date").datepicker();
+                $("#search-invoices-dialog-date").datepicker('setDate', 'today');
+            },
+            close: function(event, ui) {
+                $("#search-invoices-dialog-input").val("");
+                $("#search-invoices-dialog-date").datepicker("destroy");
+            },
+        });
 
-            // Search date range
-            $("#sale-date-range-search").daterangepicker({
-                dateLimit: {
-                    days: 30
-                },
-                showDropdowns: true,
-                ranges: {
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                },
-            });
+        // Search date range
+        $("#sale-date-range-search").daterangepicker({
+            dateLimit: {
+                days: 30
+            },
+            showDropdowns: true,
+            ranges: {
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+        });
 
+        // Payments table
+        paymentsTable = $("#search-invoices-payments-table").DataTable({
+            ajax: {
+                url: PAYMENTS_PER_INVOICE_URL + "-1",
+                dataSrc: '',
+                error: function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status != 400 && jqXHR.statusText != "abort")
+                    {
+                        console.log(jqXHR);
+                    }
+                },
+            },
+            columns: [
+                {
+                    data: 'payment',
+                    type: 'natural-ci',
+                    render: function(data, type, row) {
+                                return format_number(parseFloat(data));
+                            },
+                },
+                {
+                    data: 'date_of_payment',
+                    render: function(data, type, row) {
+                                if (type == "display") {
+                                    return $.datepicker.formatDate("D, d M yy", new Date(data));
+                                }
+
+                                return data;
+                            },
+                },
+            ],
+            order: [[1, 'asc'],],
+            buttons: [
+                {
+                    text: "New Payment",
+                    enabled: false,
+                    action: function(e, dt, node, config) {
+                        $("#search-invoices-dialog").dialog("option", "title", "New payment")
+                                    .dialog("open");
+                    }
+                }
+            ],
+            footerCallback: function(row, data, start, end, display) {
+                var payment_total = 0.0;
+
+                $("#search-invoices-payments-table").DataTable().rows().every(function(rowIdx, tableLoop, rowLoop) {
+                    var payment = this.data();
+                    payment_total += parseFloat(payment.payment);
+                });
+
+                $(this.api().column(1).footer()).html(
+                    "KD " + format_number(payment_total)
+                );
+            },
+            dom: 'tB',
+            paging: false,
+            scrollY: '15vh',
+            scrollCollapse: true,
+            autoWidth: true,
+        });
+
+        // Checkboxes
+        $(".checkbox").iCheck({
+            checkboxClass: "icheckbox_square-red",
+            radioClass: "iradio_square-red",
+        });
+
+        getCustomersAndProducts(function() {
             // Invoice table
             invoiceTable = $("#search-invoices-invoices-table").DataTable({
                 ajax: {
@@ -407,73 +474,6 @@
                 scrollY: '45vh',
                 scrollCollapse: true,
                 autoWidth: true,
-            });
-
-            // Payments table
-            paymentsTable = $("#search-invoices-payments-table").DataTable({
-                ajax: {
-                    url: PAYMENTS_PER_INVOICE_URL + "-1",
-                    dataSrc: '',
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status != 400 && jqXHR.statusText != "abort")
-                        {
-                            console.log(jqXHR);
-                        }
-                    },
-                },
-                columns: [
-                    {
-                        data: 'payment',
-                        type: 'natural-ci',
-                        render: function(data, type, row) {
-                                    return format_number(parseFloat(data));
-                                },
-                    },
-                    {
-                        data: 'date_of_payment',
-                        render: function(data, type, row) {
-                                    if (type == "display") {
-                                        return $.datepicker.formatDate("D, d M yy", new Date(data));
-                                    }
-
-                                    return data;
-                                },
-                    },
-                ],
-                order: [[1, 'asc'],],
-                buttons: [
-                    {
-                        text: "New Payment",
-                        enabled: false,
-                        action: function(e, dt, node, config) {
-                            $("#search-invoices-dialog").dialog("option", "title", "New payment")
-                                        .dialog("open");
-                        }
-                    }
-                ],
-                footerCallback: function(row, data, start, end, display) {
-                    var payment_total = 0.0;
-
-                    $("#search-invoices-payments-table").DataTable().rows().every(function(rowIdx, tableLoop, rowLoop) {
-                        var payment = this.data();
-                        payment_total += parseFloat(payment.payment);
-                    });
-
-                    $(this.api().column(1).footer()).html(
-                        "KD " + format_number(payment_total)
-                    );
-                },
-                dom: 'tB',
-                paging: false,
-                scrollY: '15vh',
-                scrollCollapse: true,
-                autoWidth: true,
-            });
-
-            // Checkboxes
-            $(".checkbox").iCheck({
-                checkboxClass: "icheckbox_square-red",
-                radioClass: "iradio_square-red",
             });
 
             setupEventTriggers();
