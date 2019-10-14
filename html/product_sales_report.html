@@ -5,12 +5,18 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-5 pt-2 left-formatting">
-                <div class="row justify-content-center top-left-formatting">
-                    <div class="col-sm-8 justify-content-center form-inline pb-2">
+                <div class="row align-items-center top-left-search-formatting">
+                    <div class="col-sm-8 offset-sm-2 justify-content-center form-inline">
                         <label for="product-sales-report-products-search" class="pr-2">Search</label>
                         <input id="product-sales-report-products-search" class="form-control form-control-sm" tabindex="0">
                     </div>
 
+                    <div class="col-sm-2 justify-content-end">
+                        <button id="product-sales-report-clear-button" type="button" class="btn btn-sm btn-warning" tabindex="-1" disabled>Clear</button>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center top-left-table-formatting">
                     <div class="col-sm-12 px-0 h-100 text-center">
                         <table id="product-sales-report-products-table" class="table table-bordered table-sm table-responsive-sm row-border" cellspacing="0">
                             <thead>

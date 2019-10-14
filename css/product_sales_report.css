@@ -2,8 +2,12 @@
     border-right: 1px solid #e8b009;
 }
 
-#product-sales-report .top-left-formatting {
-    height: 67vh;
+#product-sales-report .top-left-search-formatting {
+    height: 6.5vh;
+}
+
+#product-sales-report .top-left-table-formatting {
+    height: 60.5vh;
 }
 
 #product-sales-report .bottom-left-formatting {

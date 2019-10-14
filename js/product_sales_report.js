@@ -263,7 +263,10 @@
             });
 
             if (products.length == 0) {
+                $("#product-sales-report-clear-button").prop('disabled', true);
                 return;
+            } else {
+                $("#product-sales-report-clear-button").prop('disabled', false);
             }
 
             // Construct filter url
@@ -378,6 +381,11 @@
         // Daterangepicker date selection change
         $("#product-sales-report-by-date-input").on('apply.daterangepicker', function(event, picker) {
             productsTable.row(productsTable.rows('.selected')[0]).select();
+        });
+
+        // Clear all selected products
+        $("#product-sales-report-clear-button").on('click', function(event, params) {
+            productsTable.rows({ selected: true}).deselect();
         });
     }
 
