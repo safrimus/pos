@@ -1,0 +1,34 @@
+<div id="total-cashflow-graph" class="container-fluid top-level-form h-100">
+    <link rel="stylesheet" href="css/cashflow_graph.css">
+    <script type="text/javascript" src="js/cashflow_graph.js"></script>
+
+    <div class="container-fluid h-100">
+        <div class="row align-items-center justify-content-center h-8">
+            <div class="col-sm-2 text-center">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-sm btn-secondary active">
+                        <input type="radio" id="total-cashflow-graph-by-year-btn" autocomplete="off" tabindex="-1"> Last 12 Months
+                    </label>
+                    <label class="btn btn-sm btn-secondary">
+                        <input type="radio" id="total-cashflow-graph-by-month-btn" autocomplete="off" tabindex="-1"> Month
+                    </label>
+                </div>
+            </div>
+            <div id="total-cashflow-graph-by-month" class="col-sm-2 text-center hide">
+                <div class="row justify-content-center">
+                    <div class="col-sm-6 form-inline">
+                        <input id="total-cashflow-graph-by-month-input-year" class="form-control form-control-sm text-center" placeholder="Enter year">
+                    </div>
+                    <div class="col-sm-6 form-inline">
+                        <input id="total-cashflow-graph-by-month-input-month" class="form-control form-control-sm text-center" placeholder="Enter month">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row h-92">
+            <div class="col-sm-12 pt-1 h-100">
+                <canvas id="cashflow" class="h-100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>

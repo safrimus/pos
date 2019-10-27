@@ -1,0 +1,39 @@
+#total-cashflow-graph .top-formatting {
+    height: 87%;
+}
+
+#total-cashflow-graph .hide {
+    display: none !important;
+}
+
+#total-cashflow-graph .h-8 {
+    height: 8%;
+}
+
+#total-cashflow-graph .h-92 {
+    height: 92%;
+}
+
+#total-cashflow-graph label {
+    font-size: 14px;
+}
+
+/*-----------------------------------------------------*/
+/* Override Bootstrap classes*/
+/*-----------------------------------------------------*/
+#total-cashflow-graph .form-control {
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+#total-cashflow-graph .btn-secondary:not(:disabled):not(.disabled).active {
+    color: black;
+    background: #e8b009;
+    border-color: transparent;
+}
+
+#total-cashflow-graph .btn-secondary.focus {
+    outline: none;
+    box-shadow: none !important;
+}

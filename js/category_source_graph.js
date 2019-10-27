@@ -339,7 +339,7 @@
             canvas = $("#sales-category");
             myLegendContainer = document.getElementById("category-sales-chart-legends");
 
-            window.refreshCategoryGraphPage = function () {
+            window.refreshCategoryGraphPage = function() {
                 loadChart();
             }
         } else {
@@ -349,7 +349,7 @@
             canvas = $("#sales-source");
             myLegendContainer = document.getElementById("source-sales-chart-legends");
 
-            window.refreshSourceGraphPage = function () {
+            window.refreshSourceGraphPage = function() {
                 loadChart();
             }
         }
