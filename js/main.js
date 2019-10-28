@@ -14,43 +14,9 @@
     }
 
     $(document).ready(function(){
-        $(".submenu").hide();
-
-        $("#home").on('click', function(event, params) {
-            $(".submenu").hide("fast");
-            $("#main-menu").delay(50).show("fast");
-        });
-
         // Admin page
         $("#admin").on('click', function(event, params) {
             loadPage("admin-form", "admin.html", window.refreshAdminPage);
-        });
-
-        // Invoice submenu
-        $("#invoice").on('click', function(event, params) {
-            $("#main-menu").hide("fast");
-            $("#invoice-menu").delay(50).show("fast");
-            loadPage("new-invoice-form", "new_invoice.html", window.refreshNewInvoicePage);
-        });
-
-        // Sales stats submenu
-        $("#sales-stats").on('click', function(event, params) {
-            $("#main-menu").hide("fast");
-            $("#sales-stats-menu").delay(50).show("fast");
-        });
-
-        // Graphs submenu
-        $("#graphs").on('click', function(event, params) {
-            $("#sales-stats-menu").hide("fast");
-            $("#sales-graphs-menu").delay(50).show("fast");
-            loadPage("total-sales-profit-graph", "total_graph.html", window.refreshTotalGraphPage);
-        });
-
-        // Reports submenu
-        $("#reports").on('click', function(event, params) {
-            $("#sales-stats-menu").hide("fast");
-            $("#sales-reports-menu").delay(50).show("fast");
-            loadPage("overview-sales-report", "overview_sales_report.html", window.refreshOverviewSalesReportPage);
         });
 
         // Load new_invoices

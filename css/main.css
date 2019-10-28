@@ -1,12 +1,41 @@
 .navbar-formatting, .navbar {
     height: 7vh;
+    background-color: lightgrey;
+    border-bottom: 1px solid black;
 }
 
 .form-space-formatting {
     height: 93vh;
 }
 
+#home {
+    color: #e8b009;
+    border-right: 2px solid black;
+}
+
 /*Override nav bar classes*/
 .nav-item {
     font-size: 16px;
+    color: black;
+}
+
+.nav-link {
+    color: black;
+}
+
+.nav-link:hover, .nav-link:focus {
+    color: #e8b009;
+}
+
+.dropdown:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown > .dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
+
+.dropdown-menu .dropdown-item:hover, .dropdown-item:focus {
+    background-color: #e8b009;
 }

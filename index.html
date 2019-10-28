@@ -39,46 +39,43 @@
     <div class="container-fluid">
         <div class="row navbar-formatting">
             <div class="col-sm-12">
-                <nav class="navbar navbar-expand-sm fixed-top navbar-light bg-light py-0">
-                    <a class="navbar-brand py-0" id="home" href="#0">Home</a>
+                <nav class="navbar navbar-expand-sm fixed-top py-0">
+                    <a id="home" class="navbar-brand py-0 mx-0 pr-2">MB</a>
 
                     <!-- Main menu -->
-                    <div class="navbar-nav mr-auto" id="main-menu">
-                        <a id="invoice" class="nav-item nav-link" href="#1">Invoice</a>
+                    <div id="main-menu" class="navbar-nav mr-auto">
+                        <div class="nav-item dropdown">
+                            <a id="invoice" class="nav-link dropdown-toggle" href="#1" data-toggle="dropdown">Invoice</a>
+                            <div class="dropdown-menu">
+                                <a id="new-invoice" class="dropdown-item" href="#50">New Invoice</a>
+                                <a id="invoices" class="dropdown-item" href="#51">Search Invoices</a>
+                                <a id="unpaid-invoices" class="dropdown-item" href="#52">Unpaid Invoices</a>
+                            </div>
+                        </div>
                         <a id="customers" class="nav-item nav-link" href="#2">Customers</a>
                         <a id="products" class="nav-item nav-link" href="#3">Products</a>
                         <a id="suppliers" class="nav-item nav-link" href="#4">Suppliers</a>
                         <a id="stock" class="nav-item nav-link" href="#5">Stock</a>
-                        <a id="sales-stats" class="nav-item nav-link" href="#6">Sales Reports</a>
+                        <div class="nav-item dropdown">
+                            <a id="sales-reports" class="nav-link dropdown-toggle" href="#6" data-toggle="dropdown">Sales Reports</a>
+                            <div class="dropdown-menu">
+                                <a id="overview-report" class="dropdown-item" href="#60">Overview</a>
+                                <a id="product-report" class="dropdown-item" href="#61">Product</a>
+                            </div>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <a id="sales-graphs" class="nav-link dropdown-toggle" href="#7" data-toggle="dropdown">Sales Graphs</a>
+                            <div class="dropdown-menu">
+                                <a id="total-graph" class="dropdown-item" href="#70">Total</a>
+                                <a id="category-graph" class="dropdown-item" href="#71">Category</a>
+                                <a id="source-graph" class="dropdown-item" href="#72">Source</a>
+                                <a id="cashflow-graph" class="dropdown-item" href="#73">Cashflow</a>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Invoice submenu -->
-                    <div class="navbar-nav submenu mr-auto" id="invoice-menu">
-                        <a id="new-invoice" class="nav-item nav-link" href="#7">New Invoice</a>
-                        <a id="invoices" class="nav-item nav-link" href="#8">Search Invoices</a>
-                        <a id="unpaid-invoices" class="nav-item nav-link" href="#9">Unpaid Invoices</a>
-                    </div>
-                    <!-- Sales stats submenu -->
-                    <div class="navbar-nav submenu mr-auto" id="sales-stats-menu">
-                        <a id="graphs" class="nav-item nav-link" href="#10">Graphs</a>
-                        <a id="reports" class="nav-item nav-link" href="#11">Reports</a>
-                    </div>
-                    <!-- Graphs submenu -->
-                    <div class="navbar-nav submenu mr-auto" id="sales-graphs-menu">
-                        <a id="total-graph" class="nav-item nav-link" href="#12">Total</a>
-                        <a id="category-graph" class="nav-item nav-link" href="#13">Category</a>
-                        <a id="source-graph" class="nav-item nav-link" href="#14">Source</a>
-                        <a id="cashflow-graph" class="nav-item nav-link" href="#15">Cashflow</a>
-                    </div>
-                    <!-- Reports submenu -->
-                    <div class="navbar-nav submenu mr-auto" id="sales-reports-menu">
-                        <a id="overview-report" class="nav-item nav-link" href="#16">Overview</a>
-                        <a id="product-report" class="nav-item nav-link" href="#17">Product</a>
-                    </div>
-
-
-                    <div class="navbar-nav ml-md-auto" id="admin-menu">
-                        <a class="nav-item nav-link" id="admin" href="#17">Admin</a>
+                    <div id="admin-menu" class="navbar-nav ml-md-auto">
+                        <a id="admin" class="nav-item nav-link" href="#17">Admin</a>
                     </div>
                 </nav>
             </div>
