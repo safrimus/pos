@@ -56,10 +56,12 @@
                 console.log("Failed to get suppliers.");
             });
 
-        currentDate = new Date();
-        $("#product-sales-report-by-year-input").val(currentDate.getFullYear());
-        $("#product-sales-report-by-month-input-year").val(currentDate.getFullYear());
-        $("#product-sales-report-by-month-input-month").val(currentDate.getMonth() + 1);
+        if (firstLoad) {
+            currentDate = new Date();
+            $("#product-sales-report-by-year-input").val(currentDate.getFullYear());
+            $("#product-sales-report-by-month-input-year").val(currentDate.getFullYear());
+            $("#product-sales-report-by-month-input-month").val(currentDate.getMonth() + 1);
+        }
     }
 
     function clearGraphPlot() {
