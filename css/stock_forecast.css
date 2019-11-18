@@ -1,0 +1,61 @@
+#stock-forecast-form .available-month {
+    background-color: green;
+}
+
+#stock-forecast-form .unavailable-month {
+    background-color: grey;
+}
+
+#stock-forecast-form .yellow-background {
+    background-color: yellow;
+}
+
+#stock-forecast-form th {
+    background-color: white !important;
+}
+
+/*-----------------------------------------------------*/
+/* Override DataTables classes*/
+/*-----------------------------------------------------*/
+#stock-forecast-form .dataTables_wrapper {
+    font-size: 14px;
+    height: 100%;
+}
+
+#stock-forecast-form .dataTables_scrollBody {
+    overflow-y: scroll !important;
+}
+
+#stock-forecast-form .dataTable > thead > tr > th[class*="sort"] {
+    padding-right: 0.3rem !important;
+}
+
+#stock-forecast-form .dataTable > thead > tr > th[class*="sort"]:after,
+#stock-forecast-form .dataTable > thead > tr > th[class*="sort"]:before {
+    content: "" !important;
+}
+
+/*-----------------------------------------------------*/
+/* Override Bootstrap classes*/
+/*-----------------------------------------------------*/
+#stock-forecast-form .border,
+#stock-forecast-form .table-bordered {
+    border-color: rgba(0, 0, 0, 0.125) !important;
+}
+
+#stock-forecast-form .form-control {
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+#stock-forecast-form .btn-secondary:not(:disabled):not(.disabled).active {
+    color: black;
+    background: #e8b009;
+    border-color: transparent;
+}
+
+#stock-forecast-form .btn-secondary.focus {
+    outline: none;
+    box-shadow: none !important;
+}

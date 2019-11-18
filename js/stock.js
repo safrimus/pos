@@ -115,11 +115,11 @@
             columns: [
                 {data: 'name', type: 'natural-ci'},
                 {
-                	data: 'total_value',
-                	searchable: false,
-                	type: 'natural-ci',
+                    data: 'total_value',
+                    searchable: false,
+                    type: 'natural-ci',
                     render: function(data, type, row) {
-                    			var value = data || 0;
+                                var value = data || 0;
                                 return format_number(value);
                             },
                 },

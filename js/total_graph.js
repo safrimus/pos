@@ -52,7 +52,7 @@
     function loadChart(firstLoad=false) {
         var momentDate = moment()
         var endDate = momentDate.endOf('month').format("YYYY-MM-DD") + "+23:59:59";
-        var startDate = momentDate.subtract(11, 'months').startOf('month').format("YYYY-MM-DD") + "+00:00:00";
+        var startDate = momentDate.subtract(11, 'month').startOf('month').format("YYYY-MM-DD") + "+00:00:00";
         urlFilter = "&date_start=" + startDate + "&date_end=" + endDate;
 
         $.get(SALES_TOTAL_URL + urlFilter)

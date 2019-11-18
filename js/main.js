@@ -45,31 +45,34 @@
         });
 
         // Load stock details
-        $("#stock").on('click', function(event, params) {
+        $("#stock-overview-menu").on('click', function(event, params) {
             loadPage("stock-form", "stock.html", window.refreshStockPage);
+        });
+        $("#stock-forecast-menu").on('click', function(event, params) {
+            loadPage("stock-forecast-form", "stock_forecast.html", window.refreshStockForecastPage);
         });
 
         // Load graphs
-        $("#total-graph").on('click', function(event, params) {
+        $("#total-sales-graph-menu").on('click', function(event, params) {
             loadPage("total-sales-profit-graph", "total_graph.html", window.refreshTotalGraphPage);
         });
-        $("#category-graph").on('click', function(event, params) {
+        $("#category-sales-graph-menu").on('click', function(event, params) {
             $("#active-form").prop("graph", "category");
             loadPage("category-sales-graph", "category_sales_graph.html", window.refreshCategoryGraphPage);
         });
-        $("#source-graph").on('click', function(event, params) {
+        $("#source-sales-graph-menu").on('click', function(event, params) {
             $("#active-form").prop("graph", "source");
             loadPage("source-sales-graph", "source_sales_graph.html", window.refreshSourceGraphPage);
         });
-        $("#cashflow-graph").on('click', function(event, params) {
+        $("#cashflow-graph-menu").on('click', function(event, params) {
             loadPage("total-cashflow-graph", "cashflow_graph.html", window.refreshCashflowGraphPage);
         });
 
         // Load reports
-        $("#overview-report").on('click', function(event, params) {
+        $("#overview-sales-report-menu").on('click', function(event, params) {
             loadPage("overview-sales-report", "overview_sales_report.html", window.refreshOverviewSalesReportPage);
         });
-        $("#product-report").on('click', function(event, params) {
+        $("#product-sales-report-menu").on('click', function(event, params) {
             loadPage("product-sales-report", "product_sales_report.html", window.refreshProductSalesReportPage);
         });
 
