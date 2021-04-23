@@ -52,30 +52,6 @@
             loadPage("stock-forecast-form", "stock_forecast.html", window.refreshStockForecastPage);
         });
 
-        // Load graphs
-        $("#total-sales-graph-menu").on('click', function(event, params) {
-            loadPage("total-sales-profit-graph", "total_graph.html", window.refreshTotalGraphPage);
-        });
-        $("#category-sales-graph-menu").on('click', function(event, params) {
-            $("#active-form").prop("graph", "category");
-            loadPage("category-sales-graph", "category_sales_graph.html", window.refreshCategoryGraphPage);
-        });
-        $("#source-sales-graph-menu").on('click', function(event, params) {
-            $("#active-form").prop("graph", "source");
-            loadPage("source-sales-graph", "source_sales_graph.html", window.refreshSourceGraphPage);
-        });
-        $("#cashflow-graph-menu").on('click', function(event, params) {
-            loadPage("total-cashflow-graph", "cashflow_graph.html", window.refreshCashflowGraphPage);
-        });
-
-        // Load reports
-        $("#overview-sales-report-menu").on('click', function(event, params) {
-            loadPage("overview-sales-report", "overview_sales_report.html", window.refreshOverviewSalesReportPage);
-        });
-        $("#product-sales-report-menu").on('click', function(event, params) {
-            loadPage("product-sales-report", "product_sales_report.html", window.refreshProductSalesReportPage);
-        });
-
         // Load unpaid invoices
         $("#unpaid-invoices").on('click', function(event, params) {
             loadPage("unpaid-invoices-form", "unpaid_invoices.html", window.refreshUnpaidInvoices);
